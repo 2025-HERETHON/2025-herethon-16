@@ -28,16 +28,27 @@ document.querySelectorAll('.faq-item').forEach(item => {
 });
 
 // ── 체크리스트 카운트 업데이트 ──
-document.querySelectorAll('.checklist-group').forEach(group => {
-  const boxes  = group.querySelectorAll('input[type="checkbox"]');
-  const countE = group.querySelector('.group-count');
+document.querySelectorAll('.item').forEach(label => {
+  const icon  = label.querySelector('.checkbox-icon');
+  const input = label.querySelector('input[type="checkbox"]');
 
-  function updateCount() {
-    const total   = boxes.length;
-    const checked = Array.from(boxes).filter(cb => cb.checked).length;
+  // 라벨 혹은 아이콘 클릭 시
+  label.addEventListener('click', e => {
+    // 체크박스 state 토글
+    input.checked = !input.checked;
+
+    // 아이콘 src 교체
+    icon.src = input.checked
+      ? '../static/images/icons/icon-checkbox-12=activate.svg'
+      : '../static/images/icons/icon-checkbox-12=deactivate.svg';
+
+    // 체크리스트 카운트도 업데이트
+    const group = label.closest('.checklist-group');
+    const boxes = group.querySelectorAll('input[type="checkbox"]');
+    const countE = group.querySelector('.group-count');
+    const total = boxes.length;
+    const checked = [...boxes].filter(cb => cb.checked).length;
     countE.textContent = `${checked}/${total}`;
-  }
-
-  boxes.forEach(cb => cb.addEventListener('change', updateCount));
-  updateCount(); // 초기값 세팅
+  });
 });
+

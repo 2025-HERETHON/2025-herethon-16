@@ -165,15 +165,24 @@ body {
   align-items: center;
   gap: 8px;
 }
-.item input[type="checkbox"] {
+/* .item input[type="checkbox"] {
   appearance: none;
   width: 16px; height: 16px;
   background: url('../static/images/icons/icon-checkbox-12=Deactivate.svg') no-repeat center/contain;
   cursor: pointer;
-}
-.item input[type="checkbox"]:checked {
+} */
+/* .item input[type="checkbox"]:checked {
   background: url('../static/images/icons/icon-checkbox-12=Activate.svg') no-repeat center/contain;
+} */
+
+.checkbox-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  vertical-align: middle;
+  margin-right: 8px;
 }
+
 .item span {
   font-size: 14px;
 }
