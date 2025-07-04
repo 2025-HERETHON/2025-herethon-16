@@ -168,11 +168,11 @@ body {
 .item input[type="checkbox"] {
   appearance: none;
   width: 16px; height: 16px;
-  background: url('../images/icons/icon-checkbox-12=Deactivate.svg') no-repeat center/contain;
+  background: url('../static/images/icons/icon-checkbox-12=Deactivate.svg') no-repeat center/contain;
   cursor: pointer;
 }
 .item input[type="checkbox"]:checked {
-  background: url('../images/icons/icon-checkbox-12=Activate.svg') no-repeat center/contain;
+  background: url('../static/images/icons/icon-checkbox-12=Activate.svg') no-repeat center/contain;
 }
 .item span {
   font-size: 14px;
