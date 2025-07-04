@@ -2,6 +2,7 @@ import json
 import re
 import datetime
 from django.http import JsonResponse
+from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 
@@ -51,3 +52,27 @@ def signup_api(request):
     user.save()
 
     return JsonResponse({"success": True, "message": "회원가입에 성공했습니다."})
+
+@csrf_exempt
+def login_api(request):
+    if request.method != "POST":
+        return JsonResponse({"success": False, "message": "POST 요청만 허용됩니다."}, status=405)
+
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"success": False, "message": "잘못된 JSON 형식입니다."}, status=400)
+
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username or not password:
+        return JsonResponse({"success": False, "message": "아이디와 비밀번호를 모두 입력해 주세요."}, status=400)
+
+    user = authenticate(request, username=username, password=password)
+
+    if user is not None:
+        login(request, user)
+        return JsonResponse({"success": True, "message": "로그인에 성공했습니다."})
+    else:
+        return JsonResponse({"success": False, "message": "아이디나 비밀번호가 올바르지 않습니다."}, status=401)
