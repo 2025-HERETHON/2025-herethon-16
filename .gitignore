@@ -1,0 +1,70 @@
+# 개발 도구 설정
+.idea/
+.vscode/
+
+# 가상 환경
+venv/
+.venv/
+env/
+.env/
+bium/venv/
+bium/.venv/
+
+# Python 컴파일 / 캐시
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Django 관련
+db.sqlite3
+*.log
+local_settings.py
+*.pot
+*.mo
+
+# Django 마이그레이션 캐시
+**/migrations/__pycache__/
+**/migrations/*.pyc
+
+# 환경변수 및 설정
+.env
+.env.*
+
+# 빌드 / 배포 결과물
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# 테스트 / 커버리지
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.pytest_cache/
+.mypy_cache/
+
+# 패키지 관리
+node_modules/
+
+# 시스템 파일
+.DS_Store
+Thumbs.db
+
+# 이미지 / 기타 캐시
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg
+
+# 기타
+*.bak
+*.swp
+*.tmp
