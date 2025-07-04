@@ -1,0 +1,247 @@
+/* styles.css */
+:root {
+  /* Primary */
+  --primary-light: #EAEFEF;    /* Primary_light */
+  --primary-normal: #7F8CAA;   /* Primary_normal */
+  --primary-dark: #333446;     /* Primary_dark */
+
+  /* Grayscale */
+  --gray-33: #333333;  /* 33_Basic */
+  --white:   #FFFFFF;  /* White */
+  --gray-F4: #F4F4F4;  /* F4 */
+  --gray-ED: #EDEDED;  /* ED */
+  --gray-DF: #DFDFDF;  /* DF */
+  --gray-88: #888888;  /* 88 */
+  --gray-56: #565656;  /* 56 */
+
+  --space-md: 16px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 기본 리셋 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--white);
+}
+body {
+  font-family: Pretendard, sans-serif;
+  color: var(--gray-33);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 사이드바 */
+.sidebar {
+  position: fixed;
+  top: 0; left: -80%;
+  width: 80%; max-width: 300px;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  transition: left 0.3s;
+  padding: 20px;
+  z-index: 1000;
+}
+.sidebar.open {
+  left: 0;
+}
+.sidebar .icon-close {
+  display: block;
+  margin-left: auto;
+  width: 24px; height: 24px;
+  cursor: pointer;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 메인 컨테이너 */
+.main-frame {
+  width: 375px;
+  margin: 0 auto;
+  padding: 0 20px;           /* 좌우 20px 패딩 추가 */
+  background: var(--white);
+  transition: filter 0.3s;
+}
+.main-frame.blurred {
+  filter: brightness(0.7);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 상단 바 */
+.main-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-ED);
+}
+.icon-menu,
+.icon-myspace {
+  width: 24px; height: 24px;
+  cursor: pointer;
+}
+.logo {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 서브헤더 */
+.subtitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;         /* 아래만 12px, 좌우 여백은 .main-frame 패딩으로 처리 */
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* “유언장 작성하기” 버튼 */
+.will-btn {
+  width: 100%;
+  height: 48px;
+  margin: var(--space-md) 0;
+  padding: 0 20px;
+  background: var(--primary-light);
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  
+}
+.will-btn span {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+}
+.will-btn .icon-right-arrow {
+  width: 20px; height: 20px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 체크리스트 */
+.checklist-wrapper {
+  margin: 0 0 12px;         /* 아래만 12px */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.checklist-wrapper::-webkit-scrollbar {
+  display: none;
+}
+.checklist-container {
+  display: flex;
+  gap: 12px;
+}
+.checklist-group {
+  flex: 0 0 335px;
+  background: var(--white);
+  border: 1px solid var(--gray-ED);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.group-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+.group-count {
+  font-size: 12px;
+  color: var(--gray-88);
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* .item input[type="checkbox"] {
+  appearance: none;
+  width: 16px; height: 16px;
+  background: url('../static/images/icons/icon-checkbox-12=Deactivate.svg') no-repeat center/contain;
+  cursor: pointer;
+} */
+/* .item input[type="checkbox"]:checked {
+  background: url('../static/images/icons/icon-checkbox-12=Activate.svg') no-repeat center/contain;
+} */
+
+.checkbox-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.item span {
+  font-size: 14px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* FAQ (Q&A 토글) */
+.faq {
+  margin: 0 0 12px;         /* 아래만 12px */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* .faq-item wrapper에 테두리/둥근 모서리 */
+.faq-item {
+  border: 1px solid var(--gray-ED);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+/* 질문 영역 */
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 5px 16px 20px;
+  background: var(--primary-light);
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+   border: none;
+}
+
+/* 질문 텍스트 개행 금지 */
+.question-text {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 드롭다운 아이콘 */
+.icon-dropdown {
+  width: 20px;
+  height: 20px;
+}
+
+/* 답변 영역 */
+.faq-answer {
+  display: none;
+  padding: 16px 20px;
+  background: var(--white);
+  font-size: 14px;
+  line-height: 1.5;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 열렸을 때 답변 표시 */
+.faq-item.open .faq-answer {
+  display: block;
+}

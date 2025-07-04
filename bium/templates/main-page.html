@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIUM</title>
+  <link rel="stylesheet" href="../static/css/main-page.css" />
+</head>
+<body>
+  <!-- 사이드바 (햄버거 클릭 시 열림) -->
+<aside id="sidebar" class="sidebar">
+  <img
+    id="closeSidebar"
+    src="../static/images/icons/icon-close-24.svg"
+    alt="닫기 아이콘"
+    class="icon-close"
+  />
+  <!-- 사이드바 내용 추가 -->
+</aside>
+
+
+  <div class="main-frame">
+    <!-- 3.1 상단 바: 햄버거 · 로고 · 프로필 -->
+    <header class="main-top">
+    <img
+  id="openSidebar"
+    src="../static/images/icons/icon-menu-24.svg"
+  alt="메뉴 아이콘"
+  class="icon-menu"
+/> 
+      <div class="logo">비움</div>
+      <img
+  src="../static/images/icons/icon-myspace-24.svg"
+  alt="내 공간 아이콘"
+  class="icon-myspace"
+/> 
+    </header>
+
+    <!-- 3.2 서브헤더 -->
+    <div class="subtitle">
+      당신의 마지막 뜻을 미리 준비해두세요
+    </div>
+
+    <!-- 3.3 유언장 작성 버튼 -->
+    <button class="will-btn">
+      <span>유언장 작성하기</span>
+            <img
+  src="../static/images/icons/icon-arrow-right-20.svg"
+  alt="오른쪽 화살표 아이콘"
+  class="icon-right-arrow"
+/>
+    </button>
+
+    <!-- 3.4 체크리스트 영역: 가로 스크롤, 스크롤바 숨김 -->
+    <div class="subtitle">
+    장례 전 준비해야 할 목록
+    </div>
+    <div class="checklist-wrapper">
+      <div class="checklist-container">
+        <!-- 카테고리 박스: 초기 count 0/4 -->
+        <div class="checklist-group" data-group="0">
+          <div class="group-header">
+            <div class="group-title">법적·행정적 준비</div>
+            <div class="group-count">0/4</div>
+          </div>
+          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
+          <label class="item">
+              <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=Deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>유언장 작성하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>사전연명의료의향서 작성하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>장기기증 등록 여부 결정하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>필요시 후견인 지정하기</span>
+          </label>
+        </div>
+        <!-- 카테고리 박스: 초기 count 0/4 -->
+        <div class="checklist-group" data-group="0">
+          <div class="group-header">
+            <div class="group-title">장례 방식 관련 준비</div>
+            <div class="group-count">0/4</div>
+          </div>
+          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>장례 형태 결정하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>묘지/봉안당/수목장 등 장소 결정하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>장례식장, 장례 대행업체 찾기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>장례 예산 추정하기</span>
+          </label>
+        </div>
+        <!-- 카테고리 박스: 초기 count 0/3 -->
+        <div class="checklist-group" data-group="0">
+          <div class="group-header">
+            <div class="group-title">재정·보험 관련 준비</div>
+            <div class="group-count">0/3</div>
+          </div>
+          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>사망 보험/장례 보험 확인하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>은행계좌/보험 수익자 지정하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>디지털 자산 처리 방법 지정하기</span>
+          </label>
+        </div>
+        <!-- 카테고리 박스: 초기 count 0/3 -->
+        <div class="checklist-group" data-group="0">
+          <div class="group-header">
+            <div class="group-title">남겨질 사람들을 위한 준비</div>
+            <div class="group-count">0/3</div>
+          </div>
+          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>장례 시 연락할 사람 목록 작성하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>마지막 인사 편지/영상 남기기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>추모 방법 공유하기</span>
+          </label>
+        </div>
+        <!-- 카테고리 박스: 초기 count 0/3 -->
+        <div class="checklist-group" data-group="0">
+          <div class="group-header">
+            <div class="group-title">일상 준비</div>
+            <div class="group-count">0/3</div>
+          </div>
+          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>반려동물/식물 돌봄 계획하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>집 정리 및 유품 정리하기</span>
+          </label>
+          <label class="item">
+                          <img 
+    class="checkbox-icon" 
+    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
+    alt="체크박스 아이콘"
+  />
+            <input type="checkbox" hidden />
+            <span>중요 비밀번호 관리하기</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.5 FAQ 섹션 -->
+    <div class="subtitle">
+    장례에 대해 궁금해요
+    </div>
+    <section class="faq">
+      <div class="faq-item">
+        <button class="faq-question">
+          <div class="question-text">화장과 매장 중 어떤 방식이 더 많이 선택되나요?</div>
+          <img
+  src="../static/images/icons/icon-dropdown-20=down.svg"
+  alt="드롭다운 아래 아이콘"
+  class="icon-dropdown"
+/>
+        </button>
+        <div class="faq-answer">
+          요즘 한국에서는 화장이 약 80% 이상 선택되며, 비용과 절차 면에서 효율적입니다.<br>
+          묘지 부족과 관리 어려움, 자연 친화적 장례 문화 확산이 큰 이유입니다. 과거 전통적 매장이 일반적이었지만, 지금은 납골당이나 수목장처럼 화장 후 안치 방식이 보편화되었습니다.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <div class="question-text">장례식은 하고 싶지 않은데, 화장만 할 수 있나요?</div>
+          <img
+  src="../static/images/icons/icon-dropdown-20=down.svg"
+  alt="드롭다운 아래 아이콘"
+  class="icon-dropdown"
+/>
+        </button>
+        <div class="faq-answer">
+          물론입니다. 장례식을 꼭 치르지 않아도 법적으로는 화장만 진행할 수 있습니다. 가족이나 본인의 뜻에 따라 조용히 화장만 하고 바로 유골을 수습해 모실 수 있습니다. <br>
+          다만 화장 절차를 위해 필요한 최소한의 서류와 신고는 반드시 준비해야 합니다. 최근에는 간소한 직영 화장이나 가족만 모여 간단히 작별하는 방식도 많아지고 있습니다.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <div class="question-text">시신 기증과 장기 기증의 차이점이 무엇인가요?</div>
+          <img
+  src="../static/images/icons/icon-dropdown-20=down.svg"
+  alt="드롭다운 아래 아이콘"
+  class="icon-dropdown"
+/>
+        </button>
+        <div class="faq-answer">
+          시신 기증과 장기 기증은 목적이 다릅니다. <br>
+          장기 기증은 뇌사나 사망 후에 필요한 사람에게 장기나 조직을 이식해 생명을 살리는 데 쓰입니다. <br>
+          반면 시신 기증은 의과대학이나 연구기관에 보내져 의학 연구와 교육 자료로 사용됩니다. 장기 기증 후에도 시신 기증이 가능할 수 있지만, 조건이 맞아야 합니다. 두 경우 모두 본인이나 가족의 동의가 꼭 필요합니다.
+      </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <div class="question-text">반려동물을 친구에게 맡긴다 유언을 썼는데,
+          <br>친구가 돌보지 않으면 어떻게 되나요?</div>
+          <img
+  src="../static/images/icons/icon-dropdown-20=down.svg"
+  alt="드롭다운 아래 아이콘"
+  class="icon-dropdown"
+/>
+        </button>
+        <div class="faq-answer">
+          반려동물을 친구에게 맡기겠다는 유언은 법적 강제력이 약해 친구가 거부하면 효력이 없습니다. <br>
+          친구가 돌보지 않겠다고 하면 다른 가족이나 지인이 대신 맡거나 새로운 보호자를 찾아야 합니다. 보호자가 없으면 유기 동물로 처리될 수도 있어 주의가 필요합니다. 이런 상황을 대비해 신뢰할 만한 사람과 사전에 충분히 상의하는 게 중요합니다. 가능하다면 유언 외에도 반려동물 신탁 같은 방법을 함께 고려해보세요.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="../static/js/main-page.js"></script>
+</body>
+</html>
