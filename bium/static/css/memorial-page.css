@@ -1,0 +1,160 @@
+/* memorial-page.css */
+@import url('../static/css/styles.css');
+
+/* 전체 레이아웃 */
+.container {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  background: var(--white);
+  min-height: 100vh;
+}
+
+/* 상단 바 */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md);
+  height: 56px;
+  background: var(--white);
+}
+.btn-back {
+  background: none;
+  border: none;
+  font-size: 20px;
+}
+.title {
+  font-family: Pretendard, sans-serif;
+  font-size: 20px; /* H1_SemiBold_20px */
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+.spacer {
+  width: 24px;
+}
+
+/* 섹션 기본 */
+.section {
+  padding: 20px;
+}
+.section-title {
+  font-family: Pretendard, sans-serif;
+  font-size: 16px; /* Subtitle1_SemiBold_16px */
+  font-weight: 600;
+  color: var(--gray-33);
+  margin-bottom: 12px;
+}
+
+/* 카드 공통 */
+.card {
+  display: flex;
+  align-items: flex-start;
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      var(--white) 80%
+    ),
+    var(--primary-normal),
+    var(--gray-F4);
+  border-radius: 12px;
+  outline: 1px solid var(--gray-ED);
+  outline-offset: -1px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+/* “나를 위한” 카드 */
+.my-space {
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.profile-pic {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--gray-F4);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.my-space .info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 다른 이들의 카드 */
+.other-card {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--gray-F4);
+  border: 1.5px solid var(--white);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.others-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 이름, 날짜 스타일 공통 */
+.name {
+  font-family: Pretendard, sans-serif;
+  font-size: 14px; /* Subtitle2_SemiBold_14px */
+  font-weight: 600;
+  color: var(--gray-33);
+  line-height: 1.4em;
+  margin: 0;
+}
+.dates {
+  font-family: Pretendard, sans-serif;
+  font-size: 12px; /* Caption2_Regular_12px */
+  font-weight: 400;
+  color: var(--gray-56);
+  margin: 0;
+}
+
+/* 2줄 넘으면 말줄임(...) 처리 */
+.desc {
+  font-family: Pretendard, sans-serif;
+  font-size: 14px; /* Body2_Regular_14px */
+  font-weight: 400;
+  color: var(--gray-33);
+  line-height: 1.4em;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+
+  /* non-WebKit fallback */
+  max-height: calc(1.4em * 2);
+}
+
+/* 새 추모공간 만들기 버튼 */
+.create-btn {
+  width: 100%;
+  height: 56px;
+  margin: 0 auto 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--white);
+  border-radius: 12px;
+  outline: 1px solid var(--primary-light);
+  outline-offset: -1px;
+  font-family: Pretendard, sans-serif;
+  font-size: 16px; /* Subtitle1_SemiBold_16px */
+  font-weight: 600;
+  color: var(--gray-33);
+  cursor: pointer;
+}
+.create-btn .arrow {
+  font-size: 18px; /* Button_SemiBold_18px */
+}
