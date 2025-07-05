@@ -15,6 +15,7 @@
 
   --space-md: 16px;
 }
+
 /* 전체 레이아웃 */
 .container {
   width: 100%;
@@ -64,13 +65,16 @@
 .card {
   display: flex;
   align-items: flex-start;
-  background: linear-gradient(
+
+  /* 배경을 연한 회색 + 은은한 primary 그라데이션으로 변경 */
+  background-color: var(--gray-F4);
+  background-image:
+    linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.2) 0%,
-      var(--white) 80%
-    ),
-    var(--primary-normal),
-    var(--gray-F4);
+      rgba(127, 140, 170, 0.15) 0%,
+      rgba(255, 255, 255, 1)     80%
+    );
+
   border-radius: 12px;
   outline: 1px solid var(--gray-ED);
   outline-offset: -1px;
@@ -97,11 +101,35 @@
   gap: 4px;
 }
 
+/* 다른 이들의 카드 리스트 컨테이너 */
+.others-list {
+  display: flex;
+  flex-direction: column;
+}
+
 /* 다른 이들의 카드 */
 .other-card {
+  display: flex;
+  align-items: flex-start;
   gap: 10px;
   margin-bottom: 12px;
+
+  /* 같은 은은한 배경 스타일 적용 */
+  background-color: var(--gray-F4);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(127, 140, 170, 0.15) 0%,
+      rgba(255, 255, 255, 1)     80%
+    );
+
+  border-radius: 12px;
+  outline: 1px solid var(--gray-ED);
+  outline-offset: -1px;
+  padding: 12px;
+  cursor: pointer;
 }
+
 .avatar {
   width: 88px;
   height: 88px;
@@ -110,10 +138,6 @@
   border: 1.5px solid var(--white);
   object-fit: cover;
   flex-shrink: 0;
-}
-.others-list {
-  display: flex;
-  flex-direction: column;
 }
 
 /* 이름, 날짜 스타일 공통 */
@@ -146,7 +170,7 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
 
-  /* non-WebKit fallback */
+  /* non–WebKit fallback */
   max-height: calc(1.4em * 2);
 }
 
