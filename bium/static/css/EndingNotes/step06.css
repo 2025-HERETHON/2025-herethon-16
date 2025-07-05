@@ -162,6 +162,7 @@ Scroll::-webkit-scrollbar {
 .InputBox input[type="radio"] {
   transform: scale(1.5); /* 체크 표시 크기 키움*/
   margin: 5px;
+  accent-color: #333446;
 }
 
 .NextBtn {
