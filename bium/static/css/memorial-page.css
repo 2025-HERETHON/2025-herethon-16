@@ -51,7 +51,7 @@
 
 /* 섹션 기본 */
 .section {
-  padding: 20px;
+  padding: 0 20px 20px;
 }
 .section-title {
   font-family: Pretendard, sans-serif;
@@ -61,31 +61,50 @@
   margin-bottom: 12px;
 }
 
-/* 카드 공통 */
-.card {
-  display: flex;
-  align-items: flex-start;
-
-  /* 배경을 연한 회색 + 은은한 primary 그라데이션으로 변경 */
-  background-color: var(--gray-F4);
-  background-image:
+/* 카드 공통 배경 */
+.card:not(.my-space),
+.other-card {
+  background:
+    /* 최상단 흰색 그라데이션 */
     linear-gradient(
       180deg,
-      rgba(127, 140, 170, 0.15) 0%,
-      rgba(255, 255, 255, 1)     80%
-    );
-
+      rgba(255,255,255,0.20) 0%,
+      #FFFFFF                80%
+    ),
+    /* 중간 Primary 컬러 */
+    var(--primary-normal),
+    /* 최하단 Gray F4 */
+    var(--gray-F4);
   border-radius: 12px;
   outline: 1px solid var(--gray-ED);
   outline-offset: -1px;
-  padding: 12px;
   cursor: pointer;
 }
 
 /* “나를 위한” 카드 */
 .my-space {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
   gap: 12px;
-  margin-bottom: 16px;
+  padding: 20px;       /* 피그마 시안 패딩 */
+  margin-bottom: 40px; /* 시안 상하 간격 */
+
+  background:
+    /* 최상단 흰색 그라데이션 */
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.20) 0%,
+      #FFFFFF                80%
+    ),
+    /* 중간 Primary 컬러 */
+    var(--primary-normal),
+    /* 최하단 Gray F4 */
+    var(--gray-F4);
+    border-radius: 12px;
+  outline: 1px solid var(--gray-ED);
+  outline-offset: -1px;
+
 }
 .profile-pic {
   width: 64px;
@@ -101,7 +120,7 @@
   gap: 4px;
 }
 
-/* 다른 이들의 카드 리스트 컨테이너 */
+/* 다른 이들의 카드 리스트 */
 .others-list {
   display: flex;
   flex-direction: column;
@@ -110,24 +129,10 @@
 /* 다른 이들의 카드 */
 .other-card {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
-  margin-bottom: 12px;
-
-  /* 같은 은은한 배경 스타일 적용 */
-  background-color: var(--gray-F4);
-  background-image:
-    linear-gradient(
-      180deg,
-      rgba(127, 140, 170, 0.15) 0%,
-      rgba(255, 255, 255, 1)     80%
-    );
-
-  border-radius: 12px;
-  outline: 1px solid var(--gray-ED);
-  outline-offset: -1px;
-  padding: 12px;
-  cursor: pointer;
+  padding: 12px;      /* 피그마 시안 패딩 */
+  margin-bottom: 12px;/* 시안 카드 간 간격 */
 }
 
 .avatar {
@@ -138,6 +143,8 @@
   border: 1.5px solid var(--white);
   object-fit: cover;
   flex-shrink: 0;
+  /* 프로필 그림자 추가 */
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 /* 이름, 날짜 스타일 공통 */
@@ -146,7 +153,7 @@
   font-size: 14px; /* Subtitle2_SemiBold_14px */
   font-weight: 600;
   color: var(--gray-33);
-  line-height: 1.4em;
+  line-height: 1.4em; /* 19.6px */
   margin: 0;
 }
 .dates {
@@ -157,7 +164,7 @@
   margin: 0;
 }
 
-/* 2줄 넘으면 말줄임(...) 처리 */
+/* 설명 텍스트 2줄 클램프 */
 .desc {
   font-family: Pretendard, sans-serif;
   font-size: 14px; /* Body2_Regular_14px */
@@ -169,8 +176,6 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-
-  /* non–WebKit fallback */
   max-height: calc(1.4em * 2);
 }
 
@@ -178,15 +183,14 @@
 .create-btn {
   width: 100%;
   height: 56px;
-  margin: 0 auto 40px;
+  margin: 40px auto 20px; /* 위40px, 아래20px */
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
   background: var(--white);
   border-radius: 12px;
-  outline: 1px solid var(--primary-light);
-  outline-offset: -1px;
+  border: 1px solid var(--primary-light);
   font-family: Pretendard, sans-serif;
   font-size: 16px; /* Subtitle1_SemiBold_16px */
   font-weight: 600;
