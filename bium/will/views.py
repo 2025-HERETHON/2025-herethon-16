@@ -9,24 +9,8 @@ from datetime import date, datetime
 # from weasyprint import HTML
 from .models import *
 
-def get_or_create_model(model, will, data):
-    defaults = {
-        "name": data.get("name", ""),
-        "gender": data.get("gender", ""),
-        "phone_number": data.get("phone_number", ""),
-        "birth_place": data.get("birth_place", ""),
-        "registered_domicile": data.get("registered_domicile", ""),
-        "current_diseases": data.get("current_diseases", ""),
-        "past_diseases": data.get("past_diseases", ""),
-        "constitution": data.get("constitution", ""),
-        "family_tree": data.get("family_tree", ""),
-    }
-    if data.get("birth_date"):
-        try:
-            defaults["birth_date"] = datetime.strptime(data["birth_date"], "%Y-%m-%d").date()
-        except ValueError:
-            pass
-
+def get_or_create_model(model, will, defaults=None):
+    defaults = defaults or {}
     obj, created = model.objects.get_or_create(
         will=will,
         defaults=defaults
@@ -70,22 +54,28 @@ def basic_info_api(request):
         if should_skip_save(data):
             return JsonResponse({"success": True, "message": "저장 생략"})
 
-        info = get_or_create_model(BasicInfo, will, data)
-        for field in [
-            "name", "gender", "phone_number", "birth_place",
-            "registered_domicile", "current_diseases", "past_diseases",
-            "constitution", "family_tree"
-        ]:
-            if field in data:
-                setattr(info, field, data[field])
+        defaults = {
+            "name": data.get("name", ""),
+            "gender": data.get("gender", ""),
+            "phone_number": data.get("phone_number", ""),
+            "birth_place": data.get("birth_place", ""),
+            "registered_domicile": data.get("registered_domicile", ""),
+            "current_diseases": data.get("current_diseases", ""),
+            "past_diseases": data.get("past_diseases", ""),
+            "constitution": data.get("constitution", ""),
+            "family_tree": data.get("family_tree", ""),
+        }
 
-        if "birth_date" in data:
-            date_str = data["birth_date"]
+        if data.get("birth_date"):
             try:
-                info.birth_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                defaults["birth_date"] = datetime.strptime(data["birth_date"], "%Y-%m-%d").date()
             except ValueError:
                 pass
 
+        info = get_or_create_model(BasicInfo, will, defaults)
+
+        for field in defaults:
+            setattr(info, field, defaults[field])
         info.save()
 
         if will.progress_step < 1:
@@ -219,19 +209,28 @@ def pet_api(request):
         if should_skip_save(data):
             return JsonResponse({"success": True, "message": "저장 생략"})
 
-        pet = get_or_create_model(Pet, will)
-        for field in ["name", "species", "gender", "care", "feeding", "hospital",
-                      "care_notes", "funeral_wishes", "caretaker", "care_cost_plan", "substitute_plan"]:
-            if field in data:
-                setattr(pet, field, data[field])
-
-        if "birth_date" in data:
-            date_str = data["birth_date"]
+        defaults = {
+            "name": data.get("name", ""),
+            "species": data.get("species", ""),
+            "gender": data.get("gender", ""),
+            "care": data.get("care", ""),
+            "feeding": data.get("feeding", ""),
+            "hospital": data.get("hospital", ""),
+            "care_notes": data.get("care_notes", ""),
+            "funeral_wishes": data.get("funeral_wishes", ""),
+            "caretaker": data.get("caretaker", ""),
+            "care_cost_plan": data.get("care_cost_plan", ""),
+            "substitute_plan": data.get("substitute_plan", ""),
+        }
+        if data.get("birth_date"):
             try:
-                pet.birth_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                defaults["birth_date"] = datetime.strptime(data["birth_date"], "%Y-%m-%d").date()
             except ValueError:
                 pass
 
+        pet = get_or_create_model(Pet, will, defaults)
+        for field in defaults:
+            setattr(pet, field, defaults[field])
         pet.save()
 
         if will.progress_step < 4:
@@ -273,13 +272,19 @@ def funeral_api(request):
         if should_skip_save(data):
             return JsonResponse({"success": True, "message": "저장 생략"})
 
-        funeral = get_or_create_model(Funeral, will)
-        for field in [
-            "funeral_type", "invited_guests", "funeral_wishes", "grave_type",
-            "grave_preparation", "tombstone_inscription", "memorial_service_wishes"
-        ]:
-            if field in data:
-                setattr(funeral, field, data[field])
+        defaults = {
+            "funeral_type": data.get("funeral_type", ""),
+            "invited_guests": data.get("invited_guests", ""),
+            "funeral_wishes": data.get("funeral_wishes", ""),
+            "grave_type": data.get("grave_type", ""),
+            "grave_preparation": data.get("grave_preparation", ""),
+            "tombstone_inscription": data.get("tombstone_inscription", ""),
+            "memorial_service_wishes": data.get("memorial_service_wishes", ""),
+        }
+
+        funeral = get_or_create_model(Funeral, will, defaults)
+        for field in defaults:
+            setattr(funeral, field, defaults[field])
         funeral.save()
 
         if will.progress_step < 5:
@@ -318,10 +323,16 @@ def medical_care_preparation_api(request):
         if should_skip_save(data):
             return JsonResponse({"success": True, "message": "저장 생략"})
 
-        medcare = get_or_create_model(MedicalCarePreparation, will)
-        for field in ["terminal_illness", "hospice_care", "life_sustaining_treatment", "organ_and_tissue_donation"]:
-            if field in data:
-                setattr(medcare, field, data[field])
+        defaults = {
+            "terminal_illness": data.get("terminal_illness", ""),
+            "hospice_care": data.get("hospice_care", ""),
+            "life_sustaining_treatment": data.get("life_sustaining_treatment", ""),
+            "organ_and_tissue_donation": data.get("organ_and_tissue_donation", ""),
+        }
+
+        medcare = get_or_create_model(MedicalCarePreparation, will, defaults)
+        for field in defaults:
+            setattr(medcare, field, defaults[field])
         medcare.save()
 
         if will.progress_step < 6:
