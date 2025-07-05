@@ -9,8 +9,28 @@ from datetime import date, datetime
 # from weasyprint import HTML
 from .models import *
 
-def get_or_create_model(model, will):
-    obj, created = model.objects.get_or_create(will=will)
+def get_or_create_model(model, will, data):
+    defaults = {
+        "name": data.get("name", ""),
+        "gender": data.get("gender", ""),
+        "phone_number": data.get("phone_number", ""),
+        "birth_place": data.get("birth_place", ""),
+        "registered_domicile": data.get("registered_domicile", ""),
+        "current_diseases": data.get("current_diseases", ""),
+        "past_diseases": data.get("past_diseases", ""),
+        "constitution": data.get("constitution", ""),
+        "family_tree": data.get("family_tree", ""),
+    }
+    if data.get("birth_date"):
+        try:
+            defaults["birth_date"] = datetime.strptime(data["birth_date"], "%Y-%m-%d").date()
+        except ValueError:
+            pass
+
+    obj, created = model.objects.get_or_create(
+        will=will,
+        defaults=defaults
+    )
     return obj
 
 def should_skip_save(data):
@@ -50,7 +70,7 @@ def basic_info_api(request):
         if should_skip_save(data):
             return JsonResponse({"success": True, "message": "저장 생략"})
 
-        info = get_or_create_model(BasicInfo, will)
+        info = get_or_create_model(BasicInfo, will, data)
         for field in [
             "name", "gender", "phone_number", "birth_place",
             "registered_domicile", "current_diseases", "past_diseases",
