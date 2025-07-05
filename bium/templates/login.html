@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="../static/css/login.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Welcome to Bium</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Logo">비움</div>
+      <div class="Detail">미리 비워두어, 남은이에게는 사랑만 남도록</div>
+      <div class="Input">
+        <input
+          required
+          class="InputBox"
+          id="userId"
+          type="text"
+          placeholder="아이디"
+        />
+        <input
+          required
+          class="InputBox"
+          id="userPasswd"
+          type="text"
+          placeholder="비밀번호"
+        />
+        <span class="error-msg"></span>
+      </div>
+      <div class="Btn">
+        <div class="LoginBtn" id="Login">로그인</div>
+        <div class="SignUpBtn" id="SignUp">회원가입하기</div>
+      </div>
+    </div>
+    <script src="../static/js/login.js"></script>
+  </body>
+</html>
