@@ -1,6 +1,20 @@
-/* memorial-page.css */
-@import url('../static/css/styles.css');
+:root {
+  /* Primary */
+  --primary-light: #EAEFEF;    /* Primary_light */
+  --primary-normal: #7F8CAA;   /* Primary_normal */
+  --primary-dark: #333446;     /* Primary_dark */
 
+  /* Grayscale */
+  --gray-33: #333333;  /* 33_Basic */
+  --white:   #FFFFFF;  /* White */
+  --gray-F4: #F4F4F4;  /* F4 */
+  --gray-ED: #EDEDED;  /* ED */
+  --gray-DF: #DFDFDF;  /* DF */
+  --gray-88: #888888;  /* 88 */
+  --gray-56: #565656;  /* 56 */
+
+  --space-md: 16px;
+}
 /* 전체 레이아웃 */
 .container {
   width: 100%;
