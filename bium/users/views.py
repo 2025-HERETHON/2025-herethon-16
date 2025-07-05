@@ -1,4 +1,3 @@
-import json
 import re
 import datetime
 from django.http import JsonResponse
@@ -13,16 +12,11 @@ def signup_api(request):
     if request.method != "POST":
         return JsonResponse({"success": False, "message": "POST 요청만 허용됩니다."}, status=405)
 
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({"success": False, "message": "잘못된 JSON 형식입니다."}, status=400)
-
-    username = data.get("username")
-    password = data.get("password")
-    name = data.get("name")
-    birth_date_str = data.get("birth_date")
-    phone_number = data.get("phone_number")
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    name = request.POST.get("name")
+    birth_date_str = request.POST.get("birth_date")
+    phone_number = request.POST.get("phone_number")
 
     if not all([username, password, name, birth_date_str, phone_number]):
         return JsonResponse({"success": False, "message": "모든 항목을 입력해 주세요."}, status=400)
@@ -58,13 +52,8 @@ def login_api(request):
     if request.method != "POST":
         return JsonResponse({"success": False, "message": "POST 요청만 허용됩니다."}, status=405)
 
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({"success": False, "message": "잘못된 JSON 형식입니다."}, status=400)
-
-    username = data.get("username")
-    password = data.get("password")
+    username = request.POST.get("username")
+    password = request.POST.get("password")
 
     if not username or not password:
         return JsonResponse({"success": False, "message": "아이디와 비밀번호를 모두 입력해 주세요."}, status=400)
