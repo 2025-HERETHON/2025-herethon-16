@@ -1,0 +1,192 @@
+@import "../font.css";
+
+.Container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+  height: 812px;
+  background: #fff;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.Bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+#progress {
+  appearance: none;
+  height: 8px;
+  width: 330px;
+}
+
+/*전체 바*/
+#progress::-webkit-progress-bar {
+  border-radius: 4px;
+  background: var(--Primary_light, #eaefef);
+  height: 8px;
+  width: 330px;
+  overflow: hidden;
+}
+
+/*퍼센트 해당하는 부분*/
+#progress::-webkit-progress-value {
+  border-radius: 4px;
+  background-color: #333446;
+  height: 8px;
+}
+
+.StepTitle {
+  position: sticky;
+  flex: none;
+  align-self: flex-start;
+  padding: 6px 12px;
+  gap: 4px;
+  border-radius: 8px;
+  background: var(--Primary_dark, #333446);
+
+  color: var(--Grayscale-White, #fff);
+
+  /* H1_SemiBold_20px */
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.Scroll {
+  padding: 5px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(
+    100% - 56px - 48px - 80px
+  ); /* Bar(56px) + StepTitle(48px) 만큼 빼기 */
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE, Edge */
+}
+Scroll::-webkit-scrollbar {
+  /* Chrome, Safari, Opera */
+  display: none;
+}
+
+.InputBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+  overflow: visible;
+}
+
+.title {
+  color: var(--Grayscale-1D_Text, #1d1d1d);
+
+  /* Subtitle1_SemiBold_16px */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.radio-row {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 라디오와 텍스트 사이 간격 */
+
+  color: var(--Grayscale-33_basic, #333);
+
+  /* Subtitle2_SemiBold_14px_140% */
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 19.6px */
+}
+
+.detail {
+  color: var(--Grayscale-88, #888);
+  text-align: justify;
+
+  /* Caption1_Medium_12px_140% */
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 16.8px */
+}
+
+.InputBox input[type="text"] {
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  align-self: stretch;
+  padding: 0 15px;
+
+  color: var(--Grayscale-88, #888);
+  border-radius: 12px;
+  border: 1px solid var(--Grayscale-DF, #dfdfdf);
+  background: var(--Grayscale-White, #fff);
+
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.InputBox input[type="radio"] {
+  transform: scale(1.5); /* 체크 표시 크기 키움*/
+  margin: 5px;
+}
+
+.NextBtn {
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 12px;
+  background: var(--Primary_dark, #333446);
+
+  color: var(--Grayscale-White, #fff);
+  text-align: center;
+
+  /* Button_SemiBold_18px */
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.BeforeBtn {
+  display: flex;
+  height: 56px;
+  min-width: 80px;
+  max-width: 90px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  border-radius: 12px;
+  background: var(--Grayscale-F4, #f4f4f4);
+
+  color: var(--Grayscale-88, #888);
+  text-align: center;
+
+  /* Button_SemiBold_18px */
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}

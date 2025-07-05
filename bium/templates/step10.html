@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="../static/css/EndingNotes/step05.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>step 10</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <progress id="progress" value="100" min="0" max="100"></progress>
+        <img
+          id="CancelBtn"
+          src="../static/images/icon-close-24.svg"
+          width="24px"
+          height="24px"
+        />
+      </div>
+      <div class="StepTitle">10. 유품 분배 및 정리</div>
+      <div class="Scroll">
+        <div class="InputBox">
+          <div class="title">버릴 것들 목록</div>
+          <input class="content" type="text" placeholder="버릴 것들 목록" />
+        </div>
+        <div class="InputBox">
+          <div class="title">분배할 물건 목록</div>
+          <div class="detail">분배 대상의 이름과 연락처도 함께 남겨주세요.</div>
+          <input class="content" type="text" placeholder="분배할 물건 목록" />
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: row; gap: 12px">
+        <div class="BeforeBtn" id="BeforeBtn">이전</div>
+        <div class="NextBtn" id="SubmitBtn">완료</div>
+      </div>
+    </div>
+    <script src="../static/js/EndingNotes/step10.js"></script>
+  </body>
+</html>

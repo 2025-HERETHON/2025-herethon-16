@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="../static/css/EndingNotes/step05.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>step 06</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <progress id="progress" value="60" min="0" max="100"></progress>
+        <img
+          id="CancelBtn"
+          src="../static/images/icon-close-24.svg"
+          width="24px"
+          height="24px"
+        />
+      </div>
+      <div class="StepTitle">06. 의료와 간병에 대한 준비</div>
+      <div class="Scroll">
+        <div class="InputBox">
+          <div class="title">시한부</div>
+          <input class="content" type="text" placeholder="시한부" />
+        </div>
+        <div class="InputBox">
+          <div class="title">종말 의료 신청 여부</div>
+          <div class="detail">
+            호스피스 서비스와 통증 완화에 대해 적어주세요.
+          </div>
+          <input
+            class="content"
+            type="text"
+            placeholder="종말 의료 신청 여부"
+          />
+        </div>
+        <div class="InputBox">
+          <div class="title">연명치료</div>
+          <div class="detail">
+            연명치료를 원치 않으신다면, 전국 보건소에서 연명치료 거부 신청을
+            하실 수 있습니다.
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="cure" id="1" />
+            <label for="1">연명치료를 원해요.</label>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="cure" id="2" />
+            <label for="2">연명치료를 원치 않아요.</label>
+          </div>
+        </div>
+        <div class="InputBox">
+          <div class="title">장기와 인체조직 기증</div>
+          <div class="detail">신청 여부와 그 내용을 적어주세요.</div>
+          <input
+            class="content"
+            type="text"
+            placeholder="장기와 인체조직 기증"
+          />
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: row; gap: 12px">
+        <div class="BeforeBtn" id="BeforeBtn">이전</div>
+        <div class="NextBtn" id="NextBtn">다음</div>
+      </div>
+    </div>
+    <script src="../static/js/EndingNotes/step06.js"></script>
+  </body>
+</html>
