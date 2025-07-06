@@ -109,7 +109,7 @@ body {
   margin: var(--space-md) var(--space-md) 0;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--gray-56);
+  color: #333333;
 }
 .profile-description p + p {
   margin-top: var(--space-md);

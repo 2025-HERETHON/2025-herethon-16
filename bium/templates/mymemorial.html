@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>내 추모공간</title>
+  <link rel="stylesheet" href="../static/css/mymemorial.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="btn-back">
+        <img src="../static/images/icons/icon-back-24.svg" alt="뒤로">
+      </button>
+      <h1 class="title">김이름 님의 추모공간</h1>
+      <div class="spacer"></div>
+    </header>
+
+    <!-- Cover + Profile -->
+    <section class="cover-section">
+      <div class="cover-frame" id="coverFrame">
+        <input type="file" id="coverInput" accept="image/*" hidden>
+      </div>
+
+      <div class="profile-wrap">
+        <div class="profile-frame">
+          <img src="../static/images/assets/profile.jpg" alt="프로필" id="profileImg">
+        </div>
+        <div class="camera-overlay" id="profileUploadBtn">
+          <img src="../static/images/icons/icon-camera-16.svg" alt="프로필 업로드">
+          <input type="file" id="profileInput" accept="image/*" hidden>
+        </div>
+      </div>
+    </section>
+
+    <!-- Title & Edit -->
+    <section class="title-edit-section">
+      <div class="title-text">김이름 님의 추모공간</div>
+      <button id="editToggle" class="btn-edit">
+        <span>내용 수정하기</span>
+        <img src="../static/images/icons/icon-edit-12.svg" alt="수정">
+      </button>
+    </section>
+
+    <!-- Description -->
+    <section class="desc-section">
+      <p id="description"
+         contenteditable="false"
+         data-placeholder="내가 없을 때, 이곳에서 나를 만나주세요.">
+        내가 없을 때, 이곳에서 나를 만나주세요.
+      </p>
+    </section>
+
+  </div>
+
+  <!-- Button Bar (centered) -->
+  <div class="button-bar">
+    <button id="delegateBtn" class="btn-delegate">추모상태 대리인 지정하기</button>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay hidden">
+    <div class="overlay-content">개발중인 기능입니다</div>
+  </div>
+
+  <script src="../static/js/mymemorial.js"></script>
+</body>
+</html>
