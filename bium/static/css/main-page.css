@@ -62,7 +62,8 @@ body {
   border: 1px solid var(--gray-ED);  
   border-radius: 8px;                 
   background: var(--white);           
-  padding: 12px 16px;               
+  padding: 12px 16px;
+  margin-top: 20px;               
 }
 
 /* ── 활성(홈) 섹션 강조 ── */
