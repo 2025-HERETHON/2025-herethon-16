@@ -8,6 +8,6 @@ window.onload = function () {
   });
 
   document.getElementById("SubmitBtn").addEventListener("click", function () {
-    window.location.href = "writtensubmit.html";
+    window.location.href = "will_submit.html";
   });
 };

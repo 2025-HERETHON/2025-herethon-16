@@ -65,9 +65,7 @@
   flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: calc(
-    100% - 56px - 48px - 80px
-  ); /* Bar(56px) + StepTitle(48px) 만큼 빼기 */
+  max-height: calc(100% - 56px - 48px - 80px);
 
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE, Edge */
