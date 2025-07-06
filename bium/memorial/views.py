@@ -91,6 +91,51 @@ def my_memorial_space_api(request):
         }, status=201)
 
 
+# 내 추모공간 수정 ／ 삭제 기능
+@csrf_exempt
+@require_http_methods(["PUT", "DELETE"])
+def update_delete_my_memorial_space_api(request, memorial_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({"success": False, "message": "로그인이 필요합니다."}, status=401)
+
+    try:
+        space = MemorialSpace.objects.get(id=memorial_id)
+    except MemorialSpace.DoesNotExist:
+        return JsonResponse({"success": False, "message": "존재하지 않는 추모공간입니다."}, status=404)
+
+    if space.creator != request.user:
+        return JsonResponse({"success": False, "message": "권한이 없습니다."}, status=403)
+
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        new_name = data.get("name")
+        new_description = data.get("description")
+        birth_date = data.get("birth_date")
+        death_date = data.get("death_date")
+        space.is_public = data.get("is_public", str(space.is_public)).lower() == "true"
+
+        if not new_name or not new_description:
+            return JsonResponse({"success": False, "message": "이름과 설명은 필수입니다."}, status=400)
+        
+        space.name = new_name
+        space.description = new_description
+
+        try:
+            if birth_date:
+                space.birth_date = datetime.strptime(birth_date, "%Y-%m-%d").date()
+            if death_date:
+                space.death_date = datetime.strptime(death_date, "%Y-%m-%d").date()
+        except ValueError:
+            return JsonResponse({"success": False, "message": "날짜 형식 오류 (YYYY-MM-DD)."}, status=400)
+
+        space.save()
+        return JsonResponse({"success": True, "message": "추모공간이 수정되었습니다."}, status=200)
+
+    elif request.method == "DELETE":
+        space.delete()
+        return JsonResponse({"success": True, "message": "추모공간이 삭제되었습니다."}, status=200)
+
+
 
 
 #추모공간 댓글 확인, 작성
