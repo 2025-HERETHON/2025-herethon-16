@@ -1,5 +1,14 @@
 // script.js
 
+// ── 사이드바 메뉴 링크 클릭 시 닫기 ──
+document.querySelectorAll('.sidebar-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    mainFrame.classList.remove('blurred');
+  });
+});
+
+
 // ── 사이드바 토글 ──
 const openBtn   = document.getElementById('openSidebar');
 const closeBtn  = document.getElementById('closeSidebar');
@@ -52,3 +61,17 @@ document.querySelectorAll('.item').forEach(label => {
   });
 });
 
+// ── 사이드바 현재 페이지 강조 ──
+window.addEventListener('DOMContentLoaded', () => {
+  // 현재 페이지 파일명
+  const currentPage = window.location.pathname.split('/').pop();
+
+  document.querySelectorAll('.sidebar-section').forEach(section => {
+    // 해당 섹션 안 모든 링크 href 중 하나라도 currentPage와 같으면 active
+    const links = Array.from(section.querySelectorAll('a'))
+                       .map(a => a.getAttribute('href'));
+    if (links.includes(currentPage)) {
+      section.classList.add('active');
+    }
+  });
+});
