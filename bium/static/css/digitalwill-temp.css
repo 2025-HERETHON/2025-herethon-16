@@ -1,0 +1,147 @@
+:root {
+  --primary:       #7F8CAA;
+  --primary-light: #EAEFEF;
+  --gray-56:       #565656;
+  --gray-ed:       #EDEDED;
+  --gray-33:       #333333;
+  --space-sm:      8px;
+  --space-md:      16px;
+  --space-lg:      22px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Pretendard, sans-serif;
+  background: #fff;
+  color: var(--gray-33);
+}
+
+.container {
+  max-width: 375px;
+  margin: 0 auto;
+  padding-bottom: 56px;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 var(--space-md);
+}
+.btn-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.btn-back img {
+  width: 24px;
+  height: 24px;
+}
+.spacer {
+  flex: 1;
+}
+
+/* Progress Header */
+.progress-header {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.summary {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-56);
+}
+.prompt {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gray-33);
+}
+
+/* Steps List */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: 0 var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+/* 공통 step 스타일 */
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  cursor: pointer;
+}
+.step .indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.step .indicator img {
+  width: 20px;
+  height: 20px;
+}
+.step .indicator .connector {
+  width: 2px;
+  flex: 1;
+  background: var(--gray-ed);
+  margin-top: var(--space-sm);
+}
+
+/* 컨텐츠 */
+.step .content {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.step .content .title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+.step .content .desc {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.8px;
+  margin: 0;
+}
+
+/* 완료된 항목 (done) */
+.step.done .content {
+  background-color: var(--primary-light);
+}
+.step.done .indicator .connector {
+  background: var(--primary);
+}
+
+/* 현재 항목 (current) */
+.step.current .content {
+  background: white;
+  outline: 1.5px solid var(--primary);
+}
+.step.current .indicator .connector {
+  background: var(--primary);
+}
+
+/* 예정 항목 (upcoming) */
+.step.upcoming .content {
+  background: white;
+  outline: none;
+}
+
+/* hover 효과 */
+.step:hover .content {
+  filter: brightness(0.97);
+}

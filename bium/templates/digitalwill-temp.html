@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>디지털 유언장 임시저장 목록</title>
+  <!-- static/css 디렉터리 경로 반영 -->
+  <link rel="stylesheet" href="../static/css/digitalwill-temp.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="btn-back">
+        <img src="../static/images/icons/icon-back-24.svg" alt="뒤로">
+      </button>
+      <h1 class="title"></h1>
+      <div class="spacer"></div>
+    </header>
+
+    <!-- Progress Header -->
+    <section class="progress-header">
+      <p class="summary">10단계 중 <span id="done-count">2</span>단계까지 완료하였습니다.</p>
+      <h2 class="prompt">남은 이야기를 이어가볼까요?</h2>
+    </section>
+
+    <!-- Steps List -->
+    <section class="steps">
+      <!-- JS가 이 안쪽에 동적으로 <article class="step">…</article> 를 채웁니다 -->
+    </section>
+  </div>
+
+  <!-- static/js 디렉터리 경로 반영 -->
+  <script src="../static/js/digitalwill-temp.js"></script>
+</body>
+</html>
