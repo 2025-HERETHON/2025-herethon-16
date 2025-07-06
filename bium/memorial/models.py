@@ -10,8 +10,32 @@ class MemorialSpace(models.Model):
     description = models.TextField()
     birth_date = models.DateField(null=True, blank=True)
     death_date = models.DateField(null=True, blank=True)
-    profile_image = models.ImageField(upload_to='memorials/profile/', null=True, blank=True)
-    background_image = models.ImageField(upload_to='memorials/background/', null=True, blank=True)
+    profile_image = models.ImageField(
+        upload_to='memorials/profile/', null=True, blank=True,
+        default='memorials/profile/default_profile.png')
     is_public = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+#헌화 이미지 7개중에 선택
+FLOWER_CHOICES = [
+    ('condolences/flower/default_flower.png', 'flower1'),
+    ('condolences/flower/flower2.png', 'flower2'),
+    ('condolences/flower/flower3.png', 'flower3'),
+    ('condolences/flower/flower4.png', 'flower4'),
+    ('condolences/flower/flower5.png', 'flower5'),
+    ('condolences/flower/flower6.png', 'flower6'),
+    ('condolences/flower/flower7.png', 'flower7'),
+    
+]
+
+#추모공간 댓글
+class CondolenceMessage(models.Model):
+    memorial_space = models.ForeignKey('MemorialSpace', on_delete=models.CASCADE, related_name='messages')
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.TextField()
+    flower_image = models.CharField( 
+        max_length=100,
+        choices=FLOWER_CHOICES,
+        default='condolences/flower/default_flower.png')  
+    created_at = models.DateTimeField(auto_now_add=True)
