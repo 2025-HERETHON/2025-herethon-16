@@ -8,6 +8,11 @@ document.getElementById('coverInput').addEventListener('change', e=>{
     `url(${URL.createObjectURL(f)})`;
 });
 
+const btnBack = document.querySelector(".btn-back");
+  btnBack.addEventListener("click", () => {
+    window.location.href= "memorial-page.html";
+  });
+
 // 프로필 업로드
 document.getElementById('profileUploadBtn').addEventListener('click', _=>{
   document.getElementById('profileInput').click();
