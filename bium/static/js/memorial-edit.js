@@ -29,10 +29,10 @@ const birthDate   = document.getElementById('birthDate');
 const deathDate   = document.getElementById('deathDate');
 const dateDisplay = document.getElementById('dateDisplay');
 
-function fmt(input) {
-  const d = new Date(input);
-  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
-}
+// function fmt(input) {
+//   const d = new Date(input);
+//   return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+// }
 function updateDates() {
   if (birthDate.value && deathDate.value) {
     dateDisplay.textContent = `${fmt(birthDate.value)} – ${fmt(deathDate.value)}`;
