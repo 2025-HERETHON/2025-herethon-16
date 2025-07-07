@@ -8,7 +8,45 @@
   <link rel="stylesheet" href="../static/css/memorial-page.css">
 </head>
 <body>
-  <div class="container">
+   <!-- 사이드바 (햄버거 클릭 시 열림) -->
+<aside id="sidebar" class="sidebar">
+  <img
+    id="closeSidebar"
+    src="../static/images/icons/icon-close-24.svg"
+    alt="닫기 아이콘"
+    class="icon-close"
+  />
+  <nav class="sidebar-menu">
+    <!-- 홈 -->
+    <section class="sidebar-section">
+      <h3 class="section-title">홈</h3>
+      <ul>
+        <li><a href="../templates/main-page.html">장례 전 준비해야 할 목록</a></li>
+        <li><a href="../templates/main-page.html">장례에 대한 정보들</a></li>
+      </ul>
+    </section>
+
+    <!-- 추모공간 -->
+    <section class="sidebar-section">
+      <h3 class="section-title">추모공간</h3>
+      <ul>
+        <li><a href="../templates/mymemorial.html">내 추모공간</a></li>
+        <li><a href="../templates/memorial-page.html">다른 사람들의 추모공간</a></li>
+      </ul>
+    </section>
+
+    <!-- 디지털 유언장 -->
+    <section class="sidebar-section">
+      <h3 class="section-title">디지털 유언장</h3>
+      <ul>
+        <li><a href="../templates/will_pdf_template.html">디지털 유언장 작성</a></li>
+        <li><a href="../templates/will_pdf_template.html">디지털 유언장 PDF 다운로드</a></li>
+      </ul>
+    </section>
+  </nav>
+</aside>
+
+  <div class="main-frame container">
     <!-- 상단 바 -->
     <header class="topbar">
           <img
