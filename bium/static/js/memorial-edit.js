@@ -48,3 +48,8 @@ deathDate.addEventListener('change', updateDates);
 document.getElementById('saveBtn').addEventListener('click', () => {
   alert(isNew ? '추모공간이 생성되었습니다.' : '추모공간이 수정되었습니다.');
 });
+
+// 뒤로가기 버튼 클릭 시 이동
+document.querySelector('.btn-back').addEventListener('click', () => {
+  window.location.href = 'memorial-page.html';
+});
