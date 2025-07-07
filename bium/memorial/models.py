@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import uuid
 
 # 사용자가 생성한 추모공간 정보를 저장하는 모델
 # 이름, 설명, 생몰일, 프로필/배경 이미지, 공개 여부 등을 포함하며
@@ -13,8 +14,12 @@ class MemorialSpace(models.Model):
     profile_image = models.ImageField(
         upload_to='memorials/profile/', null=True, blank=True,
         default='memorials/profile/default_profile.png')
+    background_image = models.ImageField(
+        upload_to='memorials/background/', null=True, blank=True)
     is_public = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    agent_token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    agent_assigned_at = models.DateTimeField(null=True, blank=True)
 
 
 #헌화 이미지 7개중에 선택
