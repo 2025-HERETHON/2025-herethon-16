@@ -2,8 +2,11 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from .models import MemorialSpace
+from django.contrib.auth.decorators import login_required
+from .models import MemorialSpace, CondolenceMessage
 from datetime import datetime
+from django.utils import timezone
+import uuid
 
 # 공개 추모공간 리스트 확인 기능
 @csrf_exempt
@@ -19,6 +22,7 @@ def public_memorial_list_api(request):
             "birth_date": space.birth_date.isoformat() if space.birth_date else None,
             "death_date": space.death_date.isoformat() if space.death_date else None,
             "profile_image": space.profile_image.url if space.profile_image else None,
+            "background_image": space.background_image.url if space.background_image else None,
             "created_at": space.created_at.isoformat()
         })
     return JsonResponse({"success": True, "memorials": data})
@@ -47,6 +51,7 @@ def my_memorial_space_api(request):
                 "birth_date": space.birth_date.isoformat() if space.birth_date else None,
                 "death_date": space.death_date.isoformat() if space.death_date else None,
                 "profile_image": space.profile_image.url if space.profile_image else None,
+                "background_image": space.background_image.url if space.background_image else None,
                 "created_at": space.created_at.isoformat()
             })
         return JsonResponse({"success": True, "memorials": data})
@@ -58,6 +63,7 @@ def my_memorial_space_api(request):
         birth_date_str = request.POST.get("birth_date")
         death_date_str = request.POST.get("death_date")
         profile_image = request.FILES.get("profile_image")
+        background_image = request.FILES.get("background_image")
         is_public = request.POST.get("is_public", "true").lower() == "true"
 
         birth_date = None
@@ -81,6 +87,7 @@ def my_memorial_space_api(request):
             birth_date=birth_date or None,
             death_date=death_date or None,
             profile_image=profile_image,
+            background_image=background_image,
             is_public=is_public,
         )
 
@@ -142,7 +149,6 @@ def update_delete_my_memorial_space_api(request, memorial_id):
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def condolence_message_api(request, memorial_id):
-    from .models import CondolenceMessage, MemorialSpace
 
     try:
         space = MemorialSpace.objects.get(id=memorial_id)
@@ -161,7 +167,7 @@ def condolence_message_api(request, memorial_id):
                 "flower_image": m.flower_image if m.flower_image else None,
                 "created_at": m.created_at.isoformat()
             })
-        return JsonResponse({"success": True, "messages": message_list})
+        return JsonResponse({"success": True, "count": messages.count(), "messages": message_list})
 
     elif request.method == "POST":
         #댓글 생성
@@ -189,7 +195,6 @@ def condolence_message_api(request, memorial_id):
 @csrf_exempt
 @require_http_methods(["PUT", "DELETE"])
 def condolence_update_delete_api(request, message_id):
-    from .models import CondolenceMessage
 
     try:
         message = CondolenceMessage.objects.get(id=message_id)
@@ -221,3 +226,51 @@ def condolence_update_delete_api(request, message_id):
     elif request.method == "DELETE":
         message.delete()
         return JsonResponse({"success": True, "message": "조문 메시지가 삭제되었습니다."},status =200)
+
+
+#대리인 링크 생성
+@login_required
+@csrf_exempt
+@require_http_methods(["POST"])
+def generate_agent_link_api(request, memorial_id):
+    user = request.user
+    
+    try:
+        space = MemorialSpace.objects.get(id=memorial_id, creator=user)
+    except MemorialSpace.DoesNotExist:
+        return JsonResponse({"success": False, "message": "추모공간의 주인과 일치하지 않습니다."}, status=404)
+
+    # 토큰 생성/갱신
+    space.agent_token = uuid.uuid4()
+    space.agent_assigned_at = timezone.now()
+    space.save()
+
+    link = f"{request.scheme}://{request.get_host()}/api/memorial/space/agent/{space.agent_token}/"
+    return JsonResponse({
+        "success": True,
+        "agent_link": link,
+        "issued_at": space.agent_assigned_at.isoformat()
+    }, status = 201)
+
+
+#대리인 링크 접근
+@require_http_methods(["GET"])
+def agent_access_view(request, agent_token):
+
+    try:
+        space = MemorialSpace.objects.get(agent_token=agent_token)
+    except MemorialSpace.DoesNotExist:
+        return JsonResponse({"success": False, "message": "존재하지 않는 링크입니다."}, status=404)
+
+    data = {
+        "id": space.id,
+        "name": space.name,
+        "description": space.description,
+        "birth_date": space.birth_date.isoformat() if space.birth_date else None,
+        "death_date": space.death_date.isoformat() if space.death_date else None,
+        "profile_image": space.profile_image.url if space.profile_image else None,
+        "background_image":space.background_image.url if space.background_image else None,
+        "created_at": space.created_at.isoformat(),
+    }
+
+    return JsonResponse({"success": True, "memorial": data}, status=200)
