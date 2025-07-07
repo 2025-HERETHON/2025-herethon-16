@@ -158,10 +158,28 @@ body {
   width: 24px; height: 24px;
   cursor: pointer;
 }
-.logo {
-  font-size: 18px;
-  font-weight: 600;
+/* 1) .logo 래퍼 박스 크기 고정 */
+.main-top .logo {
+  width: 36.15px;    /* Figma 스펙 너비 */
+  height: 26.14px;   /* Figma 스펙 높이 */
+  position: relative;
+  overflow: hidden;
 }
+
+/* 2) 그 안의 SVG <img> 가 박스 꽉 채우도록 */
+.main-top .logo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;  /* 원본 비율 유지하며 크롭 없이 맞춤 */
+}
+
+/* 3) 기존 .logo img 에 줬던 font-size 등 불필요한 속성은 제거하거나 덮어쓰기 */
+.logo {
+  font-size: initial;
+  line-height: normal;
+}
+
 
 /* ──────────────────────────────────────────────────────────────────────────── */
 /* 서브헤더 */

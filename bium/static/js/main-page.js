@@ -24,6 +24,14 @@ closeBtn.addEventListener('click', () => {
   mainFrame.classList.remove('blurred');
 });
 
+const myspaceBtn = document.querySelector('.icon-myspace');
+if (myspaceBtn) {
+  myspaceBtn.addEventListener('click', () => {
+    // 원하는 경로로 변경하세요
+    window.location.href = '../templates/mymemorial.html';
+  });
+}
+
 // ── FAQ 토글 & 아이콘 교체 ──
 document.querySelectorAll('.faq-item').forEach(item => {
   const btn  = item.querySelector('.faq-question');
