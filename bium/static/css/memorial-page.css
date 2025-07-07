@@ -59,7 +59,6 @@ body {
   background-color: var(--white);
 }
 
-/* 햄버거 아이콘 */
 .icon-menu {
   position: absolute;
   left: 20px;
@@ -68,7 +67,6 @@ body {
   cursor: pointer;
 }
 
-/* 페이지 제목 */
 .title {
   margin: 0;
   font-size: 18px;
@@ -76,7 +74,6 @@ body {
   color: var(--gray-33);
 }
 
-/* 검색 아이콘 */
 .icon-search {
   position: absolute;
   right: 20px;
@@ -118,18 +115,15 @@ main {
 .card.my-space {
   width: 100%;
   max-width: 335px;
-
   display: inline-flex;
   flex-direction: column;
   gap: var(--space-sm);
-
   padding: 20px;
   border-radius: 12px;
   outline: 1px solid var(--gray-ED);
   outline-offset: -1px;
   background: url("../images/assets/background-combined.png") no-repeat center center;
   background-size: cover;
-
   cursor: pointer;
   text-decoration: none;
   margin: 20px 0 40px;
@@ -174,21 +168,17 @@ main {
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
-
   width: 100%;
   max-width: 335px;
   height: 56px;
   padding: 0 20px;
-
   background-color: var(--white);
   border: 1px solid var(--primary-light);
   border-radius: 12px;
-
   font-size: 16px;
   font-weight: 600;
   color: var(--gray-33);
   cursor: pointer;
-
   margin: 0 0 40px;
 }
 
@@ -218,20 +208,16 @@ main {
 .card.other-card {
   width: 100%;
   max-width: 335px;
-
   display: inline-flex;
   justify-content: flex-start;
   align-items: flex-end;
   gap: 10px;
-
   padding: 32px 12px 12px;
   border-radius: 12px;
   outline: 1px solid var(--gray-ED);
   outline-offset: -1px;
-
   background: url("../images/assets/background-combined.png") no-repeat center center;
   background-size: cover;
-
   cursor: pointer;
   text-decoration: none;
 }
@@ -273,9 +259,8 @@ main {
   font-weight: 400;
   color: var(--gray-56);
 }
-
 /*─────────────────────────────────────────────*/
-/* 사이드바 */
+/* 9. 사이드바 */
 .sidebar {
   position: fixed;
   top: 0; left: -80%;
@@ -284,7 +269,7 @@ main {
   background: var(--white);
   box-shadow: 2px 0 8px rgba(0,0,0,0.1);
   transition: left 0.3s;
-  padding: 20px;
+  padding: var(--space-md);
   z-index: 1000;
 }
 .sidebar.open {
@@ -293,31 +278,55 @@ main {
 .sidebar .icon-close {
   display: block;
   margin-left: auto;
-  width: 24px; height: 24px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 }
 
-/* 사이드바 섹션 */
+/*─────────────────────────────────────────────*/
+/* 9-1. 섹션 컨테이너 (fieldset 스타일) */
 .sidebar-section {
+  position: relative;
   border: 1px solid var(--gray-ED);
   border-radius: 8px;
   background: var(--white);
-  padding: 12px 16px;
+  /* 상단 패딩에 제목 half 높이(≈8px) 추가 */
+  padding: calc(var(--space-xs) + 12px) var(--space-md) var(--space-md);
   margin-top: 20px;
 }
 .sidebar-section.active {
   border-color: var(--primary-normal);
 }
+
+/* 9-2. 제목(legend처럼) */
 .sidebar-section .section-title {
-  margin-bottom: 8px;
+  position: absolute;
+  top: -10px;               /* 컨테이너 바깥으로 */
+  left: var(--space-md);
+  background: var(--white);
+  padding: 0 var(--space-xs);
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+  border: none;             /* 기존 작은 테두리 제거 */
 }
+
+/*─────────────────────────────────────────────*/
+/* 9-3. 목록 초기화 & 간격 */
 .sidebar-section ul {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
+.sidebar-section ul li + li {
+  margin-top: var(--space-xs);
+}
+
+/* 9-4. 대시 마커 */
 .sidebar-section ul li {
   position: relative;
   padding-left: 14px;
-  margin-bottom: 6px;
 }
 .sidebar-section ul li::before {
   content: "–";
@@ -326,7 +335,24 @@ main {
   color: var(--gray-33);
 }
 
-/* overlay 회색 처리 */
+/* 9-5. 링크 스타일 (테두리 완전 제거) */
+.sidebar-section ul li a {
+  display: block;           /* 텍스트 폭만큼 */
+  padding: 4px 0;           /* 위·아래 여백만 */
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-33);    /* 항상 검정 */
+  text-decoration: none;
+  border: none;             /* 작은 테두리 제거 */
+}
+
+/* 링크 호버 효과 */
+.sidebar-section ul li a:hover {
+  color: var(--primary-normal);
+}
+
+/*─────────────────────────────────────────────*/
+/* 10. 메인 프레임 블러 처리 (기존 그대로) */
 .main-frame {
   position: relative;
 }
