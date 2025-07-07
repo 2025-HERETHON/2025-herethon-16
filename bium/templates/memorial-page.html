@@ -5,58 +5,64 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>memorial-page(main)</title>
   <!-- 페이지 전용 스타일 -->
-  <link rel="stylesheet" href="../static/css/memorial-page.css">
+  <link rel="stylesheet" href="../static/css/memorial-page.css" />
 </head>
 <body>
-   <!-- 사이드바 (햄버거 클릭 시 열림) -->
-<aside id="sidebar" class="sidebar">
-  <img
-    id="closeSidebar"
-    src="../static/images/icons/icon-close-24.svg"
-    alt="닫기 아이콘"
-    class="icon-close"
-  />
-  <nav class="sidebar-menu">
-    <!-- 홈 -->
-    <section class="sidebar-section">
-      <h3 class="section-title">홈</h3>
-      <ul>
-        <li><a href="../templates/main-page.html">장례 전 준비해야 할 목록</a></li>
-        <li><a href="../templates/main-page.html">장례에 대한 정보들</a></li>
-      </ul>
-    </section>
-
-    <!-- 추모공간 -->
-    <section class="sidebar-section">
-      <h3 class="section-title">추모공간</h3>
-      <ul>
-        <li><a href="../templates/mymemorial.html">내 추모공간</a></li>
-        <li><a href="../templates/memorial-page.html">다른 사람들의 추모공간</a></li>
-      </ul>
-    </section>
-
-    <!-- 디지털 유언장 -->
-    <section class="sidebar-section">
-      <h3 class="section-title">디지털 유언장</h3>
-      <ul>
-        <li><a href="../templates/will_pdf_template.html">디지털 유언장 작성</a></li>
-        <li><a href="../templates/will_pdf_template.html">디지털 유언장 PDF 다운로드</a></li>
-      </ul>
-    </section>
-  </nav>
-</aside>
+  <!-- 사이드바 (햄버거 클릭 시 열림) -->
+  <aside id="sidebar" class="sidebar">
+    <img
+      id="closeSidebar"
+      src="../static/images/icons/icon-close-24.svg"
+      alt="닫기 아이콘"
+      class="icon-close"
+    />
+    <nav class="sidebar-menu">
+      <!-- 홈 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">홈</h3>
+        <ul>
+          <li><a href="../templates/main-page.html">장례 전 준비해야 할 목록</a></li>
+          <li><a href="../templates/main-page.html">장례에 대한 정보들</a></li>
+        </ul>
+      </section>
+      <!-- 추모공간 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">추모공간</h3>
+        <ul>
+          <li><a href="../templates/mymemorial.html">내 추모공간</a></li>
+          <li><a href="../templates/memorial-page.html">다른 사람들의 추모공간</a></li>
+        </ul>
+      </section>
+      <!-- 디지털 유언장 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">디지털 유언장</h3>
+        <ul>
+          <li><a href="../templates/will_pdf_template.html">디지털 유언장 작성</a></li>
+          <li><a href="../templates/will_pdf_template.html">디지털 유언장 PDF 다운로드</a></li>
+        </ul>
+      </section>
+    </nav>
+  </aside>
 
   <div class="main-frame container">
     <!-- 상단 바 -->
     <header class="topbar">
-          <img
-  id="openSidebar"
-    src="../static/images/icons/icon-menu-24.svg"
-  alt="메뉴 아이콘"
-  class="icon-menu"
-/> 
+      <!-- 햄버거 아이콘 -->
+      <img
+        id="openSidebar"
+        src="../static/images/icons/icon-menu-24.svg"
+        alt="메뉴 아이콘"
+        class="icon-menu"
+      />
+      <!-- 페이지 타이틀 (정가운데) -->
       <h1 class="title">추모공간</h1>
-      <div class="spacer"></div>
+      <!-- 검색 아이콘 -->
+      <img
+        id="searchBtn"
+        src="../static/images/icons/icon-search-24.svg"
+        alt="검색"
+        class="icon-search"
+      />
     </header>
 
     <main>
@@ -66,7 +72,7 @@
         <div class="card my-space" data-href="/my-memorial">
           <img
             class="profile-pic"
-            src="../static/images/assets\profile.jpg"
+            src="../static/images/assets/profile.jpg"
             alt="프로필"
           />
           <div class="info">
@@ -79,11 +85,11 @@
 
         <button class="create-btn" data-href="/memorial/create">
           새 추모공간 만들기
-                      <img
-  src="../static/images/icons/icon-arrow-right-20.svg"
-  alt="오른쪽 화살표 아이콘"
-  class="icon-right-arrow"
-/>
+          <img
+            src="../static/images/icons/icon-arrow-right-20.svg"
+            alt="오른쪽 화살표 아이콘"
+            class="icon-right-arrow"
+          />
         </button>
       </section>
 
@@ -91,6 +97,7 @@
       <section class="section others-section">
         <h2 class="section-title">다른 이들의 따뜻한 추모공간을 둘러보세요</h2>
         <div class="others-list">
+          <!-- 카드 예시 1 -->
           <div class="card other-card" data-href="/memorial/2">
             <img
               class="avatar"
@@ -99,33 +106,28 @@
             />
             <div class="info">
               <h3 class="name">김화연</h3>
-              <p class="desc">
-                이 추모공간은 모두가 함께하는 자리입니다. 
-              </p>
+              <p class="desc">이 추모공간은 모두가 함께하는 자리입니다.</p>
               <p class="dates">1982년 4월 11일 – 2000년 5월 7일</p>
             </div>
           </div>
-
-          <!-- 필요에 따라 카드 복제 -->
+          <!-- 카드 예시 2 -->
           <div class="card other-card" data-href="/memorial/3">
             <img
               class="avatar"
-              src="../static/images/assets\profile.jpg"
+              src="../static/images/assets/profile.jpg"
               alt="프로필"
             />
             <div class="info">
               <h3 class="name">김이화</h3>
-              <p class="desc">
-                행복하라는 말이 강요처럼 들릴 수 있겠지만, 모두 행복해야 해.
-              </p>
+              <p class="desc">행복하라는 말이 강요처럼 들릴 수 있겠지만, 모두 행복해야 해.</p>
               <p class="dates">1965년 3월 1일 – 2024년 10월 20일</p>
             </div>
           </div>
-                    <!-- 필요에 따라 카드 복제 -->
-          <div class="card other-card" data-href="/memorial/3">
+          <!-- 카드 예시 3 -->
+          <div class="card other-card" data-href="/memorial/4">
             <img
               class="avatar"
-              src="../static/images/assets\profile.jpg"
+              src="../static/images/assets/profile.jpg"
               alt="프로필"
             />
             <div class="info">

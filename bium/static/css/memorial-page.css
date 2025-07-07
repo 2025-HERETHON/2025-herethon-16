@@ -50,33 +50,39 @@ body {
   3. 상단 바 (Topbar)
 ————————————————————————————————————*/
 .topbar {
+  position: relative;       /* 아이콘 좌우 절대배치 위해 */
   display: inline-flex;
+  justify-content: center;  /* 제목을 가운데로 */
   align-items: center;
-  justify-content: space-between;
+  width: 100%;
   padding: 16px 20px;
   background-color: var(--white);
-  width: 100%;
 }
 
+/* 햄버거 아이콘 */
 .icon-menu {
+  position: absolute;
+  left: 20px;
   width: 24px;
   height: 24px;
   cursor: pointer;
 }
 
+/* 페이지 제목 */
 .title {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
   color: var(--gray-33);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.spacer {
+/* 검색 아이콘 */
+.icon-search {
+  position: absolute;
+  right: 20px;
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 
 /*————————————————————————————————————
@@ -115,31 +121,18 @@ main {
 
   display: inline-flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: var(--space-sm);       /* 12px */
+  gap: var(--space-sm);
 
-  padding: 20px;              /* Figma: 20px */
+  padding: 20px;
   border-radius: 12px;
   outline: 1px solid var(--gray-ED);
   outline-offset: -1px;
-
-  /* 배경 레이어 분리 선언
-  background-color: var(--gray-F4);               /* 맨 밑 회색 */
-  /* background-image: */
-    /* 위→아래 투명→흰색 gradient */
-    /* linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,1) 80%), */
-    /* 단색 primary-normal */
-    /* linear-gradient(var(--primary-normal), var(--primary-normal));
-  background-repeat: no-repeat;
-  background-size: cover; */
   background: url("../images/assets/background-combined.png") no-repeat center center;
   background-size: cover;
 
   cursor: pointer;
   text-decoration: none;
-
-  margin: 20px 0 40px;        /* 위 20px, 아래 40px */
+  margin: 20px 0 40px;
 }
 
 .profile-pic {
@@ -152,19 +145,14 @@ main {
 }
 
 .card.my-space .info {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 4px;                   /* 4px */
+  gap: 4px;
 }
 
 .card.my-space .name {
   font-size: 14px;
   font-weight: 600;
-  line-height: 19.6px;
-  color: var(--gray-33);
 }
 
 .card.my-space .desc {
@@ -195,7 +183,6 @@ main {
   background-color: var(--white);
   border: 1px solid var(--primary-light);
   border-radius: 12px;
-  outline: none;
 
   font-size: 16px;
   font-weight: 600;
@@ -225,7 +212,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-
   margin-top: 40px;
 }
 
@@ -243,45 +229,31 @@ main {
   outline: 1px solid var(--gray-ED);
   outline-offset: -1px;
 
-  /* 배경 레이어 분리 선언 */
-  /* background-color: var(--gray-F4);
-  background-image:
-    linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,1) 80%),
-    linear-gradient(var(--primary-normal), var(--primary-normal));
-  background-repeat: no-repeat;
-  background-size: cover; */
+  background: url("../images/assets/background-combined.png") no-repeat center center;
+  background-size: cover;
 
   cursor: pointer;
   text-decoration: none;
-  background: url("../images/assets/background-combined.png") no-repeat center center;
-  background-size: cover;
 }
 
 .card.other-card .avatar {
-  flex-shrink: 0;
   width: 88px;
   height: 88px;
   border-radius: 50%;
   background: var(--gray-F4);
   border: 1.5px solid var(--white);
   object-fit: cover;
-  margin-top: 0;
 }
 
 .card.other-card .info {
-  flex: 1 1 0;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   gap: 4px;
 }
 
 .card.other-card .name {
   font-size: 14px;
   font-weight: 600;
-  line-height: 19.6px;
-  color: var(--gray-33);
 }
 
 .card.other-card .desc {
@@ -302,8 +274,7 @@ main {
   color: var(--gray-56);
 }
 
-
-/* ──────────────────────────────────────────────────────────────────────────── */
+/*─────────────────────────────────────────────*/
 /* 사이드바 */
 .sidebar {
   position: fixed;
@@ -326,77 +297,44 @@ main {
   cursor: pointer;
 }
 
-/* ── 사이드바 섹션 박스 ── */
+/* 사이드바 섹션 */
 .sidebar-section {
-  border: 1px solid var(--gray-ED);  
-  border-radius: 8px;                 
-  background: var(--white);           
+  border: 1px solid var(--gray-ED);
+  border-radius: 8px;
+  background: var(--white);
   padding: 12px 16px;
-  margin-top: 20px;               
+  margin-top: 20px;
 }
-
-/* ── 활성(홈) 섹션 강조 ── */
 .sidebar-section.active {
   border-color: var(--primary-normal);
 }
-
-/* ── 섹션 타이틀 ── */
 .sidebar-section .section-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--primary-dark);
   margin-bottom: 8px;
 }
-
-/* ── 목록 아이템 ── */
 .sidebar-section ul {
   list-style: none;
-  margin: 0;
-  padding: 0;
 }
 .sidebar-section ul li {
   position: relative;
-  padding-left: 14px;   /* 글머리 기호 자리를 비워두고 */
+  padding-left: 14px;
   margin-bottom: 6px;
-  font-size: 14px;
-  color: var(--gray-33);
 }
-/* 커스텀 글머리 기호로 대시(–) 붙이기 */
 .sidebar-section ul li::before {
   content: "–";
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 0; top: 0;
   color: var(--gray-33);
 }
 
-/* ── blur 효과 ── */
+/* overlay 회색 처리 */
 .main-frame {
   position: relative;
-  /* 클릭 막으려면 아래도 추가하세요 (선택)
-  pointer-events: none;
-  */
 }
-
-/* ── active(현재 페이지) 스타일 ── */
-/* 섹션 테두리 바꿔주고 */
-.sidebar-section.active {
-  border-color: var(--primary-normal);
-}
-/* 해당 메뉴 텍스트 색·굵기 바꿔주기 */
-.sidebar-section ul li.active > a {
-  color: var(--primary-normal);
-  font-weight: 600;
-}
-
 .main-frame.blurred::after {
   content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2); /* 원하는 농도로 조절 가능 (0.1~0.3 권장) */
-  pointer-events: none;           /* 오버레이가 클릭을 막지 않도록 */
-  z-index: 500;                   /* sidebar z-index(1000)보다 낮게 */
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.2);
+  pointer-events: none;
+  z-index: 500;
 }

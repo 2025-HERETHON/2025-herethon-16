@@ -1,56 +1,27 @@
 // memorial-page.js
 document.addEventListener('DOMContentLoaded', () => {
-  // 카드 클릭 시 이동
-  document.querySelectorAll('.card, .create-btn').forEach(el => {
+  const openBtn   = document.getElementById('openSidebar');
+  const closeBtn  = document.getElementById('closeSidebar');
+  const searchBtn = document.getElementById('searchBtn');
+  const sidebar   = document.getElementById('sidebar');
+  const mainFrame = document.querySelector('.main-frame');
+
+  // 1) 카드·버튼 클릭 시 이동
+  document.querySelectorAll('.create-btn').forEach(el => {
     el.addEventListener('click', () => {
-      const href = el.getAttribute('data-href');
-      if (href) {
-        window.location.href = href;
-      }
+      const href = el.dataset.href;
+      if (href) window.location.href = 'mymemorial.html';
     });
   });
-});
 
-
-// ── 사이드바 메뉴 링크 클릭 시 닫기 ──
-document.querySelectorAll('.sidebar-menu a').forEach(link => {
-  link.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-    mainFrame.classList.remove('blurred');
-  });
-});
-
-
-// ── 사이드바 토글 ──
-const openBtn   = document.getElementById('openSidebar');
-const closeBtn  = document.getElementById('closeSidebar');
-const sidebar   = document.getElementById('sidebar');
-const mainFrame = document.querySelector('.main-frame');
-
-openBtn.addEventListener('click', () => {
-  sidebar.classList.add('open');
-  mainFrame.classList.add('blurred');
-});
-closeBtn.addEventListener('click', () => {
-  sidebar.classList.remove('open');
-  mainFrame.classList.remove('blurred');
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  // 1) 카드·버튼 클릭 이동 (기존)
-  document.querySelectorAll('.card, .create-btn').forEach(el => {
+    document.querySelectorAll('.card').forEach(el => {
     el.addEventListener('click', () => {
       const href = el.dataset.href;
       if (href) window.location.href = href;
     });
   });
 
-  // 2) 토글·링크 클릭 시 blur 처리
-  const openBtn   = document.getElementById('openSidebar');
-  const closeBtn  = document.getElementById('closeSidebar');
-  const sidebar   = document.getElementById('sidebar');
-  const mainFrame = document.querySelector('.main-frame');
-
+  // 2) 사이드바 열기/닫기 & 회색 오버레이 토글
   openBtn.addEventListener('click', () => {
     sidebar.classList.add('open');
     mainFrame.classList.add('blurred');
@@ -66,12 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3) 현재 URL과 매칭되는 메뉴에 active 클래스 달기
-  const path = window.location.pathname;
+  // 3) 검색 아이콘 클릭 → 검색 페이지로 이동
+  searchBtn.addEventListener('click', () => {
+    window.location.href = 'memorial-search.html';
+  });
+
+  // 4) 현재 페이지와 매칭되는 메뉴에 active 클래스 달기
+  const currentPath = window.location.pathname;
   document.querySelectorAll('.sidebar-menu a').forEach(link => {
-    if (link.getAttribute('href') === path) {
-      link.parentElement.classList.add('active');               // li
-      link.closest('.sidebar-section').classList.add('active'); // section
+    const linkPath = new URL(link.href, window.location.origin).pathname;
+    if (linkPath === currentPath) {
+      link.parentElement.classList.add('active');               // <li>
+      link.closest('.sidebar-section').classList.add('active'); // <section>
     }
   });
 });
