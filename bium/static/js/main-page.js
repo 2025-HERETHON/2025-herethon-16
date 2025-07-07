@@ -61,17 +61,16 @@ document.querySelectorAll('.item').forEach(label => {
   });
 });
 
-// ── 사이드바 현재 페이지 강조 ──
+// main-page.js 맨 아래에
 window.addEventListener('DOMContentLoaded', () => {
-  // 현재 페이지 파일명
-  const currentPage = window.location.pathname.split('/').pop();
-
-  document.querySelectorAll('.sidebar-section').forEach(section => {
-    // 해당 섹션 안 모든 링크 href 중 하나라도 currentPage와 같으면 active
-    const links = Array.from(section.querySelectorAll('a'))
-                       .map(a => a.getAttribute('href'));
-    if (links.includes(currentPage)) {
-      section.classList.add('active');
+  const current = window.location.pathname.split('/').pop();
+  document.querySelectorAll('.sidebar-section').forEach(sec => {
+    const hrefs = Array.from(sec.querySelectorAll('a')).map(a => a.href.split('/').pop());
+    if (hrefs.includes(current)) {
+      sec.classList.add('active');
+    } else {
+      sec.classList.remove('active');
     }
   });
 });
+
