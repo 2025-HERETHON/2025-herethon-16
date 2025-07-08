@@ -38,11 +38,11 @@ body {
   width: 24px;
   height: 24px;
 }
-/* 타이틀 숨기고, 뒤로가기만 보이도록 */
+/* 타이틀 숨기기 */
 .topbar .title {
   display: none;
 }
-/* 오른쪽 스페이서: 뒤로버튼 크기만큼 */
+/* 뒤로가기 크기만큼 우측 여백 */
 .spacer {
   width: 24px;
 }
@@ -74,9 +74,10 @@ body {
 }
 
 /* 한 단계 블록 */
+/* ★ display:inline-flex → display:flex + align-items:stretch 로 변경 ★ */
 .step {
-  display: inline-flex;
-  align-items: flex-start;
+  display: flex;
+  align-items: stretch;
   gap: var(--space-md);
 }
 
@@ -88,7 +89,8 @@ body {
   gap: var(--space-sm);
   padding-top: 12px;
 }
-/* TODO: JS 에서 아래 Activate / Deactivate SVG 를 <img> 태그로 삽입할 예정입니다 */
+
+/* TODO: JS에서 아래 Activate/Deactivate SVG를 <img>로 삽입합니다 */
 /* completed 단계 아이콘 (Activate) */
 .step.completed .marker .icon {
   width: 20px;
@@ -109,6 +111,7 @@ body {
 }
 
 /* 아래 연결선 */
+/* ★ min-height 지정 불필요 — 부모인 .step이 stretch 됐으므로 flex:1만으로도 전체 높이 채움 ★ */
 .step .marker .line {
   flex: 1;
   width: 2px;
