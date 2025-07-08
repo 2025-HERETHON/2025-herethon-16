@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.create-btn').forEach(el => {
     el.addEventListener('click', () => {
       const href = el.dataset.href;
-      if (href) window.location.href = 'mymemorial.html';
+      if (href) window.location.href = 'memorial-edit.html';
     });
   });
 

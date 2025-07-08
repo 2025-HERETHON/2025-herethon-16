@@ -210,7 +210,6 @@ body {
   width: 24px;
   height: 24px;
 }
-/* …위에는 기존 그대로… */
 
 /* ──────────────────────────────────────────────
    10) Comment List (댓글 카드)
@@ -259,7 +258,8 @@ body {
 .comment-actions {
   display: inline-flex;
   align-items: center;
-  gap: 4px;                     /* “수정 | 삭제” 사이 약간 여유 */
+  gap: 4px; 
+                      /* “수정 | 삭제” 사이 약간 여유 */
 }
 
 .comment-actions button {
@@ -281,7 +281,8 @@ body {
   display: flex;
   justify-content: space-between;  /* 왼쪽(meta) / 오른쪽(actions) */
   align-items: center;
-  margin-bottom: 8px;              /* 텍스트 위 여백 */
+  margin-bottom: 8px;
+  width:100%;       /* 텍스트 위 여백 */
 }
 
 /* 이름 + 날짜(meta) */
@@ -306,24 +307,22 @@ body {
   color: #888888;
   line-height: 19.6px;
 }
-
+/* 
 /* 수정 / 삭제 버튼 그룹 */
-.comment-content .comment-actions {
+/* .comment-content .comment-actions {
   display: inline-flex;
   align-items: center;
-  gap: 4px;                        /* 버튼 ↔ 구분자 간격 */
-}
-
+  gap: 4px;                        /* 버튼 ↔ 구분자 간격 } */ */
+/* 
 /* 버튼 공통 */
-.comment-content .comment-actions button {
+/* .comment-content .comment-actions button {
   background: none;
   border: none;
   padding: 0;
   font-size: 12px;                 /* 날짜와 동일한 12px */
-  font-weight: 400;
+  /* font-weight: 400;
   color: #888888;                  /* 날짜 컬러와 동일 */
-  cursor: pointer;
-}
+  /* cursor: pointer;}/ */ */
 
 /* 구분자 ‘|’ */
 .comment-content .comment-actions .separator {
