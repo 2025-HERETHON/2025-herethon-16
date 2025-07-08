@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const stepsData = [
     { label: '나의 기본 정보',       desc: '이름과 생년월일, 성별, 전화번호 등 나의 기본 정보를 작성해요.' },
     { label: '가족에 대한 기록',     desc: '부모님과 형제자매의 이름, 생년월일, 연락처 등을 자유롭게 적어주세요.' },
@@ -12,8 +12,31 @@ document.addEventListener("DOMContentLoaded", () => {
     { label: '유품 분배 및 정리',     desc: '사후에 분배 및 정리할 유품 목록을 정리해요.' }
   ];
 
-  // 실제로는 fetch('/api/will/progress_step/')...
-  const completedStep = 6;  // 모크 데이터
+  let completedStep = 0; // 초기값 설정
+
+  try {
+    // ★ 실제 API 호출로 변경
+    const response = await fetch('/api/will/progress_step/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+        // 필요하다면 인증토큰 헤더 추가 ex) 'Authorization': 'Bearer <token>'
+      }
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.success) {
+      completedStep = result.progress_step;
+    } else {
+      alert("진행 단계를 불러오지 못했습니다.");
+      return; // 에러 발생 시 이후 코드 실행하지 않음
+    }
+  } catch (error) {
+    console.error('API 호출 중 오류:', error);
+    alert("서버와 통신 중 오류가 발생했습니다.");
+    return; // 네트워크 오류 시 이후 코드 실행하지 않음
+  }
 
   document.getElementById("completedCount").textContent = completedStep;
   const container = document.getElementById("stepsContainer");
@@ -26,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ? "current"
         : "pending";
 
-    // Activate/Deactivate SVG 경로
     const iconPath = state === "completed"
       ? "../static/images/icons/icon-progress-20=Done.svg"
       : state === "pending"
@@ -51,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
     container.appendChild(wrapper);
   });
 
-  // 뒤로가기
   document.querySelector(".btn-back").addEventListener("click", () => {
     window.location.href = "main-page.html";
   });
