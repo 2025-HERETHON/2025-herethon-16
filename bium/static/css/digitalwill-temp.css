@@ -1,147 +1,128 @@
 :root {
-  --primary:       #7F8CAA;
-  --primary-light: #EAEFEF;
-  --gray-56:       #565656;
-  --gray-ed:       #EDEDED;
-  --gray-33:       #333333;
-  --space-sm:      8px;
-  --space-md:      16px;
-  --space-lg:      22px;
+  --blue:    #7F8CAA;
+  --gray-bg: #EAEFEF;
+  --gray-lt: #EDEDED;
+  --gray-t1: #565656;
+  --gray-t2: #333333;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 22px;
 }
-
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0; box-sizing: border-box;
 }
-
 body {
   font-family: Pretendard, sans-serif;
-  background: #fff;
-  color: var(--gray-33);
+  background: #fff; color: var(--gray-t2);
 }
+.topbar {
+  display: flex; align-items: center;
+  height: 56px; padding: 0 var(--space-md);
+  border-bottom: 1px solid var(--gray-lt);
+}
+.btn-back { background:none; border:none; cursor:pointer;}
+.btn-back img { width:24px; height:24px;}
+.title { flex:1; text-align:center; font-size:18px; font-weight:600;}
+.spacer { width:24px; }
 
 .container {
-  max-width: 375px;
-  margin: 0 auto;
-  padding-bottom: 56px;
-}
-
-/* Topbar */
-.topbar {
-  display: flex;
-  align-items: center;
-  height: 56px;
-  padding: 0 var(--space-md);
-}
-.btn-back {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-.btn-back img {
-  width: 24px;
-  height: 24px;
-}
-.spacer {
-  flex: 1;
-}
-
-/* Progress Header */
-.progress-header {
+  max-width:375px; margin:0 auto;
   padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.summary {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--gray-56);
-}
-.prompt {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--gray-33);
 }
 
-/* Steps List */
+/* info */
+.info .completed {
+  font-size:14px; color: var(--gray-t1);
+  margin-bottom:4px;
+}
+.info .heading {
+  font-size:20px; font-weight:600;
+  margin-bottom: var(--space-lg);
+}
+
+/* steps wrapper */
 .steps {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  padding: 0 var(--space-md);
-  margin-top: var(--space-sm);
 }
 
-/* 공통 step 스타일 */
+/* 한 단계 블록 */
 .step {
-  display: flex;
+  display: inline-flex;
   align-items: flex-start;
   gap: var(--space-md);
-  cursor: pointer;
 }
-.step .indicator {
+
+/* 왼쪽 아이콘+라인 영역 */
+.step .marker {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--space-sm);
+  padding-top:12px; /* 아이콘 위쪽 여백 */
 }
-.step .indicator img {
-  width: 20px;
-  height: 20px;
+/* 체크 완료 아이콘 */
+.step.completed .marker .icon {
+  width:20px; height:20px;
+  background: url("../images/icons/icon-radiobutton-20=Activate.svg") center/contain no-repeat;
 }
-.step .indicator .connector {
-  width: 2px;
-  flex: 1;
-  background: var(--gray-ed);
-  margin-top: var(--space-sm);
+/* 현재 단계 원 */
+.step.current .marker .icon {
+  width:20px; height:20px;
+  border:2px solid var(--blue);
+  border-radius:50%;
+  background:#fff;
+}
+/* 아직 단계 원 */
+.step.pending .marker .icon {
+  width:20px; height:20px;
+  border:2px solid var(--gray-lt);
+  border-radius:50%;
+  background:#fff;
+}
+/* 아래 연결선 */
+.step .marker .line {
+  flex:1;
+  width:2px;
+  background: var(--blue);
+}
+.step.completed .marker .line {
+  background: var(--blue);
+}
+.step.current .marker .line {
+  background: var(--gray-lt);
+}
+.step.pending .marker .line {
+  background: var(--gray-lt);
 }
 
-/* 컨텐츠 */
+/* 오른쪽 텍스트 박스 */
 .step .content {
-  flex: 1;
-  padding: 12px 16px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex:1;
 }
-.step .content .title {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0;
+.step.completed .content {
+  background: var(--gray-bg);
+  padding: var(--space-md);
+  border-radius:8px;
 }
-.step .content .desc {
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16.8px;
-  margin: 0;
-}
-
-/* 완료된 항목 (done) */
-.step.done .content {
-  background-color: var(--primary-light);
-}
-.step.done .indicator .connector {
-  background: var(--primary);
-}
-
-/* 현재 항목 (current) */
 .step.current .content {
-  background: white;
-  outline: 1.5px solid var(--primary);
+  background: #fff;
+  padding: var(--space-md);
+  border:2px solid var(--blue);
+  border-radius:8px;
 }
-.step.current .indicator .connector {
-  background: var(--primary);
-}
-
-/* 예정 항목 (upcoming) */
-.step.upcoming .content {
-  background: white;
-  outline: none;
+.step.pending .content {
+  padding:0; /* 내용만 */
 }
 
-/* hover 효과 */
-.step:hover .content {
-  filter: brightness(0.97);
+/* 제목 / 설명 */
+.step .title {
+  font-size:14px; font-weight:600;
+  margin-bottom:4px;
+  color: var(--gray-t2);
+}
+.step .desc {
+  font-size:12px; color: var(--gray-t1);
+  line-height:1.4;
 }

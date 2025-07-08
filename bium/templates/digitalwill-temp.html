@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>디지털 유언장 임시저장 목록</title>
-  <!-- static/css 디렉터리 경로 반영 -->
-  <link rel="stylesheet" href="../static/css/digitalwill-temp.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>디지털 유언장 진행 단계</title>
+  <link rel="stylesheet" href="../static/css/digitalwill-temp.css" />
 </head>
 <body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="btn-back" onclick="location.href='main-page.html'">
+      <img src="../static/images/icons/icon-back-24.svg" alt="뒤로"/>
+    </button>
+    <div class="title">디지털 유언장</div>
+    <div class="spacer"></div>
+  </header>
+
   <div class="container">
-    <!-- Topbar -->
-    <header class="topbar">
-      <button class="btn-back">
-        <img src="../static/images/icons/icon-back-24.svg" alt="뒤로">
-      </button>
-      <h1 class="title"></h1>
-      <div class="spacer"></div>
-    </header>
+    <!-- 진행 정보 -->
+    <div class="info">
+      <p class="completed">
+        10단계 중 <span id="completedCount">0</span>단계까지 완료하였습니다.
+      </p>
+      <h2 class="heading">남은 이야기를 이어가볼까요?</h2>
+    </div>
 
-    <!-- Progress Header -->
-    <section class="progress-header">
-      <p class="summary">10단계 중 <span id="done-count">2</span>단계까지 완료하였습니다.</p>
-      <h2 class="prompt">남은 이야기를 이어가볼까요?</h2>
-    </section>
-
-    <!-- Steps List -->
-    <section class="steps">
-      <!-- JS가 이 안쪽에 동적으로 <article class="step">…</article> 를 채웁니다 -->
-    </section>
+    <!-- 단계 리스트 -->
+    <div class="steps" id="stepsContainer">
+      <!-- JS가 이 안에 각 단계 블록을 생성합니다 -->
+    </div>
   </div>
 
-  <!-- static/js 디렉터리 경로 반영 -->
   <script src="../static/js/digitalwill-temp.js"></script>
 </body>
 </html>
