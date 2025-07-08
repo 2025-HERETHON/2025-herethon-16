@@ -336,3 +336,20 @@ body {
 .faq-item.open .faq-answer {
   display: block;
 }
+
+/* 3.1-1 커버 이미지 영역 */
+.cover-frame {
+  width: 100%;
+  max-width: 335px;    
+  height: 180px;        
+  margin: 20px auto;   
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cover-frame .cover-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   
+}
