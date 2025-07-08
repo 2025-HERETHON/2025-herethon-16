@@ -2,6 +2,7 @@ import re
 import datetime
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 
@@ -65,3 +66,6 @@ def login_api(request):
         return JsonResponse({"success": True, "message": "로그인에 성공했습니다."})
     else:
         return JsonResponse({"success": False, "message": "아이디나 비밀번호가 올바르지 않습니다."}, status=401)
+
+def login_view(request):
+    return render(request, 'login.html')
