@@ -1,7 +1,11 @@
 @import "font.css";
 
+body {
+  display: flex;
+  justify-content: center;
+}
+
 .Container {
-  position: absolute;
   display: flex;
   flex-direction: column;
   width: 375px;

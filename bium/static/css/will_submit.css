@@ -12,6 +12,11 @@ button,
   font-style: normal;
 }
 
+body {
+  display: flex;
+  justify-content: center;
+}
+
 .Container {
   position: relative;
   display: flex;

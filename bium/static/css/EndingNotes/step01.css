@@ -1,5 +1,10 @@
 @import "../font.css";
 
+body {
+  display: flex;
+  justify-content: center;
+}
+
 .Container {
   position: relative;
   display: flex;
@@ -37,7 +42,7 @@
 /*퍼센트 해당하는 부분*/
 #progress::-webkit-progress-value {
   border-radius: 4px;
-  background-color: #333446;
+  background-color: #7f8caa;
   height: 8px;
 }
 
