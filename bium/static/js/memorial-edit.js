@@ -7,11 +7,23 @@ document.getElementById('saveBtn')
 const coverFrame = document.getElementById('coverFrame');
 const coverInput = document.getElementById('coverInput');
 coverFrame.addEventListener('click', () => coverInput.click());
+
 coverInput.addEventListener('change', e => {
   const f = e.target.files[0];
   if (!f) return;
-  coverFrame.style.backgroundImage = `url(${URL.createObjectURL(f)})`;
+  const blobUrl = URL.createObjectURL(f);
+
+  // 그라디언트(항상 앞) + 업로드된 이미지(뒤)를 한 번에 지정
+  coverFrame.style.background =
+    `linear-gradient(
+       180deg,
+       rgba(255,255,255,0) 0%,
+       rgba(255,255,255,1) 80%
+     ),
+     url(${blobUrl})
+     center/cover no-repeat`;
 });
+
 
 // 프로필 업로드
 const profileFrame = document.getElementById('profileFrame');

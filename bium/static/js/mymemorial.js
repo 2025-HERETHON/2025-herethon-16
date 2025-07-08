@@ -1,12 +1,23 @@
+const coverFrame = document.getElementById('coverFrame');
+const coverInput = document.getElementById('coverInput');
+
 // 배경 클릭 → 업로드
 document.getElementById('coverFrame').addEventListener('click', _=>{
   document.getElementById('coverInput').click();
 });
 document.getElementById('coverInput').addEventListener('change', e=>{
   const f=e.target.files[0]; if(!f)return;
-  document.getElementById('coverFrame').style.backgroundImage=
-    `url(${URL.createObjectURL(f)})`;
 });
+
+coverInput.addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const blobUrl = URL.createObjectURL(f);
+  // 그라디언트는 항상 앞쪽, 뒤에는 업로드된 이미지
+  coverFrame.style.background =
+    `linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%), url(${blobUrl}) center/cover no-repeat`;
+});
+
 
 const btnBack = document.querySelector(".btn-back");
   btnBack.addEventListener("click", () => {
