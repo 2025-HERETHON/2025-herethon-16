@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from .models import MemorialSpace, CondolenceMessage
 from datetime import datetime
 from django.utils import timezone
-import uuid
 from django.db.models import Q
+import uuid
 
 # 공개 추모공간 리스트 확인 기능 + 검색 기능
 @csrf_exempt
