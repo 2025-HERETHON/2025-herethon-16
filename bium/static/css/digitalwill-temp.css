@@ -8,39 +8,65 @@
   --space-md: 16px;
   --space-lg: 22px;
 }
+
+/* reset */
 * {
-  margin: 0; padding: 0; box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 body {
   font-family: Pretendard, sans-serif;
-  background: #fff; color: var(--gray-t2);
+  background: #fff;
+  color: var(--gray-t2);
 }
+
+/* ── Topbar ── */
 .topbar {
-  display: flex; align-items: center;
-  height: 56px; padding: 0 var(--space-md);
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 var(--space-md);
   border-bottom: 1px solid var(--gray-lt);
 }
-.btn-back { background:none; border:none; cursor:pointer;}
-.btn-back img { width:24px; height:24px;}
-.title { flex:1; text-align:center; font-size:18px; font-weight:600;}
-.spacer { width:24px; }
+.btn-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.btn-back img {
+  width: 24px;
+  height: 24px;
+}
+/* 타이틀 숨기고, 뒤로가기만 보이도록 */
+.topbar .title {
+  display: none;
+}
+/* 오른쪽 스페이서: 뒤로버튼 크기만큼 */
+.spacer {
+  width: 24px;
+}
 
+/* ── 컨테이너 ── */
 .container {
-  max-width:375px; margin:0 auto;
+  max-width: 375px;
+  margin: 0 auto;
   padding: var(--space-md);
 }
 
-/* info */
+/* ── 정보 영역 ── */
 .info .completed {
-  font-size:14px; color: var(--gray-t1);
-  margin-bottom:4px;
+  font-size: 14px;
+  color: var(--gray-t1);
+  margin-bottom: 4px;
 }
 .info .heading {
-  font-size:20px; font-weight:600;
+  font-size: 20px;
+  font-weight: 600;
   margin-bottom: var(--space-lg);
 }
 
-/* steps wrapper */
+/* ── 스텝 리스트 ── */
 .steps {
   display: flex;
   flex-direction: column;
@@ -54,75 +80,79 @@ body {
   gap: var(--space-md);
 }
 
-/* 왼쪽 아이콘+라인 영역 */
+/* ── 왼쪽 마커(아이콘+라인) ── */
 .step .marker {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-sm);
-  padding-top:12px; /* 아이콘 위쪽 여백 */
+  padding-top: 12px;
 }
-/* 체크 완료 아이콘 */
+/* TODO: JS 에서 아래 Activate / Deactivate SVG 를 <img> 태그로 삽입할 예정입니다 */
+/* completed 단계 아이콘 (Activate) */
 .step.completed .marker .icon {
-  width:20px; height:20px;
-  background: url("../images/icons/icon-radiobutton-20=Activate.svg") center/contain no-repeat;
+  width: 20px;
+  height: 20px;
 }
-/* 현재 단계 원 */
+/* current 단계 아이콘(테두리 원) */
 .step.current .marker .icon {
-  width:20px; height:20px;
-  border:2px solid var(--blue);
-  border-radius:50%;
-  background:#fff;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 2px solid var(--blue);
+  border-radius: 50%;
 }
-/* 아직 단계 원 */
+/* pending 단계 아이콘(Deactivate) */
 .step.pending .marker .icon {
-  width:20px; height:20px;
-  border:2px solid var(--gray-lt);
-  border-radius:50%;
-  background:#fff;
+  width: 20px;
+  height: 20px;
 }
+
 /* 아래 연결선 */
 .step .marker .line {
-  flex:1;
-  width:2px;
-  background: var(--blue);
+  flex: 1;
+  width: 2px;
+  background: var(--gray-lt);
+  border-radius: 1px;
 }
 .step.completed .marker .line {
   background: var(--blue);
 }
-.step.current .marker .line {
-  background: var(--gray-lt);
-}
-.step.pending .marker .line {
-  background: var(--gray-lt);
-}
 
-/* 오른쪽 텍스트 박스 */
+/* ── 오른쪽 컨텐츠 ── */
 .step .content {
-  flex:1;
+  flex: 1;
 }
+/* 완료된 박스(회색 배경) */
 .step.completed .content {
   background: var(--gray-bg);
   padding: var(--space-md);
-  border-radius:8px;
+  border-radius: 8px;
 }
+/* 현재 박스(파란 테두리) */
 .step.current .content {
   background: #fff;
   padding: var(--space-md);
-  border:2px solid var(--blue);
-  border-radius:8px;
+  border: 2px solid var(--blue);
+  border-radius: 8px;
 }
+/* 미완료 박스(흰 배경 + 연회색 테두리) */
 .step.pending .content {
-  padding:0; /* 내용만 */
+  background: #fff;
+  padding: var(--space-md);
+  border: 1px solid var(--gray-lt);
+  border-radius: 8px;
 }
 
-/* 제목 / 설명 */
+/* 제목/설명 텍스트 */
 .step .title {
-  font-size:14px; font-weight:600;
-  margin-bottom:4px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
   color: var(--gray-t2);
 }
 .step .desc {
-  font-size:12px; color: var(--gray-t1);
-  line-height:1.4;
+  font-size: 12px;
+  color: var(--gray-t1);
+  line-height: 1.4;
 }

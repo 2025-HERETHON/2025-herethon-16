@@ -12,37 +12,58 @@ document.addEventListener("DOMContentLoaded", () => {
     { label: '유품 분배 및 정리',     desc: '사후에 분배 및 정리할 유품 목록을 정리해요.' }
   ];
 
-  // === 실제는 fetch('/api/will/progress_step/') ===
-  // 모크: 6단계 완료
+  // === 실제로는 아래처럼 API 호출 ===
+  // fetch('/api/will/progress_step/')
+  //   .then(res => res.json())
+  //   .then(json => renderSteps(json.progress_step));
+  //
+  // 일단 모크: 6단계 완료 처리
   const completedStep = 6;
 
+  // 상단 숫자 반영
   document.getElementById("completedCount").textContent = completedStep;
+
   const container = document.getElementById("stepsContainer");
 
-  stepsData.forEach((step,i) => {
-    const num = i+1;
+  stepsData.forEach((step, i) => {
+    const num = i + 1;
+    // 상태 판별
     let state = num < completedStep
       ? "completed"
       : num === completedStep
         ? "current"
         : "pending";
 
+    // 각 step wrapper
     const wrapper = document.createElement("div");
     wrapper.className = `step ${state}`;
 
+    // TODO: 아래 img src 경로를 실제 Activate/Deactivate SVG 파일 경로로 교체해주세요
+    const iconPath = state === "completed"
+      ? "../static/images/icons/icon-progress-20=Done.svg"
+      : state === "pending"
+        ? "../static/images/icons/icon-progress-20=Not Started.svg"
+        : ""; // current 는 border 원으로 처리
+
     wrapper.innerHTML = `
       <div class="marker">
-        <div class="icon"></div>
-        ${ num < 10
-          ? `<div class="line"></div>`
-          : ``
+        ${ state !== "current"
+          ? `<img class="icon" src="${iconPath}" alt="${state} 아이콘">`
+          : `<div class="icon"></div>`
         }
+        ${ num < stepsData.length ? `<div class="line"></div>` : `` }
       </div>
       <div class="content">
         <div class="title">${step.label}</div>
         <div class="desc">${step.desc}</div>
       </div>
     `;
+
     container.appendChild(wrapper);
+  });
+
+  // 뒤로가기 버튼
+  document.querySelector(".btn-back").addEventListener("click", () => {
+    window.location.href = "main-page.html";
   });
 });
