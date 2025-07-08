@@ -56,8 +56,8 @@ class Pet(models.Model):
     birth_date = models.DateField(null=True, blank=True)  # 생년월일
 
     GENDER_CHOICES = [
-        (1, '여성'),
-        (2, '남성'),
+        (1, '암컷'),
+        (2, '수컷'),
     ]
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)  # 성별
 
