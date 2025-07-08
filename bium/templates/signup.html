@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="../static/css/signup.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign Up to Bium</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <img
+          id="BackBtn"
+          src="../static/images/icon-back-24.png"
+          width="24px"
+          height="24px"
+        />
+        <div class="Title">회원가입</div>
+      </div>
+      <div class="Input">
+        <input
+          required
+          id="Name"
+          class="InputBox"
+          type="text"
+          placeholder="이름"
+        />
+        <input
+          required
+          id="Birth"
+          class="InputBox"
+          type="text"
+          placeholder="생년월일"
+        />
+        <input
+          required
+          id="Phone"
+          class="InputBox"
+          type="text"
+          placeholder="휴대전화 번호"
+        />
+      </div>
+      <div class="Input">
+        <input
+          minlength="4"
+          required
+          id="Id"
+          class="InputBox"
+          type="text"
+          placeholder="아이디"
+        />
+        <span class="id-error-msg" id="error-msg"></span>
+        <input
+          minlength="6"
+          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+          required
+          id="Passwd"
+          class="InputBox"
+          type="password"
+          placeholder="비밀번호"
+        />
+        <span class="passwd-error-msg" id="error-msg"></span>
+      </div>
+      <div class="Btn">
+        <div id="SignUp" class="SignUpBtn">가입하기</div>
+      </div>
+    </div>
+    <script src="../static/js/signup.js"></script>
+  </body>
+</html>
