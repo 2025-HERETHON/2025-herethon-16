@@ -7,12 +7,23 @@ from .models import MemorialSpace, CondolenceMessage
 from datetime import datetime
 from django.utils import timezone
 import uuid
+from django.db.models import Q
 
-# 공개 추모공간 리스트 확인 기능
+# 공개 추모공간 리스트 확인 기능 + 검색 기능
 @csrf_exempt
 @require_http_methods(["GET"])
 def public_memorial_list_api(request):
+    query = request.GET.get('q', '')
+    
     spaces = MemorialSpace.objects.filter(is_public=True).order_by('-created_at')
+    
+    if query:
+        spaces = spaces.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+
+    spaces = spaces.order_by('-created_at')
+    
     data = []
     for space in spaces:
         data.append({
@@ -26,6 +37,7 @@ def public_memorial_list_api(request):
             "created_at": space.created_at.isoformat()
         })
     return JsonResponse({"success": True, "memorials": data})
+
 
 
 # 내 추모공간 리스트 확인 ／ 작성（생성） 기능
