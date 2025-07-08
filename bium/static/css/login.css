@@ -12,13 +12,17 @@ button,
   font-style: normal;
 }
 
+body {
+  display: flex;
+  justify-content: center;
+}
+
 .Container {
-  position: absolute;
+  display: flex;
   flex-direction: column;
   width: 375px;
   height: 812px;
   background: #fff;
-  padding: 20px;
 }
 
 .Logo {

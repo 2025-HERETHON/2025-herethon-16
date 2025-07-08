@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="../static/css/EndingNotes/step05.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>step 09</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <progress id="progress" value="90" min="0" max="100"></progress>
+        <img
+          id="CancelBtn"
+          src="../static/images/icon-close-24.svg"
+          width="24px"
+          height="24px"
+        />
+      </div>
+      <div class="StepTitle">09. 후견인 선택</div>
+      <div class="Scroll">
+        <div class="InputBox">
+          <div class="title">후견인 이름</div>
+          <div class="detail">
+            내가 판단력이 흐려질 경우 내 의사를 대신해 결정권을 가질, 믿을 수
+            있는 사람을 지정해주세요.
+          </div>
+          <input class="content" type="text" placeholder="후견인 이름" />
+        </div>
+        <div class="InputBox">
+          <div class="title">후견인 연락처</div>
+          <input class="content" type="text" placeholder="후견인 연락처" />
+        </div>
+        <div class="InputBox">
+          <div class="title">비상 연락처</div>
+          <div class="detail">
+            관계와 이름, 주소, 전화번호, 이메일, 입원 시/장례 시 연락 방식
+          </div>
+          <input class="content" type="text" placeholder="비상 연락처" />
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: row; gap: 12px">
+        <div class="BeforeBtn" id="BeforeBtn">이전</div>
+        <div class="NextBtn" id="NextBtn">다음</div>
+      </div>
+    </div>
+    <script src="../static/js/EndingNotes/step09.js"></script>
+  </body>
+</html>

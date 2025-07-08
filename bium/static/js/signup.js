@@ -48,12 +48,47 @@ const errMsg = {
   },
 };
 
+document.getElementById("signupForm").addEventListener("submit", function (e) {
+  const nameVal = name.value;
+  const birthVal = birth.value;
+  const phoneVal = phone.value;
+  const idVal = id.value;
+  const passwdVal = passwd.value;
+
+  // 조건 별로 추가적으로 뜨게 할지.. 흠
+  fetch("/api/users/signup/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: JSON.stringify({
+      username: idVal,
+      password: passwdVal,
+      name: nameVal,
+      birth_date: birthVal,
+      phone_number: phoneVal,
+    }),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.success === false) {
+        if (result.message === "이미 존재하는 아이디입니다.") {
+          idErrorMsgEl.textContent = "이미 존재하는 아이디입니다.";
+          account.id = null;
+          id.classList.add("Input-ErrorBox");
+        }
+      } else {
+        //성공
+        idErrorMsgEl.textContent = "";
+        account.id = id.value;
+        id.classList.remove("Input-ErrorBox");
+        window.location.href = "main-page.html";
+      }
+    });
+});
+
 window.onload = function () {
   document.getElementById("BackBtn").addEventListener("click", function () {
     window.location.href = "login.html";
-  });
-
-  document.getElementById("SignUp").addEventListener("click", function () {
-    window.location.href = "main.html";
   });
 };

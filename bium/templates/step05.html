@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="../static/css/EndingNotes/step05.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>step 05</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <progress id="progress" value="50" min="0" max="100"></progress>
+        <img
+          id="CancelBtn"
+          src="../static/images/icon-close-24.svg"
+          width="24px"
+          height="24px"
+        />
+      </div>
+      <div class="StepTitle">05. 장례 관련</div>
+      <div class="Scroll">
+        <div class="InputBox">
+          <div class="title">장례 방식</div>
+          <div class="radio-row">
+            <input type="radio" name="way" id="1" />
+            <div class="radio-text">
+              <label for="1">일반 장례식</label>
+              <div class="radioDetail">
+                가족과 지인이 함께하는 3일장을 원해요.
+              </div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="way" id="2" />
+            <div class="radio-text">
+              <label for="2">가족장</label>
+              <div class="radioDetail">3일장을 가족끼리 치르고 싶어요.</div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="way" id="3" />
+            <div class="radio-text">
+              <label for="3">무빈소장례식</label>
+              <div class="radioDetail">
+                빈소를 차리지 않고 간소하게 치르고 싶어요.
+              </div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="way" id="4" />
+            <div class="radio-text">
+              <label for="4">종교장</label>
+              <div class="radioDetail">
+                제가 믿는 종교에 따라 진행하고 싶어요.
+              </div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="way" id="5" />
+            <div class="radio-text">
+              <label for="5">기타</label>
+              <div class="radioDetail">저만의 희망사항이 있어요.</div>
+            </div>
+          </div>
+        </div>
+        <div class="InputBox">
+          <div class="title">초대하고 싶은 손님</div>
+          <div class="detail">성함, 관계, 연락처</div>
+          <textarea
+            class="content"
+            placeholder="김모모, 대학 동창, 010-1234-5678
+김다다, 고등 동창, 010-5678-1234"
+          ></textarea>
+        </div>
+        <div class="InputBox">
+          <div class="title">장지에 대한 준비</div>
+          <div class="detail">시신의 매장 또는 화장 및 매장 장소</div>
+          <input class="content" type="text" placeholder="" />
+        </div>
+        <div class="InputBox">
+          <div class="title">산소 유형</div>
+          <div class="radio-row">
+            <input type="radio" name="unit" id="1" />
+            <div class="radio-text">
+              <label for="1">매장묘</label>
+              <div class="radioDetail">전통 방식대로 터에 묻히길 원해요.</div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="unit" id="2" />
+            <div class="radio-text">
+              <label for="2">봉안묘</label>
+              <div class="radioDetail">
+                화장 후 실외 시설물에 안치되길 원해요.
+              </div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="unit" id="3" />
+            <div class="radio-text">
+              <label for="3">납골당</label>
+              <div class="radioDetail">
+                화장 후 실내 시설물에 안치되길 원해요.
+              </div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="unit" id="4" />
+            <div class="radio-text">
+              <label for="4">수목장</label>
+              <div class="radioDetail">화장 후 나무 아래 묻히길 원해요.</div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="unit" id="5" />
+            <div class="radio-text">
+              <label for="5">잔디장</label>
+              <div class="radioDetail">화장 후 잔디 아래 묻히길 원해요.</div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="unit" id="6" />
+            <div class="radio-text">
+              <label for="6">기타</label>
+              <div class="radioDetail">저만의 희망사항이 있어요.</div>
+            </div>
+          </div>
+
+          <div class="radio-row">
+            <input type="radio" name="way" id="2" />
+            <div class="radio-text">
+              <label for="2">가족장</label>
+              <div class="radioDetail">3일장을 가족끼리 치르고 싶어요.</div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="way" id="3" />
+            <div class="radio-text">
+              <label for="3">무빈소장례식</label>
+              <div class="radioDetail">
+                빈소를 차리지 않고 간소하게 치르고 싶어요.
+              </div>
+            </div>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="way" id="4" />
+            <div class="radio-text">
+              <label for="4">종교장</label>
+              <div class="radioDetail">
+                제가 믿는 종교에 따라 진행하고 싶어요.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="InputBox">
+          <div class="title">묘비 문구</div>
+          <input class="content" type="text" placeholder="" />
+        </div>
+        <div class="InputBox">
+          <div class="title">제사에 대한 희망사항</div>
+          <input class="content" type="text" placeholder="" />
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: row; gap: 12px">
+        <div class="BeforeBtn" id="BeforeBtn">이전</div>
+        <div class="NextBtn" id="NextBtn">다음</div>
+      </div>
+    </div>
+    <script src="../static/js/EndingNotes/step05.js"></script>
+  </body>
+</html>
