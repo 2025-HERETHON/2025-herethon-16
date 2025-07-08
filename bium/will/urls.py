@@ -14,5 +14,6 @@ urlpatterns = [
     path('belongings_distribution/', views.belongings_distribution_api, name='belongings_distribution'),
     path('reset/', views.reset_will_data_api, name='reset_will_data'),
     path('progress_step/', views.progress_step_api, name='progress_step'),
+    path('complete/', views.complete_will_api, name='complete'),
     # path('download_pdf/', views.download_will_pdf, name='download_will_pdf'),
 ]

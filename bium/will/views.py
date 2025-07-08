@@ -1,20 +1,15 @@
-import json
 from django.http import JsonResponse
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from datetime import date, datetime
+from datetime import datetime
 # from weasyprint import HTML
 from .models import *
 
 def get_or_create_model(model, will):
     obj, created = model.objects.get_or_create(will=will)
     return obj
-
-def should_skip_save(data):
-    return data.get("should_save") is False
 
 @login_required
 @csrf_exempt
@@ -42,30 +37,31 @@ def basic_info_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
-        info = get_or_create_model(BasicInfo, will)
-        for field in [
-            "name", "gender", "phone_number", "birth_place",
-            "registered_domicile", "current_diseases", "past_diseases",
-            "constitution", "family_tree"
-        ]:
-            if field in data:
-                setattr(info, field, data[field])
+        defaults = {
+            "name": request.POST.get("name", ""),
+            "gender": request.POST.get("gender", ""),
+            "phone_number": request.POST.get("phone_number", ""),
+            "birth_place": request.POST.get("birth_place", ""),
+            "registered_domicile": request.POST.get("registered_domicile", ""),
+            "current_diseases": request.POST.get("current_diseases", ""),
+            "past_diseases": request.POST.get("past_diseases", ""),
+            "constitution": request.POST.get("constitution", ""),
+            "family_tree": request.POST.get("family_tree", ""),
+        }
 
-        if "birth_date" in data:
-            date_str = data["birth_date"]
+        birth_date_str = request.POST.get("birth_date")
+        if birth_date_str:
             try:
-                info.birth_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                defaults["birth_date"] = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
             except ValueError:
                 pass
 
+        info = get_or_create_model(BasicInfo, will)
+        for field, value in defaults.items():
+            setattr(info, field, value)
         info.save()
 
         if will.progress_step < 1:
@@ -95,18 +91,15 @@ def family_record_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
         record = get_or_create_model(FamilyRecord, will)
-        for field in ["mother_record", "father_record", "siblings_record"]:
-            if field in data:
-                setattr(record, field, data[field])
+        fields = ["mother_record", "father_record", "siblings_record"]
+        for field in fields:
+            value = request.POST.get(field)
+            if value is not None:
+                setattr(record, field, value)
         record.save()
 
         if will.progress_step < 2:
@@ -140,19 +133,16 @@ def about_me_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
         me = get_or_create_model(AboutMe, will)
-        for field in ["name_meaning", "nickname", "favorites", "preferences",
-                      "school_days", "work_and_social_life", "writings"]:
-            if field in data:
-                setattr(me, field, data[field])
+        fields = ["name_meaning", "nickname", "favorites", "preferences",
+                  "school_days", "work_and_social_life", "writings"]
+        for field in fields:
+            value = request.POST.get(field)
+            if value is not None:
+                setattr(me, field, value)
         me.save()
 
         if will.progress_step < 3:
@@ -191,27 +181,33 @@ def pet_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
-        pet = get_or_create_model(Pet, will)
-        for field in ["name", "species", "gender", "care", "feeding", "hospital",
-                      "care_notes", "funeral_wishes", "caretaker", "care_cost_plan", "substitute_plan"]:
-            if field in data:
-                setattr(pet, field, data[field])
+        defaults = {
+            "name": request.POST.get("name", ""),
+            "species": request.POST.get("species", ""),
+            "gender": request.POST.get("gender", ""),
+            "care": request.POST.get("care", ""),
+            "feeding": request.POST.get("feeding", ""),
+            "hospital": request.POST.get("hospital", ""),
+            "care_notes": request.POST.get("care_notes", ""),
+            "funeral_wishes": request.POST.get("funeral_wishes", ""),
+            "caretaker": request.POST.get("caretaker", ""),
+            "care_cost_plan": request.POST.get("care_cost_plan", ""),
+            "substitute_plan": request.POST.get("substitute_plan", ""),
+        }
 
-        if "birth_date" in data:
-            date_str = data["birth_date"]
+        birth_date_str = request.POST.get("birth_date")
+        if birth_date_str:
             try:
-                pet.birth_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                defaults["birth_date"] = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
             except ValueError:
                 pass
 
+        pet = get_or_create_model(Pet, will)
+        for field, value in defaults.items():
+            setattr(pet, field, value)
         pet.save()
 
         if will.progress_step < 4:
@@ -245,21 +241,22 @@ def funeral_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
+        defaults = {
+            "funeral_type": request.POST.get("funeral_type", ""),
+            "invited_guests": request.POST.get("invited_guests", ""),
+            "funeral_wishes": request.POST.get("funeral_wishes", ""),
+            "grave_type": request.POST.get("grave_type", ""),
+            "grave_preparation": request.POST.get("grave_preparation", ""),
+            "tombstone_inscription": request.POST.get("tombstone_inscription", ""),
+            "memorial_service_wishes": request.POST.get("memorial_service_wishes", ""),
+        }
+
         funeral = get_or_create_model(Funeral, will)
-        for field in [
-            "funeral_type", "invited_guests", "funeral_wishes", "grave_type",
-            "grave_preparation", "tombstone_inscription", "memorial_service_wishes"
-        ]:
-            if field in data:
-                setattr(funeral, field, data[field])
+        for field, value in defaults.items():
+            setattr(funeral, field, value)
         funeral.save()
 
         if will.progress_step < 5:
@@ -290,18 +287,19 @@ def medical_care_preparation_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
+        defaults = {
+            "terminal_illness": request.POST.get("terminal_illness", ""),
+            "hospice_care": request.POST.get("hospice_care", ""),
+            "life_sustaining_treatment": request.POST.get("life_sustaining_treatment", ""),
+            "organ_and_tissue_donation": request.POST.get("organ_and_tissue_donation", ""),
+        }
+
         medcare = get_or_create_model(MedicalCarePreparation, will)
-        for field in ["terminal_illness", "hospice_care", "life_sustaining_treatment", "organ_and_tissue_donation"]:
-            if field in data:
-                setattr(medcare, field, data[field])
+        for field, value in defaults.items():
+            setattr(medcare, field, value)
         medcare.save()
 
         if will.progress_step < 6:
@@ -337,21 +335,16 @@ def will_and_inheritance_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
         inheritance = get_or_create_model(WillAndInheritance, will)
-        for field in [
-            "message_to_parents", "message_to_friends", "will_text", "assets_and_distribution",
-            "credit_card_list", "pension_and_insurance", "debts", "will_storage_location"
-        ]:
-            if field in data:
-                setattr(inheritance, field, data[field])
+        fields = ["message_to_parents", "message_to_friends", "will_text", "assets_and_distribution",
+            "credit_card_list", "pension_and_insurance", "debts", "will_storage_location"]
+        for field in fields:
+            value = request.POST.get(field)
+            if value is not None:
+                setattr(inheritance, field, value)
         inheritance.save()
 
         if will.progress_step < 7:
@@ -378,17 +371,13 @@ def bucket_list_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
         bucket = get_or_create_model(BucketList, will)
-        if "bucket_list" in data:
-            bucket.bucket_list = data["bucket_list"]
+        bucket_list_value = request.POST.get("bucket_list")
+        if bucket_list_value is not None:
+            bucket.bucket_list = bucket_list_value
         bucket.save()
 
         if will.progress_step < 8:
@@ -419,18 +408,15 @@ def guardian_selection_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
         guardian = get_or_create_model(GuardianSelection, will)
-        for field in ["guardian_name", "guardian_contact", "emergency_contact"]:
-            if field in data:
-                setattr(guardian, field, data[field])
+        fields = ["guardian_name", "guardian_contact", "emergency_contact"]
+        for field in fields:
+            value = request.POST.get(field)
+            if value is not None:
+                setattr(guardian, field, value)
         guardian.save()
 
         if will.progress_step < 9:
@@ -460,18 +446,15 @@ def belongings_distribution_api(request):
             return JsonResponse({"success": True, "data": {}})
 
     elif request.method == "POST":
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"success": False, "message": "잘못된 JSON입니다."}, status=400)
-
-        if should_skip_save(data):
+        if request.POST.get("should_save") == "false":
             return JsonResponse({"success": True, "message": "저장 생략"})
 
         belongings = get_or_create_model(BelongingsDistribution, will)
-        for field in ["items_to_discard", "items_to_distribute"]:
-            if field in data:
-                setattr(belongings, field, data[field])
+        fields = ["items_to_discard", "items_to_distribute"]
+        for field in fields:
+            value = request.POST.get(field)
+            if value is not None:
+                setattr(belongings, field, value)
         belongings.save()
 
         if will.progress_step < 10:

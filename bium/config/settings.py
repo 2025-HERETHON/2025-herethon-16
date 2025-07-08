@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'will',
+    'memorial',
+    'checklist',
 ]
 
 MIDDLEWARE = [

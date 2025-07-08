@@ -1,0 +1,126 @@
+@import "font.css";
+
+body,
+input,
+button,
+.Logo,
+.Detail,
+.InputBox,
+.LoginBtn,
+.SignUpBtn {
+  font-family: Pretendard;
+  font-style: normal;
+}
+
+.Container {
+  position: absolute;
+  flex-direction: column;
+  width: 375px;
+  height: 812px;
+  background: #fff;
+  padding: 20px;
+}
+
+.Logo {
+  color: var(--Grayscale-33_basic, #333);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: 200px;
+}
+
+.Detail {
+  color: var(--Grayscale-88, #888);
+  margin-top: 5px;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%; /* 19.6px */
+}
+
+.Input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+  gap: 10px;
+}
+
+.InputBox {
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  align-self: stretch;
+  padding: 0 15px;
+
+  color: var(--Grayscale-88, #888);
+  border-radius: 12px;
+  border: 1px solid var(--Grayscale-DF, #dfdfdf);
+  background: var(--Grayscale-White, #fff);
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.Input-ErrorBox {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  padding: 0 15px;
+
+  border-radius: 12px;
+  border: 1px solid var(--Error, #ea0000);
+  background: var(--Grayscale-White, #fff);
+}
+
+.Btn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.LoginBtn {
+  display: flex;
+  height: 52px;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  align-self: stretch;
+  border-radius: 12px;
+  background: var(--Primary_dark, #333446);
+
+  color: var(--Grayscale-White, #fff);
+  text-align: center;
+
+  /* Button_SemiBold_18px */
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.SignUpBtn {
+  display: flex;
+  height: 52px;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  align-self: stretch;
+  border-radius: 12px;
+  border: 1.5px solid var(--Primary_dark, #333446);
+  background: var(--Grayscale-White, #fff);
+
+  color: var(--Primary_dark, #333446);
+  text-align: center;
+
+  /* Button_SemiBold_18px */
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+}
