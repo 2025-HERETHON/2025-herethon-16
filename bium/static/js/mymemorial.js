@@ -34,14 +34,12 @@ document.getElementById('profileInput').addEventListener('change', e=>{
 });
 
 // 내용 수정 토글
-const editToggle=document.getElementById('editToggle');
-const desc=document.getElementById('description');
-editToggle.addEventListener('click', ()=>{
-  const edit=desc.getAttribute('contenteditable')==='true';
-  desc.setAttribute('contenteditable', !edit);
-  editToggle.querySelector('span').textContent = edit? '내용 수정하기':'저장하기';
-  if(!edit){ desc.focus(); document.execCommand('selectAll',false,null); document.getSelection().collapseToEnd(); }
+// “내용 수정하기” 클릭 시 에디트 페이지로 이동
+const editToggle = document.getElementById('editToggle');
+editToggle.addEventListener('click', () => {
+  window.location.href = 'mymemorial-edit.html';
 });
+
 
 // 대리인 지정하기
 const delegateBtn = document.getElementById('delegateBtn');
