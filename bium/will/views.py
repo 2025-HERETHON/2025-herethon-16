@@ -1,10 +1,9 @@
 from django.http import JsonResponse
-from django.template.loader import render_to_string
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-# from weasyprint import HTML
 from .models import *
 
 def get_or_create_model(model, will):
@@ -505,27 +504,35 @@ def complete_will_api(request):
     will.save()
     return JsonResponse({"success": True, "message": "유언장 작성 완료"})
 
-# @login_required
-# def download_will_pdf(request):
-#     user = request.user
-#     will, _ = Will.objects.get_or_create(user=user)
-#
-#     context = {
-#         "basic_info": BasicInfo.objects.filter(will=will).first(),
-#         "family_record": FamilyRecord.objects.filter(will=will).first(),
-#         "about_me": AboutMe.objects.filter(will=will).first(),
-#         "pet": Pet.objects.filter(will=will).first(),
-#         "funeral": Funeral.objects.filter(will=will).first(),
-#         "medical_care_preparation": MedicalCarePreparation.objects.filter(will=will).first(),
-#         "will_and_inheritance": WillAndInheritance.objects.filter(will=will).first(),
-#         "bucket_list": BucketList.objects.filter(will=will).first(),
-#         "guardian_selection": GuardianSelection.objects.filter(will=will).first(),
-#         "belongings_distribution": BelongingsDistribution.objects.filter(will=will).first(),
-#     }
-#
-#     html_string = render_to_string('will_pdf_template.html', context)
-#     pdf_file = HTML(string=html_string).write_pdf()
-#
-#     response = HttpResponse(pdf_file, content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename="will.pdf"'
-#     return response
+def step01_view(request):
+    return render(request, 'step01.html')
+
+def step02_view(request):
+    return render(request, 'step02.html')
+
+def step03_view(request):
+    return render(request, 'step03.html')
+
+def step04_view(request):
+    return render(request, 'step04.html')
+
+def step05_view(request):
+    return render(request, 'step05.html')
+
+def step06_view(request):
+    return render(request, 'step06.html')
+
+def step07_view(request):
+    return render(request, 'step07.html')
+
+def step08_view(request):
+    return render(request, 'step08.html')
+
+def step09_view(request):
+    return render(request, 'step09.html')
+
+def step10_view(request):
+    return render(request, 'step10.html')
+
+def will_submit_view(request):
+    return render(request, 'will_submit.html')

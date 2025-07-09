@@ -1,7 +1,7 @@
 import re
 import datetime
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
@@ -86,3 +86,6 @@ def check_login_api(request):
 
 def login_view(request):
     return render(request, 'login.html')
+
+def signup_view(request):
+    return render(request, 'signup.html')
