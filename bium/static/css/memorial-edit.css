@@ -197,3 +197,67 @@ body {
   font-weight: 600;
   cursor: pointer;
 }
+
+/* memorial-edit.css 맨 아래에 추가해주세요 */
+
+/* 1) 모든 텍스트·날짜 입력과 textarea 기본 폰트를 Pretendard 로 */
+.field input[type="text"],
+.field input[type="date"],
+.field textarea {
+  font-family: Pretendard, sans-serif;
+}
+
+/* 2) placeholder 에도 Pretendard 적용 */
+.field input::placeholder,
+.field textarea::placeholder {
+  font-family: Pretendard, sans-serif;
+  color: #888888; /* 필요 시 색상 조정 */
+}
+
+/* 3) 날짜 입력창(브라우저 기본 스타일) 텍스트 크기·색 보정 (선택) */
+.field input[type="date"] {
+  font-size: 14px;
+  color: var(--gray-33);
+}
+
+/* 4) “추모공간 소개” textarea 스타일 (회색 박스 + 라운드) */
+#description {
+  background-color: var(--gray-ED);
+  border: none;                
+  border-radius: 12px;           
+  padding: 16px;                  
+  min-height: 120px;               
+  resize: none;                
+  line-height: 1.6;                
+  font-size: 14px;                  
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 추모공간 소개 박스 (description-box) */
+.description-box {
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+
+  width: 100%;
+  height: auto;          
+
+  padding: 12px 16px;     /* 위/아래 12px, 좌/우 16px */
+  background: var(--white);
+  border-radius: 8px;
+
+  outline: 1px solid #DFDFDF;
+  outline-offset: -1px;
+}
+
+/* 내부 텍스트 영역 */
+.description-text {
+  flex: 1 1 0;
+  color: #888888;
+  font-size: 14px;
+  font-family: Pretendard, sans-serif;
+  font-weight: 500;
+  line-height: 19.6px;
+  word-wrap: break-word;
+}

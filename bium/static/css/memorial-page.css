@@ -50,15 +50,18 @@ body {
   3. 상단 바 (Topbar)
 ————————————————————————————————————*/
 .topbar {
+  position: relative;       /* 아이콘 좌우 절대배치 위해 */
   display: inline-flex;
+  justify-content: center;  /* 제목을 가운데로 */
   align-items: center;
-  justify-content: space-between;
+  width: 100%;
   padding: 16px 20px;
   background-color: var(--white);
-  width: 100%;
 }
 
 .icon-menu {
+  position: absolute;
+  left: 20px;
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -69,14 +72,14 @@ body {
   font-size: 18px;
   font-weight: 600;
   color: var(--gray-33);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.spacer {
+.icon-search {
+  position: absolute;
+  right: 20px;
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 
 /*————————————————————————————————————
@@ -84,7 +87,7 @@ body {
 ————————————————————————————————————*/
 main {
   padding: 20px;
-  padding-top: 56px;  /* topbar 높이 만큼 여유 */
+  padding-top: 20px;  /* topbar 높이 만큼 여유 */
   padding-bottom: 56px;
 }
 
@@ -102,9 +105,8 @@ main {
   margin-bottom: var(--space-sm);
 }
 
-/* H2 위에만 20px 추가로 띄우기 */
 .my-section .section-title {
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 /*————————————————————————————————————
@@ -113,34 +115,18 @@ main {
 .card.my-space {
   width: 100%;
   max-width: 335px;
-
   display: inline-flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: var(--space-sm);       /* 12px */
-
-  padding: 20px;              /* Figma: 20px */
+  gap: var(--space-sm);
+  padding: 20px;
   border-radius: 12px;
   outline: 1px solid var(--gray-ED);
   outline-offset: -1px;
-
-  /* 배경 레이어 분리 선언
-  background-color: var(--gray-F4);               /* 맨 밑 회색 */
-  /* background-image: */
-    /* 위→아래 투명→흰색 gradient */
-    /* linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,1) 80%), */
-    /* 단색 primary-normal */
-    /* linear-gradient(var(--primary-normal), var(--primary-normal));
-  background-repeat: no-repeat;
-  background-size: cover; */
   background: url("../images/assets/background-combined.png") no-repeat center center;
   background-size: cover;
-
   cursor: pointer;
   text-decoration: none;
-
-  margin: 20px 0 40px;        /* 위 20px, 아래 40px */
+  margin: 20px 0 40px;
 }
 
 .profile-pic {
@@ -153,19 +139,14 @@ main {
 }
 
 .card.my-space .info {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 4px;                   /* 4px */
+  gap: 4px;
 }
 
 .card.my-space .name {
   font-size: 14px;
   font-weight: 600;
-  line-height: 19.6px;
-  color: var(--gray-33);
 }
 
 .card.my-space .desc {
@@ -187,22 +168,17 @@ main {
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
-
   width: 100%;
   max-width: 335px;
   height: 56px;
   padding: 0 20px;
-
   background-color: var(--white);
   border: 1px solid var(--primary-light);
   border-radius: 12px;
-  outline: none;
-
   font-size: 16px;
   font-weight: 600;
   color: var(--gray-33);
   cursor: pointer;
-
   margin: 0 0 40px;
 }
 
@@ -226,63 +202,44 @@ main {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-
   margin-top: 40px;
 }
 
 .card.other-card {
   width: 100%;
   max-width: 335px;
-
   display: inline-flex;
   justify-content: flex-start;
   align-items: flex-end;
   gap: 10px;
-
   padding: 32px 12px 12px;
   border-radius: 12px;
   outline: 1px solid var(--gray-ED);
   outline-offset: -1px;
-
-  /* 배경 레이어 분리 선언 */
-  /* background-color: var(--gray-F4);
-  background-image:
-    linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,1) 80%),
-    linear-gradient(var(--primary-normal), var(--primary-normal));
-  background-repeat: no-repeat;
-  background-size: cover; */
-
-  cursor: pointer;
-  text-decoration: none;
   background: url("../images/assets/background-combined.png") no-repeat center center;
   background-size: cover;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .card.other-card .avatar {
-  flex-shrink: 0;
   width: 88px;
   height: 88px;
   border-radius: 50%;
   background: var(--gray-F4);
   border: 1.5px solid var(--white);
   object-fit: cover;
-  margin-top: 0;
 }
 
 .card.other-card .info {
-  flex: 1 1 0;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   gap: 4px;
 }
 
 .card.other-card .name {
   font-size: 14px;
   font-weight: 600;
-  line-height: 19.6px;
-  color: var(--gray-33);
 }
 
 .card.other-card .desc {
@@ -301,4 +258,109 @@ main {
   font-size: 12px;
   font-weight: 400;
   color: var(--gray-56);
+}
+/*─────────────────────────────────────────────*/
+/* 9. 사이드바 */
+.sidebar {
+  position: fixed;
+  top: 0; left: -80%;
+  width: 80%; max-width: 300px;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  transition: left 0.3s;
+  padding: var(--space-md);
+  z-index: 1000;
+}
+.sidebar.open {
+  left: 0;
+}
+.sidebar .icon-close {
+  display: block;
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/*─────────────────────────────────────────────*/
+/* 9-1. 섹션 컨테이너 (fieldset 스타일) */
+.sidebar-section {
+  position: relative;
+  border: 1px solid var(--gray-ED);
+  border-radius: 8px;
+  background: var(--white);
+  /* 상단 패딩에 제목 half 높이(≈8px) 추가 */
+  padding: calc(var(--space-xs) + 12px) var(--space-md) var(--space-md);
+  margin-top: 20px;
+}
+.sidebar-section.active {
+  border-color: var(--primary-normal);
+}
+
+/* 9-2. 제목(legend처럼) */
+.sidebar-section .section-title {
+  position: absolute;
+  top: -10px;               /* 컨테이너 바깥으로 */
+  left: var(--space-md);
+  background: var(--white);
+  padding: 0 var(--space-xs);
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+  border: none;             /* 기존 작은 테두리 제거 */
+}
+
+/*─────────────────────────────────────────────*/
+/* 9-3. 목록 초기화 & 간격 */
+.sidebar-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sidebar-section ul li + li {
+  margin-top: var(--space-xs);
+}
+
+/* 9-4. 대시 마커 */
+.sidebar-section ul li {
+  position: relative;
+  padding-left: 14px;
+}
+.sidebar-section ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--gray-33);
+}
+
+/* 9-5. 링크 스타일 (테두리 완전 제거) */
+.sidebar-section ul li a {
+  display: block;           /* 텍스트 폭만큼 */
+  padding: 4px 0;           /* 위·아래 여백만 */
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-33);    /* 항상 검정 */
+  text-decoration: none;
+  border: none;             /* 작은 테두리 제거 */
+}
+
+/* 링크 호버 효과 */
+.sidebar-section ul li a:hover {
+  color: var(--primary-normal);
+}
+
+/*─────────────────────────────────────────────*/
+/* 10. 메인 프레임 블러 처리 (기존 그대로) */
+.main-frame {
+  position: relative;
+}
+.main-frame.blurred::after {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.2);
+  pointer-events: none;
+  z-index: 500;
 }

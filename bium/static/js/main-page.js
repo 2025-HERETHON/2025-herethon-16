@@ -1,5 +1,14 @@
 // script.js
 
+// ── 사이드바 메뉴 링크 클릭 시 닫기 ──
+document.querySelectorAll('.sidebar-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    mainFrame.classList.remove('blurred');
+  });
+});
+
+
 // ── 사이드바 토글 ──
 const openBtn   = document.getElementById('openSidebar');
 const closeBtn  = document.getElementById('closeSidebar');
@@ -14,6 +23,14 @@ closeBtn.addEventListener('click', () => {
   sidebar.classList.remove('open');
   mainFrame.classList.remove('blurred');
 });
+
+const myspaceBtn = document.querySelector('.icon-myspace');
+if (myspaceBtn) {
+  myspaceBtn.addEventListener('click', () => {
+    // 원하는 경로로 변경하세요
+    window.location.href = '../templates/mymemorial.html';
+  });
+}
 
 // ── FAQ 토글 & 아이콘 교체 ──
 document.querySelectorAll('.faq-item').forEach(item => {
@@ -49,6 +66,19 @@ document.querySelectorAll('.item').forEach(label => {
     const total = boxes.length;
     const checked = [...boxes].filter(cb => cb.checked).length;
     countE.textContent = `${checked}/${total}`;
+  });
+});
+
+// main-page.js 맨 아래에
+window.addEventListener('DOMContentLoaded', () => {
+  const current = window.location.pathname.split('/').pop();
+  document.querySelectorAll('.sidebar-section').forEach(sec => {
+    const hrefs = Array.from(sec.querySelectorAll('a')).map(a => a.href.split('/').pop());
+    if (hrefs.includes(current)) {
+      sec.classList.add('active');
+    } else {
+      sec.classList.remove('active');
+    }
   });
 });
 
