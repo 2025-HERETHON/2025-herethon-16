@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
@@ -12,89 +12,64 @@ def get_or_create_model(model, will):
 
 @login_required
 @csrf_exempt
-def basic_info_api(request):
+def basic_info_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    info = BasicInfo.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            info = BasicInfo.objects.get(will=will)
-            data = {
-                "name": info.name,
-                "birth_date": info.birth_date.isoformat() if info.birth_date else None,
-                "gender": info.gender,
-                "phone_number": info.phone_number,
-                "birth_place": info.birth_place,
-                "registered_domicile": info.registered_domicile,
-                "current_diseases": info.current_diseases,
-                "past_diseases": info.past_diseases,
-                "constitution": info.constitution,
-                "family_tree": info.family_tree,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except BasicInfo.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step02')
 
-        defaults = {
-            "name": request.POST.get("name", ""),
-            "gender": request.POST.get("gender", ""),
-            "phone_number": request.POST.get("phone_number", ""),
-            "birth_place": request.POST.get("birth_place", ""),
-            "registered_domicile": request.POST.get("registered_domicile", ""),
-            "current_diseases": request.POST.get("current_diseases", ""),
-            "past_diseases": request.POST.get("past_diseases", ""),
-            "constitution": request.POST.get("constitution", ""),
-            "family_tree": request.POST.get("family_tree", ""),
-        }
+        fields = [
+            "name", "gender", "phone_number", "birth_place", "registered_domicile",
+            "current_diseases", "past_diseases", "constitution", "family_tree"
+        ]
+
+        if not info:
+            info = BasicInfo(will=will)
+
+        for field in fields:
+            value = request.POST.get(field, "")
+            setattr(info, field, value)
 
         birth_date_str = request.POST.get("birth_date")
         if birth_date_str:
             try:
-                defaults["birth_date"] = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
+                info.birth_date = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
             except ValueError:
-                pass
+                context = {
+                    "info": info,
+                    "error_message": "생년월일 형식이 올바르지 않습니다. YYYY-MM-DD 형식으로 입력해 주세요."
+                }
+                return render(request, 'step01.html', context)
 
-        info = get_or_create_model(BasicInfo, will)
-        for field, value in defaults.items():
-            setattr(info, field, value)
         info.save()
 
         if will.progress_step < 1:
             will.progress_step = 1
             will.save()
 
-        return JsonResponse({"success": True, "message": "1단계 저장 완료"})
+        return redirect('step02')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"info": info}
+    return render(request, 'step01.html', context)
 
 @login_required
 @csrf_exempt
-def family_record_api(request):
+def family_record_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    record = FamilyRecord.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            record = FamilyRecord.objects.get(will=will)
-            data = {
-                "mother_record": record.mother_record,
-                "father_record": record.father_record,
-                "siblings_record": record.siblings_record,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except FamilyRecord.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step03')
 
-        record = get_or_create_model(FamilyRecord, will)
         fields = ["mother_record", "father_record", "siblings_record"]
+
+        if not record:
+            record = FamilyRecord(will=will)
         for field in fields:
             value = request.POST.get(field)
             if value is not None:
@@ -105,39 +80,29 @@ def family_record_api(request):
             will.progress_step = 2
             will.save()
 
-        return JsonResponse({"success": True, "message": "2단계 저장 완료"})
+        return redirect('step03')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"record": record}
+    return render(request, 'step02.html', context)
 
 @login_required
 @csrf_exempt
-def about_me_api(request):
+def about_me_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    me = AboutMe.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            record = AboutMe.objects.get(will=will)
-            data = {
-                "name_meaning": record.name_meaning,
-                "nickname": record.nickname,
-                "favorites": record.favorites,
-                "preferences": record.preferences,
-                "school_days": record.school_days,
-                "work_and_social_life": record.work_and_social_life,
-                "writings": record.writings,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except AboutMe.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step04')
 
-        me = get_or_create_model(AboutMe, will)
-        fields = ["name_meaning", "nickname", "favorites", "preferences",
-                  "school_days", "work_and_social_life", "writings"]
+        fields = [
+            "name_meaning", "nickname", "favorites", "preferences",
+            "school_days", "work_and_social_life", "writings"
+        ]
+
+        if not me:
+            me = AboutMe(will=will)
         for field in fields:
             value = request.POST.get(field)
             if value is not None:
@@ -148,321 +113,254 @@ def about_me_api(request):
             will.progress_step = 3
             will.save()
 
-        return JsonResponse({"success": True, "message": "3단계 저장 완료"})
+        return redirect('step04')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"me": me}
+    return render(request, 'step03.html', context)
 
 @login_required
 @csrf_exempt
-def pet_api(request):
+def pet_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    pet = Pet.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            pet = Pet.objects.get(will=will)
-            data = {
-                "name": pet.name,
-                "species": pet.species,
-                "birth_date": pet.birth_date.isoformat() if pet.birth_date else None,
-                "gender": pet.gender,
-                "care": pet.care,
-                "feeding": pet.feeding,
-                "hospital": pet.hospital,
-                "care_notes": pet.care_notes,
-                "funeral_wishes": pet.funeral_wishes,
-                "caretaker": pet.caretaker,
-                "care_cost_plan": pet.care_cost_plan,
-                "substitute_plan": pet.substitute_plan,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except Pet.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step05')
 
-        defaults = {
-            "name": request.POST.get("name", ""),
-            "species": request.POST.get("species", ""),
-            "gender": request.POST.get("gender", ""),
-            "care": request.POST.get("care", ""),
-            "feeding": request.POST.get("feeding", ""),
-            "hospital": request.POST.get("hospital", ""),
-            "care_notes": request.POST.get("care_notes", ""),
-            "funeral_wishes": request.POST.get("funeral_wishes", ""),
-            "caretaker": request.POST.get("caretaker", ""),
-            "care_cost_plan": request.POST.get("care_cost_plan", ""),
-            "substitute_plan": request.POST.get("substitute_plan", ""),
-        }
+        fields = [
+            "name", "species", "gender", "care", "feeding", "hospital",
+            "care_notes", "funeral_wishes", "caretaker", "care_cost_plan",
+            "substitute_plan"
+        ]
+
+        if not pet:
+            pet = Pet(will=will)
+
+        for field in fields:
+            value = request.POST.get(field, "")
+            setattr(pet, field, value)
 
         birth_date_str = request.POST.get("birth_date")
         if birth_date_str:
             try:
-                defaults["birth_date"] = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
+                pet.birth_date = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
             except ValueError:
-                pass
+                context = {
+                    "pet": pet,
+                    "error_message": "생년월일 형식이 올바르지 않습니다. YYYY-MM-DD 형식으로 입력해 주세요."
+                }
+                return render(request, 'step04.html', context)
 
-        pet = get_or_create_model(Pet, will)
-        for field, value in defaults.items():
-            setattr(pet, field, value)
         pet.save()
 
         if will.progress_step < 4:
             will.progress_step = 4
             will.save()
 
-        return JsonResponse({"success": True, "message": "4단계 저장 완료"})
+        return redirect('step05')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"pet": pet}
+    return render(request, 'step04.html', context)
 
 @login_required
 @csrf_exempt
-def funeral_api(request):
+def funeral_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    funeral = Funeral.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            funeral = Funeral.objects.get(will=will)
-            data = {
-                "funeral_type": funeral.funeral_type,
-                "invited_guests": funeral.invited_guests,
-                "funeral_wishes": funeral.funeral_wishes,
-                "grave_type": funeral.grave_type,
-                "grave_preparation": funeral.grave_preparation,
-                "tombstone_inscription": funeral.tombstone_inscription,
-                "memorial_service_wishes": funeral.memorial_service_wishes,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except Funeral.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step06')
 
-        defaults = {
-            "funeral_type": request.POST.get("funeral_type", ""),
-            "invited_guests": request.POST.get("invited_guests", ""),
-            "funeral_wishes": request.POST.get("funeral_wishes", ""),
-            "grave_type": request.POST.get("grave_type", ""),
-            "grave_preparation": request.POST.get("grave_preparation", ""),
-            "tombstone_inscription": request.POST.get("tombstone_inscription", ""),
-            "memorial_service_wishes": request.POST.get("memorial_service_wishes", ""),
-        }
+        fields = [
+            "funeral_type", "invited_guests", "funeral_wishes",
+            "grave_type", "grave_preparation", "tombstone_inscription",
+            "memorial_service_wishes"
+        ]
 
-        funeral = get_or_create_model(Funeral, will)
-        for field, value in defaults.items():
+        if not funeral:
+            funeral = Funeral(will=will)
+
+        for field in fields:
+            value = request.POST.get(field, "")
             setattr(funeral, field, value)
+
         funeral.save()
 
         if will.progress_step < 5:
             will.progress_step = 5
             will.save()
 
-        return JsonResponse({"success": True, "message": "5단계 저장 완료"})
+        return redirect('step06')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"funeral": funeral}
+    return render(request, 'step05.html', context)
 
 @login_required
 @csrf_exempt
-def medical_care_preparation_api(request):
+def medical_care_preparation_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    medcare = MedicalCarePreparation.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            medcare = MedicalCarePreparation.objects.get(will=will)
-            data = {
-                "terminal_illness": medcare.terminal_illness,
-                "hospice_care": medcare.hospice_care,
-                "life_sustaining_treatment": medcare.life_sustaining_treatment,
-                "organ_and_tissue_donation": medcare.organ_and_tissue_donation,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except MedicalCarePreparation.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step06')
 
-        defaults = {
-            "terminal_illness": request.POST.get("terminal_illness", ""),
-            "hospice_care": request.POST.get("hospice_care", ""),
-            "life_sustaining_treatment": request.POST.get("life_sustaining_treatment", ""),
-            "organ_and_tissue_donation": request.POST.get("organ_and_tissue_donation", ""),
-        }
+        fields = [
+            "terminal_illness",
+            "hospice_care",
+            "life_sustaining_treatment",
+            "organ_and_tissue_donation",
+        ]
 
-        medcare = get_or_create_model(MedicalCarePreparation, will)
-        for field, value in defaults.items():
+        if not medcare:
+            medcare = MedicalCarePreparation(will=will)
+
+        for field in fields:
+            value = request.POST.get(field, "")
             setattr(medcare, field, value)
+
         medcare.save()
 
         if will.progress_step < 6:
             will.progress_step = 6
             will.save()
 
-        return JsonResponse({"success": True, "message": "6단계 저장 완료"})
+        return redirect('step07')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"medcare": medcare}
+    return render(request, 'step06.html', context)
 
 
 @login_required
 @csrf_exempt
-def will_and_inheritance_api(request):
+def will_and_inheritance_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    inheritance = WillAndInheritance.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            inheritance = WillAndInheritance.objects.get(will=will)
-            data = {
-                "message_to_parents": inheritance.message_to_parents,
-                "message_to_friends": inheritance.message_to_friends,
-                "will_text": inheritance.will_text,
-                "assets_and_distribution": inheritance.assets_and_distribution,
-                "credit_card_list": inheritance.credit_card_list,
-                "pension_and_insurance": inheritance.pension_and_insurance,
-                "debts": inheritance.debts,
-                "will_storage_location": inheritance.will_storage_location,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except WillAndInheritance.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step07')
 
-        inheritance = get_or_create_model(WillAndInheritance, will)
-        fields = ["message_to_parents", "message_to_friends", "will_text", "assets_and_distribution",
-            "credit_card_list", "pension_and_insurance", "debts", "will_storage_location"]
+        fields = [
+            "message_to_parents", "message_to_friends", "will_text", "assets_and_distribution",
+            "credit_card_list", "pension_and_insurance", "debts", "will_storage_location"
+        ]
+
+        if not inheritance:
+            inheritance = WillAndInheritance(will=will)
+
         for field in fields:
-            value = request.POST.get(field)
-            if value is not None:
-                setattr(inheritance, field, value)
+            value = request.POST.get(field, "")
+            setattr(inheritance, field, value)
+
         inheritance.save()
 
         if will.progress_step < 7:
             will.progress_step = 7
             will.save()
 
-        return JsonResponse({"success": True, "message": "7단계 저장 완료"})
+        return redirect('step07')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"inheritance": inheritance}
+    return render(request, 'step07.html', context)
 
 
 @login_required
 @csrf_exempt
-def bucket_list_api(request):
+def bucket_list_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    bucket = BucketList.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            bucket = BucketList.objects.get(will=will)
-            data = {"bucket_list": bucket.bucket_list}
-            return JsonResponse({"success": True, "data": data})
-        except BucketList.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step08')
 
-        bucket = get_or_create_model(BucketList, will)
-        bucket_list_value = request.POST.get("bucket_list")
-        if bucket_list_value is not None:
-            bucket.bucket_list = bucket_list_value
+        if not bucket:
+            bucket = BucketList(will=will)
+
+        bucket_list_value = request.POST.get("bucket_list", "")
+        bucket.bucket_list = bucket_list_value
         bucket.save()
 
         if will.progress_step < 8:
             will.progress_step = 8
             will.save()
 
-        return JsonResponse({"success": True, "message": "8단계 저장 완료"})
+        return redirect('step08')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"bucket": bucket}
+    return render(request, 'step08.html', context)
 
 
 @login_required
 @csrf_exempt
-def guardian_selection_api(request):
+def guardian_selection_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    guardian = GuardianSelection.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            guardian = GuardianSelection.objects.get(will=will)
-            data = {
-                "guardian_name": guardian.guardian_name,
-                "guardian_contact": guardian.guardian_contact,
-                "emergency_contact": guardian.emergency_contact,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except GuardianSelection.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step09')
 
-        guardian = get_or_create_model(GuardianSelection, will)
+        if not guardian:
+            guardian = GuardianSelection(will=will)
+
         fields = ["guardian_name", "guardian_contact", "emergency_contact"]
+
         for field in fields:
-            value = request.POST.get(field)
-            if value is not None:
-                setattr(guardian, field, value)
+            value = request.POST.get(field, "")
+            setattr(guardian, field, value)
+
         guardian.save()
 
         if will.progress_step < 9:
             will.progress_step = 9
             will.save()
 
-        return JsonResponse({"success": True, "message": "9단계 저장 완료"})
+        return redirect('step09')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"guardian": guardian}
+    return render(request, 'step09.html', context)
 
 
 @login_required
 @csrf_exempt
-def belongings_distribution_api(request):
+def belongings_distribution_view(request):
     user = request.user
     will, _ = Will.objects.get_or_create(user=user)
+    belongings = BelongingsDistribution.objects.filter(will=will).first()
 
-    if request.method == "GET":
-        try:
-            belongings = BelongingsDistribution.objects.get(will=will)
-            data = {
-                "items_to_discard": belongings.items_to_discard,
-                "items_to_distribute": belongings.items_to_distribute,
-            }
-            return JsonResponse({"success": True, "data": data})
-        except BelongingsDistribution.DoesNotExist:
-            return JsonResponse({"success": True, "data": {}})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return JsonResponse({"success": True, "message": "저장 생략"})
+            return redirect('step10')
 
-        belongings = get_or_create_model(BelongingsDistribution, will)
+        if not belongings:
+            belongings = BelongingsDistribution(will=will)
+
         fields = ["items_to_discard", "items_to_distribute"]
+
         for field in fields:
-            value = request.POST.get(field)
-            if value is not None:
-                setattr(belongings, field, value)
+            value = request.POST.get(field, "")
+            setattr(belongings, field, value)
+
         belongings.save()
 
         if will.progress_step < 10:
             will.progress_step = 10
             will.save()
 
-        return JsonResponse({"success": True, "message": "10단계 저장 완료"})
+        return redirect('step10')
 
-    return JsonResponse({"success": False, "message": "허용되지 않는 요청 방식입니다."}, status=405)
+    context = {"belongings": belongings}
+    return render(request, 'step10.html', context)
 
 @login_required
 @csrf_exempt
@@ -503,36 +401,6 @@ def complete_will_api(request):
     will.is_completed = True
     will.save()
     return JsonResponse({"success": True, "message": "유언장 작성 완료"})
-
-def step01_view(request):
-    return render(request, 'step01.html')
-
-def step02_view(request):
-    return render(request, 'step02.html')
-
-def step03_view(request):
-    return render(request, 'step03.html')
-
-def step04_view(request):
-    return render(request, 'step04.html')
-
-def step05_view(request):
-    return render(request, 'step05.html')
-
-def step06_view(request):
-    return render(request, 'step06.html')
-
-def step07_view(request):
-    return render(request, 'step07.html')
-
-def step08_view(request):
-    return render(request, 'step08.html')
-
-def step09_view(request):
-    return render(request, 'step09.html')
-
-def step10_view(request):
-    return render(request, 'step10.html')
 
 def will_submit_view(request):
     return render(request, 'will_submit.html')
