@@ -23,8 +23,8 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path('api/will/', include('will.urls')),    # API
     path('will/', include('will.urls')),        # HTML
-    path('api/memorial/',include('memorial.urls')),
-    path('api/checklist/',include('checklist.urls')),
+    path('memorial/',include('memorial.urls')),
+    path('checklist/',include('checklist.urls')),
     path('login/', login_view, name='login_page'),
     path('signup/', signup_view, name='signup_page'),
 ]

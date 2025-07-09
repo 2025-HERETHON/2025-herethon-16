@@ -9,13 +9,14 @@ from django.utils import timezone
 from django.db.models import Q
 import uuid
 
+from django.shortcuts import render, redirect, get_object_or_404
+
 # 공개 추모공간 리스트 확인 기능 + 검색 기능
-@csrf_exempt
 @require_http_methods(["GET"])
-def public_memorial_list_api(request):
+def public_memorial_list_view(request):
     query = request.GET.get('q', '')
     
-    spaces = MemorialSpace.objects.filter(is_public=True).order_by('-created_at')
+    spaces = MemorialSpace.objects.filter(is_public=True)
     
     if query:
         spaces = spaces.filter(
@@ -23,76 +24,30 @@ def public_memorial_list_api(request):
         )
 
     spaces = spaces.order_by('-created_at')
-    
-    data = []
-    for space in spaces:
-        data.append({
-            "id": space.id,
-            "name": space.name,
-            "description": space.description,
-            "birth_date": space.birth_date.isoformat() if space.birth_date else None,
-            "death_date": space.death_date.isoformat() if space.death_date else None,
-            "profile_image": space.profile_image.url if space.profile_image else None,
-            "background_image": space.background_image.url if space.background_image else None,
-            "created_at": space.created_at.isoformat()
-        })
-    return JsonResponse({"success": True, "memorials": data})
+
+    return render(request, "memorial/public_list.html", {"spaces": spaces, "query": query})
+
+
 
 #단일 추모공간 조회
-@csrf_exempt
 @require_http_methods(["GET"])
-def memorial_list_detail_api(request, memorial_id):
+def memorial_detail_view(request, memorial_id):
     try:
         space = MemorialSpace.objects.get(id=memorial_id)
     except MemorialSpace.DoesNotExist:
         return JsonResponse({"success": False, "message": "해당 추모공간이 존재하지 않습니다."}, status=404)
 
-    data = {
-        "id": space.id,
-        "name": space.name,
-        "description": space.description,
-        "birth_date": space.birth_date.isoformat() if space.birth_date else None,
-        "death_date": space.death_date.isoformat() if space.death_date else None,
-        "profile_image": space.profile_image.url if space.profile_image else None,
-        "background_image": space.background_image.url if space.background_image else None,
-        "created_at": space.created_at.isoformat(),
-        "is_public": space.is_public,
-        "creator_username": space.creator.username,
-    }
-
-    return JsonResponse({"success": True, "memorial": data}, status=200)
+    #space = get_object_or_404(MemorialSpace, id=memorial_id)
+    return render(request, "memorial/detail.html", {"space": space})
 
 
 
 # 내 추모공간 리스트 확인 ／ 작성（생성） 기능
-@csrf_exempt
-@require_http_methods(["GET", "POST"])
-def my_memorial_space_api(request):
-    
-    # 비로그인 시 401 
-    if not request.user.is_authenticated:
-        return JsonResponse({"success": False, "message": "로그인이 필요합니다."}, status=401)
-
+@login_required
+def my_memorial_space_view(request):
     user = request.user
 
-    if request.method == "GET":
-        # 내 추모공간 리스트 확인
-        spaces = MemorialSpace.objects.filter(creator=user)
-        data = []
-        for space in spaces:
-            data.append({
-                "id": space.id,
-                "name": space.name,
-                "description": space.description,
-                "birth_date": space.birth_date.isoformat() if space.birth_date else None,
-                "death_date": space.death_date.isoformat() if space.death_date else None,
-                "profile_image": space.profile_image.url if space.profile_image else None,
-                "background_image": space.background_image.url if space.background_image else None,
-                "created_at": space.created_at.isoformat()
-            })
-        return JsonResponse({"success": True, "memorials": data})
-
-    elif request.method == "POST":
+    if request.method == "POST":
         # 추모공간 생성
         name = request.POST.get("name")
         description = request.POST.get("description")
@@ -106,7 +61,10 @@ def my_memorial_space_api(request):
         death_date = None
 
         if not name or not description:
-            return JsonResponse({"success": False, "message": "이름과 설명은 필수입니다."}, status=400)
+            return render(request, "memorial/my_list.html", {
+                "spaces": MemorialSpace.objects.filter(creator=user),
+                "error": "이름과 설명은 필수입니다."
+            })
 
         try:
             if birth_date_str:
@@ -114,199 +72,192 @@ def my_memorial_space_api(request):
             if death_date_str:
                 death_date = datetime.strptime(death_date_str, "%Y-%m-%d").date()
         except ValueError:
-            return JsonResponse({"success": False, "message": "날짜 형식이 올바르지 않습니다. YYYY-MM-DD로 보내주세요."}, status=400)
+            return render(request, "memorial/my_list.html", {
+                "spaces": MemorialSpace.objects.filter(creator=user),
+                "error": "날짜 형식이 올바르지 않습니다. YYYY-MM-DD로 입력해주세요."
+            })
 
-        memorial = MemorialSpace.objects.create(
+        MemorialSpace.objects.create(
             creator=user,
             name=name,
             description=description,
-            birth_date=birth_date or None,
-            death_date=death_date or None,
+            birth_date=birth_date,
+            death_date=death_date,
             profile_image=profile_image,
             background_image=background_image,
             is_public=is_public,
         )
 
-        return JsonResponse({
-            "success": True,
-            "message": "추모공간이 생성되었습니다.",
-            "memorial_id": memorial.id
-        }, status=201)
+        return redirect("my_memorial_space_view")
+
+    # GET 요청 시: 내 추모공간 목록 보기
+    spaces = MemorialSpace.objects.filter(creator=user).order_by("-created_at")
+    return render(request, "memorial/my_list.html", {"spaces": spaces})
 
 
-# 내 추모공간 수정 ／ 삭제 기능
-@csrf_exempt
-@require_http_methods(["PUT", "DELETE"])
-def update_delete_my_memorial_space_api(request, memorial_id):
-    if not request.user.is_authenticated:
-        return JsonResponse({"success": False, "message": "로그인이 필요합니다."}, status=401)
+# 내 추모공간 수정 기능
+@login_required
+def memorial_edit_view(request, memorial_id):
+    space = get_object_or_404(MemorialSpace, id=memorial_id, creator=request.user)
 
-    try:
-        space = MemorialSpace.objects.get(id=memorial_id)
-    except MemorialSpace.DoesNotExist:
-        return JsonResponse({"success": False, "message": "존재하지 않는 추모공간입니다."}, status=404)
+    if request.method == "POST":
+        name = request.POST.get("name")
+        description = request.POST.get("description")
+        birth_date_str = request.POST.get("birth_date")
+        death_date_str = request.POST.get("death_date")
+        is_public = request.POST.get("is_public", "true").lower() == "true"
 
-    if space.creator != request.user:
-        return JsonResponse({"success": False, "message": "권한이 없습니다."}, status=403)
-
-    if request.method == "PUT":
-        data = json.loads(request.body)
-        new_name = data.get("name")
-        new_description = data.get("description")
-        birth_date = data.get("birth_date")
-        death_date = data.get("death_date")
-        space.is_public = data.get("is_public", str(space.is_public)).lower() == "true"
-
-        if not new_name or not new_description:
-            return JsonResponse({"success": False, "message": "이름과 설명은 필수입니다."}, status=400)
-        
-        space.name = new_name
-        space.description = new_description
+        if not name or not description:
+            return render(request, "memorial/edit.html", {
+                "space": space,
+                "error": "이름과 설명은 필수입니다."
+            })
 
         try:
-            if birth_date:
-                space.birth_date = datetime.strptime(birth_date, "%Y-%m-%d").date()
-            if death_date:
-                space.death_date = datetime.strptime(death_date, "%Y-%m-%d").date()
+            if birth_date_str:
+                space.birth_date = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
+            else:
+                space.birth_date = None
+
+            if death_date_str:
+                space.death_date = datetime.strptime(death_date_str, "%Y-%m-%d").date()
+            else:
+                space.death_date = None
         except ValueError:
-            return JsonResponse({"success": False, "message": "날짜 형식 오류 (YYYY-MM-DD)."}, status=400)
+            return render(request, "memorial/edit.html", {
+                "space": space,
+                "error": "날짜 형식이 올바르지 않습니다 (YYYY-MM-DD)."
+            })
 
+        space.name = name
+        space.description = description
+        space.is_public = is_public
         space.save()
-        return JsonResponse({"success": True, "message": "추모공간이 수정되었습니다."}, status=200)
 
-    elif request.method == "DELETE":
+        return redirect("my_memorial_space_view")  # 목록으로 리다이렉트
+
+    return render(request, "memorial/edit.html", {"space": space})
+
+
+# 내 추모공간 삭제 기능
+@login_required
+def memorial_delete_view(request, memorial_id):
+    space = get_object_or_404(MemorialSpace, id=memorial_id, creator=request.user)
+
+    if request.method == "POST":
         space.delete()
-        return JsonResponse({"success": True, "message": "추모공간이 삭제되었습니다."}, status=200)
+        return redirect("my_memorial_space_view")
 
+    return render(request, "memorial/confirm_delete.html", {"space": space})
 
 
 
 #추모공간 댓글 확인, 작성
-@csrf_exempt
 @require_http_methods(["GET", "POST"])
-def condolence_message_api(request, memorial_id):
+def condolence_message_view(request, memorial_id):
+    space = get_object_or_404(MemorialSpace, id=memorial_id)
 
-    try:
-        space = MemorialSpace.objects.get(id=memorial_id)
-    except MemorialSpace.DoesNotExist:
-        return JsonResponse({"success": False, "message": "존재하지 않는 추모공간입니다."}, status=404)
-
-    if request.method == "GET":
-        #댓글 확인
-        messages = CondolenceMessage.objects.filter(memorial_space=space).order_by('-created_at')
-        message_list = []
-        for m in messages:
-            message_list.append({
-                "id": m.id,
-                "writer": m.writer.username,
-                "message": m.message,
-                "flower_image": m.flower_image if m.flower_image else None,
-                "created_at": m.created_at.isoformat()
-            })
-        return JsonResponse({"success": True, "count": messages.count(), "messages": message_list})
-
-    elif request.method == "POST":
-        #댓글 생성
+    if request.method == "POST":
         if not request.user.is_authenticated:
-            return JsonResponse({"success": False, "message": "로그인이 필요합니다."}, status=401)
+            return redirect("login")  # 로그인 페이지로 보냄
 
         message = request.POST.get("message")
         flower_image = request.POST.get("flower_image")
 
-        if not message:
-            return JsonResponse({"success": False, "message": "메시지는 필수입니다."}, status=400)
+        if message:
+            CondolenceMessage.objects.create(
+                memorial_space=space,
+                writer=request.user,
+                message=message,
+                flower_image=flower_image,
+            )
+            return redirect("condolence_message_view", memorial_id=memorial_id)
+        else:
+            error = "메시지는 필수입니다."
+    else:
+        error = None
 
-        CondolenceMessage.objects.create(
-            memorial_space=space,
-            writer=request.user,
-            message=message,
-            flower_image=flower_image,
-        )
+    messages = CondolenceMessage.objects.filter(memorial_space=space).order_by("-created_at")
 
-        return JsonResponse({"success": True, "message": "조문 메시지가 등록되었습니다."}, status=201)
-
+    return render(request, "memorial/condolence_message_view.html", {
+        "space": space,
+        "messages": messages,
+        "error": error,
+    })
     
 
-#추모공간 댓글 수정, 삭제
-@csrf_exempt
-@require_http_methods(["PUT", "DELETE"])
-def condolence_update_delete_api(request, message_id):
 
-    try:
-        message = CondolenceMessage.objects.get(id=message_id)
-    except CondolenceMessage.DoesNotExist:
-        return JsonResponse({"success": False, "message": "존재하지 않는 댓글입니다."}, status=404)
+#추모공간 댓글 수정
+@login_required
+def condolence_edit_view(request, message_id):
+    message = get_object_or_404(CondolenceMessage, id=message_id)
 
-    # 인증 확인
-    if not request.user.is_authenticated:
-        return JsonResponse({"success": False, "message": "로그인이 필요합니다."}, status=401)
-
-    # 작성자 본인만 수정/삭제 가능
     if message.writer != request.user:
-        return JsonResponse({"success": False, "message": "권한이 없습니다."}, status=403)
+        return redirect("condolence_message_view", memorial_id=message.memorial_space.id)
 
-    if request.method == "PUT":
-        data = json.loads(request.body)
-        new_message = data.get("message")
-        new_flower = data.get("flower_image")
+    if request.method == "POST":
+        new_message = request.POST.get("message")
+        new_flower = request.POST.get("flower_image")
 
         if not new_message:
-            return JsonResponse({"success": False, "message": "메시지는 필수입니다."}, status=400)
+            return render(request, "memorial/condolence_edit.html", {
+                "message_obj": message,
+                "error": "메시지는 필수입니다.",
+            })
 
         message.message = new_message
         message.flower_image = new_flower
         message.save()
 
-        return JsonResponse({"success": True, "message": "조문 메시지가 수정되었습니다."},status=200)
+        return redirect("condolence_message_view", memorial_id=message.memorial_space.id)
 
-    elif request.method == "DELETE":
+    return render(request, "memorial/condolence_edit.html", {"message_obj": message})
+
+#추모공간 댓글 삭제
+@login_required
+def condolence_delete_view(request, message_id):
+    message = get_object_or_404(CondolenceMessage, id=message_id)
+
+    if message.writer != request.user:
+        return redirect("condolence_message_view", memorial_id=message.memorial_space.id)
+
+    if request.method == "POST":
+        memorial_id = message.memorial_space.id
         message.delete()
-        return JsonResponse({"success": True, "message": "조문 메시지가 삭제되었습니다."},status =200)
+        return redirect("condolence_message_view", memorial_id=memorial_id)
+
+    return render(request, "memorial/condolence_confirm_delete.html", {"message_obj": message})
+
 
 
 #대리인 링크 생성
 @login_required
-@csrf_exempt
-@require_http_methods(["POST"])
-def generate_agent_link_api(request, memorial_id):
-    user = request.user
-    
-    try:
-        space = MemorialSpace.objects.get(id=memorial_id, creator=user)
-    except MemorialSpace.DoesNotExist:
-        return JsonResponse({"success": False, "message": "추모공간의 주인과 일치하지 않습니다."}, status=404)
+def generate_agent_link_view(request, memorial_id):
+    space = get_object_or_404(MemorialSpace, id=memorial_id, creator=request.user)
 
-    # 토큰 생성/갱신
-    space.agent_token = uuid.uuid4()
-    space.agent_assigned_at = timezone.now()
-    space.save()
+    if request.method == "POST":
+        # 토큰 생성/갱신
+        space.agent_token = uuid.uuid4()
+        space.agent_assigned_at = timezone.now()
+        space.save()
 
-    link = f"{request.scheme}://{request.get_host()}/api/memorial/space/agent/{space.agent_token}/"
-    return JsonResponse({
-        "success": True,
-        "agent_link": link,
-        "issued_at": space.agent_assigned_at.isoformat()
-    }, status = 201)
+        agent_link = f"{request.scheme}://{request.get_host()}/memorials/agent/{space.agent_token}/"
+
+        return render(request, "memorial/agent_link.html", {
+            "space": space,
+            "agent_link": agent_link,
+            "issued_at": space.agent_assigned_at,
+        })
+
+    # GET 요청일 경우: 링크 발급 버튼 보여주기
+    return render(request, "memorial/agent_link.html", {"space": space})
 
 
 #대리인 링크 접근
 @require_http_methods(["GET"])
 def agent_access_view(request, agent_token):
+    space = get_object_or_404(MemorialSpace, agent_token=agent_token)
 
-    try:
-        space = MemorialSpace.objects.get(agent_token=agent_token)
-    except MemorialSpace.DoesNotExist:
-        return JsonResponse({"success": False, "message": "존재하지 않는 링크입니다."}, status=404)
-
-    data = {
-        "id": space.id,
-        "name": space.name,
-        "description": space.description,
-        "birth_date": space.birth_date.isoformat() if space.birth_date else None,
-        "death_date": space.death_date.isoformat() if space.death_date else None,
-        "profile_image": space.profile_image.url if space.profile_image else None,
-        "background_image":space.background_image.url if space.background_image else None,
-        "created_at": space.created_at.isoformat(),
-    }
-
-    return JsonResponse({"success": True, "memorial": data}, status=200)
+    return render(request, "memorial/agent_access.html", {
+        "space": space
+    })
