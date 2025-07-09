@@ -7,37 +7,37 @@ const passwd = document.getElementById("Passwd");
 const idErrorMsgEl = document.querySelector(".id-error-msg");
 const passwdErrorMsgEl = document.querySelector(".passwd-error-msg");
 
-id.addEventListener("change", () => {
-  const idRegExp = /^[a-zA-Z0-9]{4,}$/; // 4글자 이상의 영문 소문자와 숫자
-  if (idRegExp.test(id.value)) {
-    // 유효성 검사 성공
-    idErrorMsgEl.textContent = "";
-    account.id = id.value;
-    id.classList.remove("Input-ErrorBox");
-  } else {
-    // 유효성 검사 실패
-    idErrorMsgEl.textContent = errMsg.id.invalid;
-    account.id = null;
-    id.classList.add("Input-ErrorBox");
-  }
-  console.log(account);
-});
+// id.addEventListener("change", () => {
+//   const idRegExp = /^[a-zA-Z0-9]{4,}$/; // 4글자 이상의 영문 소문자와 숫자
+//   if (idRegExp.test(id.value)) {
+//     // 유효성 검사 성공
+//     idErrorMsgEl.textContent = "";
+//     account.id = id.value;
+//     id.classList.remove("Input-ErrorBox");
+//   } else {
+//     // 유효성 검사 실패
+//     idErrorMsgEl.textContent = errMsg.id.invalid;
+//     account.id = null;
+//     id.classList.add("Input-ErrorBox");
+//   }
+//   console.log(account);
+// });
 
-passwd.addEventListener("change", () => {
-  const passwdRegExp = /^[a-zA-Z0-9]{6,}$/; // 4글자 이상의 영문 소문자와 숫자
-  if (passwdRegExp.test(passwd.value)) {
-    // 유효성 검사 성공
-    passwdErrorMsgEl.textContent = "";
-    account.id = passwd.value;
-    passwd.classList.remove("Input-ErrorBox");
-  } else {
-    // 유효성 검사 실패
-    passwdErrorMsgEl.textContent = errMsg.passwd.invalid;
-    account.passwd = null;
-    passwd.classList.add("Input-ErrorBox");
-  }
-  console.log(account);
-});
+// passwd.addEventListener("change", () => {
+//   const passwdRegExp = /^[a-zA-Z0-9]{6,}$/; // 4글자 이상의 영문 소문자와 숫자
+//   if (passwdRegExp.test(passwd.value)) {
+//     // 유효성 검사 성공
+//     passwdErrorMsgEl.textContent = "";
+//     account.id = passwd.value;
+//     passwd.classList.remove("Input-ErrorBox");
+//   } else {
+//     // 유효성 검사 실패
+//     passwdErrorMsgEl.textContent = errMsg.passwd.invalid;
+//     account.passwd = null;
+//     passwd.classList.add("Input-ErrorBox");
+//   }
+//   console.log(account);
+// });
 
 const errMsg = {
   id: {
@@ -50,10 +50,10 @@ const errMsg = {
 
 window.onload = function () {
   document.getElementById("BackBtn").addEventListener("click", function () {
-    window.location.href = "login.html";
+    window.location.href = "/login/";
   });
 
-  document.getElementById("SignUp").addEventListener("click", function () {
-    window.location.href = "main.html";
+  document.getElementById("SignupForm").addEventListener("submit", function () {
+    window.location.href = "/main/";
   });
 };

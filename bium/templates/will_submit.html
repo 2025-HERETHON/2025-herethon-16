@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="{% static 'css/will_submit.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>complete writing your own will!</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="InformBox">
+        <img src="{% static 'images/finflower.png' %}" width="100px" />
+        <div class="InformBox_h1">수고하셨습니다!</div>
+        <div class="InformBox_h3">유언장 작성이 완료되었습니다.</div>
+        <div class="InformBox_h3">
+          디지털 유언장은 법적 효력이 없으므로, 지금까지 작성하신 내용을 정리한
+          아래 PDF를 참고해 자필로 유언장을 작성해주시길 권장드립니다.
+        </div>
+      </div>
+      <div class="InformBox">
+        <div class="InformBox_h2">유언장에 꼭 들어가야 할 내용</div>
+        <div class="InformBox_h3">
+          - 성명, 주민등록번호, 주소 <br />
+          - 인장/도장 날인 <br />
+          - 유언장 작성일자(연·월·일 모두 기재)와 장소
+        </div>
+      </div>
+      <div class="DownloadBtn" id="DownloadBtn">
+        <div class="DownloadBtn_detail">지금까지 작성한 내용을 담은</div>
+        PDF 다운로드
+      </div>
+      <div class="GoHomeBtn" id="GoHomeBtn">홈으로 돌아가기</div>
+    </div>
+    <script src="{% static 'js/will_submit.js' %}"></script>
+  </body>
+</html>

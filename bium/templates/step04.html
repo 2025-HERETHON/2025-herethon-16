@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="{% static 'css/EndingNotes/step03.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>step 04</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <progress id="progress" value="40" min="0" max="100"></progress>
+        <img
+          id="CancelBtn"
+          src="{% static 'images/icon-close-24.svg' %}"
+          width="24px"
+          height="24px"
+        />
+      </div>
+      <div class="StepTitle">04. 반려동물</div>
+      <div class="Scroll">
+        키우는 반려동물이 없다면, 바로 다음으로 넘어가세요.
+        <div class="InputBox">
+          <div class="title">이름</div>
+          <input class="content" type="text" placeholder="이름" />
+        </div>
+        <div class="InputBox">
+          <div class="title">종별</div>
+          <input class="content" type="text" placeholder="종별" />
+        </div>
+        <div class="InputBox">
+          <div class="title">성별</div>
+          <div class="radio-row">
+            <input type="radio" name="gender" id="female" />
+            <label for="female">암컷</label>
+          </div>
+          <div class="radio-row">
+            <input type="radio" name="gender" id="male" />
+            <label for="male">수컷</label>
+          </div>
+        </div>
+        <div class="InputBox">
+          <div class="title">피임, 거세수술, 예방접종</div>
+          <input
+            class="content"
+            type="text"
+            placeholder="피임, 거세수술, 예방접종"
+          />
+        </div>
+        <div class="InputBox">
+          <div class="title">먹이</div>
+          <input class="content" type="text" placeholder="먹이" />
+        </div>
+        <div class="InputBox">
+          <div class="title">담당 병원</div>
+          <div class="detail">수의사, 연락처, 반려동물보험</div>
+          <input class="content" type="text" placeholder="담당 병원" />
+        </div>
+        <div class="InputBox">
+          <div class="title">사육 시 주의사항</div>
+          <div class="detail">먹이 급여 횟수, 종류, 특이한 버릇</div>
+          <input class="content" type="text" placeholder="사육 시 주의사항" />
+        </div>
+        <div class="InputBox">
+          <div class="title">사망 시 희망하는 장례 방법</div>
+          <div class="detail">관련 업체 연락처 등</div>
+          <input
+            class="content"
+            type="text"
+            placeholder="사망 시 희망하는 장례 방법"
+          />
+        </div>
+        <div class="InputBox">
+          <div class="title">돌봄 책임자 지정</div>
+          <div class="detail">반려동물을 맡길 사람을 지정해주세요.</div>
+          <input class="content" type="text" placeholder="돌봄 책임자 지정" />
+        </div>
+        <div class="InputBox">
+          <div class="title">돌봄 비용 마련</div>
+          <div class="detail">
+            반려동물의 사료비, 의료비 등을 위한 유산 할당 여부와 구체적인 계획을
+            알려주세요.
+          </div>
+          <input class="content" type="text" placeholder="돌봄 비용 마련" />
+        </div>
+        <div class="InputBox">
+          <div class="title">대체 계획과 감시자 지정</div>
+          <div class="detail">
+            지정된 사람이 돌볼 수 없을 경우의 대리인과 돌봄이 제대로
+            이루어지는지 확인할 제3자를 지정해주세요.
+          </div>
+          <input
+            class="content"
+            type="text"
+            placeholder="대체 계획과 감시자 지정"
+          />
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: row; gap: 12px">
+        <div class="BeforeBtn" id="BeforeBtn">이전</div>
+        <div class="NextBtn" id="NextBtn">다음</div>
+      </div>
+      <div class="modal">
+        <div class="modal-body">
+          <div style="text-align: center; margin: 35px 0px">
+            <div class="modal-text">지금까지 작성한 내용이 삭제됩니다.</div>
+            <div class="modal-question">임시저장하시겠습니까?</div>
+          </div>
+          <div class="modal-button">
+            <div class="modal-delete">내용 삭제하기</div>
+            <div class="modal-text">임시저장하기</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'js/EndingNotes/step04.js' %}"></script>
+  </body>
+</html>

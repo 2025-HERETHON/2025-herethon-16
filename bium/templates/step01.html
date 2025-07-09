@@ -1,0 +1,147 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="{% static 'css/EndingNotes/step01.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>step 01</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <progress id="progress" value="10" min="0" max="100"></progress>
+        <img
+          id="CancelBtn"
+          src="{% static 'images/icon-close-24.svg' %}"
+          width="24px"
+          height="24px"
+        />
+      </div>
+      <div class="StepTitle">01. 나의 기본 정보</div>
+      <div class="Scroll">
+        <form id="step01Form" method="post">
+          <div class="InputBox">
+            <div class="title">성함</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="성함"
+              id="name"
+              name="name"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">생년월일</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="2001.01.01"
+              id="birth_date"
+              name="birth_date"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">성별</div>
+            <div class="radio-row">
+              <input type="radio" name="gender" id="female" value="female" />
+              <label for="female">여성</label>
+            </div>
+            <div class="radio-row">
+              <input type="radio" name="gender" id="male" value="male" />
+              <label for="male">남성</label>
+            </div>
+          </div>
+          <div class="InputBox">
+            <div class="title">전화번호</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="010-1234-5678"
+              id="phone_number"
+              name="phone_number"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">태어난 곳</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="태어난 곳"
+              id="birth_place"
+              name="birth_place"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">본적</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="본적"
+              id="registered_domicile"
+              name="registered_domicile"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">앓고 있는 병</div>
+            <div class="detail">병원도 함께 알려주세요.</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="앓고 있는 병"
+              id="current_diseases"
+              name="current_diseases"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">과거에 앓았던 병</div>
+            <div class="detail">병원도 함께 알려주세요.</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="과거에 앓았던 병"
+              id="past_diseases"
+              name="past_diseases"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">체질</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="체질"
+              id="constitution"
+              name="constitution"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">가계도</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="가계도"
+              id="family_tree"
+              name="family_tree"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="NextBtn" id="NextBtn">다음</div>
+      <div class="modal">
+        <div class="modal-body">
+          <div style="text-align: center; margin: 35px 0px">
+            <div class="modal-text">지금까지 작성한 내용이 삭제됩니다.</div>
+            <div class="modal-question">임시저장하시겠습니까?</div>
+          </div>
+          <div class="modal-button">
+            <div class="modal-delete">내용 삭제하기</div>
+            <div class="modal-text">임시저장하기</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/EndingNotes/step01.js' %}"></script>
+  </body>
+</html>

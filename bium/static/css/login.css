@@ -12,13 +12,18 @@ button,
   font-style: normal;
 }
 
+body {
+  display: flex;
+  justify-content: center;
+}
+
 .Container {
-  position: absolute;
+  display: flex;
   flex-direction: column;
   width: 375px;
   height: 812px;
   background: #fff;
-  padding: 20px;
+  margin: 20px;
 }
 
 .Logo {
@@ -79,7 +84,7 @@ button,
 .Btn {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .LoginBtn {
@@ -89,8 +94,8 @@ button,
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 
-  align-self: stretch;
   border-radius: 12px;
   background: var(--Primary_dark, #333446);
 
@@ -110,8 +115,6 @@ button,
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  align-self: stretch;
   border-radius: 12px;
   border: 1.5px solid var(--Primary_dark, #333446);
   background: var(--Grayscale-White, #fff);
