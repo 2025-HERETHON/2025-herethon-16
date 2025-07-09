@@ -42,7 +42,7 @@ body {
 .topbar .title {
   display: none;
 }
-/* 뒤로가기 크기만큼 우측 여백 */
+
 .spacer {
   width: 24px;
 }
@@ -74,7 +74,6 @@ body {
 }
 
 /* 한 단계 블록 */
-/* ★ display:inline-flex → display:flex + align-items:stretch 로 변경 ★ */
 .step {
   display: flex;
   align-items: stretch;
@@ -90,7 +89,6 @@ body {
   padding-top: 12px;
 }
 
-/* TODO: JS에서 아래 Activate/Deactivate SVG를 <img>로 삽입합니다 */
 /* completed 단계 아이콘 (Activate) */
 .step.completed .marker .icon {
   width: 20px;
@@ -111,7 +109,6 @@ body {
 }
 
 /* 아래 연결선 */
-/* ★ min-height 지정 불필요 — 부모인 .step이 stretch 됐으므로 flex:1만으로도 전체 높이 채움 ★ */
 .step .marker .line {
   flex: 1;
   width: 2px;

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let completedStep = 0; // 초기값 설정
 
   try {
-    // ★ 실제 API 호출로 변경
+    // 실제 API 호출로 변경
     const response = await fetch('/api/will/progress_step/', {
       method: 'GET',
       headers: {
