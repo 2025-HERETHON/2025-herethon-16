@@ -24,7 +24,6 @@
       <div class="cover-frame" id="coverFrame">
         <input type="file" id="coverInput" accept="image/*" hidden>
       </div>
-
       <div class="profile-wrap">
         <div class="profile-frame">
           <img src="../static/images/assets/profile.jpg" alt="프로필" id="profileImg">
@@ -56,12 +55,14 @@
 
   </div>
 
-  <!-- Button Bar (centered) -->
+  <!-- Button Bar (고정 하단) -->
   <div class="button-bar">
-    <button id="delegateBtn" class="btn-delegate">추모상태 대리인 지정하기</button>
+    <button id="delegateBtn" class="btn-delegate">
+      추모상태 대리인 지정하기
+    </button>
   </div>
 
-  <!-- Overlay -->
+  <!-- Toast Overlay (고정, 버튼 위 20px) -->
   <div id="overlay" class="overlay hidden">
     <div class="overlay-content">개발중인 기능입니다</div>
   </div>
