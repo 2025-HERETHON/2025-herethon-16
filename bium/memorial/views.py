@@ -38,6 +38,30 @@ def public_memorial_list_api(request):
         })
     return JsonResponse({"success": True, "memorials": data})
 
+#단일 추모공간 조회
+@csrf_exempt
+@require_http_methods(["GET"])
+def memorial_list_detail_api(request, memorial_id):
+    try:
+        space = MemorialSpace.objects.get(id=memorial_id)
+    except MemorialSpace.DoesNotExist:
+        return JsonResponse({"success": False, "message": "해당 추모공간이 존재하지 않습니다."}, status=404)
+
+    data = {
+        "id": space.id,
+        "name": space.name,
+        "description": space.description,
+        "birth_date": space.birth_date.isoformat() if space.birth_date else None,
+        "death_date": space.death_date.isoformat() if space.death_date else None,
+        "profile_image": space.profile_image.url if space.profile_image else None,
+        "background_image": space.background_image.url if space.background_image else None,
+        "created_at": space.created_at.isoformat(),
+        "is_public": space.is_public,
+        "creator_username": space.creator.username,
+    }
+
+    return JsonResponse({"success": True, "memorial": data}, status=200)
+
 
 
 # 내 추모공간 리스트 확인 ／ 작성（생성） 기능
