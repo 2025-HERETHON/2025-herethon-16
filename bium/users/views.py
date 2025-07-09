@@ -62,6 +62,9 @@ def login_view(request):
 
     if user is not None:
         login(request, user)
-        # return redirect('main')   // 메인 페이지로 이동
+        return redirect('/')
     else:
         return render(request, 'login.html', {"error": "아이디나 비밀번호가 올바르지 않습니다."})
+
+def main_view(request):
+    return render(request, 'main-page.html')
