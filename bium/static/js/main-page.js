@@ -1,13 +1,17 @@
 // ── 세션 기반 로그인 확인 ──
 async function checkLogin() {
   try {
-    const res = await fetch('/api/users/me/', {
+    const res = await fetch('/api/users/check_login/', {
       method: 'GET',
       credentials: 'include'   // 세션 쿠키 자동 포함
     });
-    return res.ok;            // 200 OK 면 로그인 상태
+    if (!res.ok) {
+      return false
+    }
+    const json = await res.json();
+    return json.success === true;
   } catch (err) {
-    console.error('세션 확인 중 오류:', err);
+    console.error('로그인 상태 조회 중 오류:', err);
     return false;
   }
 }
