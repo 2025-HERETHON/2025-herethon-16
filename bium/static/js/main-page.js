@@ -35,14 +35,12 @@ document.querySelectorAll('.sidebar-menu a').forEach(link => {
   });
 });
 
-// ── “내 공간” 아이콘 클릭 분기 ──
+// “내 공간” 아이콘 클릭 → form 제출
 const myspaceBtn = document.querySelector('.icon-myspace');
 if (myspaceBtn) {
-  myspaceBtn.addEventListener('click', async () => {
-    const loggedIn = await checkLogin();
-    window.location.href = loggedIn
-      ? './templates/mymemorial-edit.html'
-      : './templates/login.html';
+  myspaceBtn.addEventListener('click', () => {
+    const form = document.getElementById('goMyspaceForm');
+    if (form) form.submit();
   });
 }
 
@@ -63,42 +61,29 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   // ── 체크리스트 초기 상태 반영 ──
-  let checklistData = [];
-  try {
-    const res2 = await fetch('/api/checklist/check/', {
-      method: 'GET',
-      credentials: 'include'
-    });
-    if (res2.ok) {
-      const json2 = await res2.json();
-      checklistData = json2.data;
-    }
-  } catch (e) {
-    console.error('체크리스트 조회 실패:', e);
-  }
+    let checklistData = [];
 
-  document.querySelectorAll('.checklist-group').forEach(groupEl => {
-    const category = groupEl.querySelector('.group-title').textContent.trim();
-    const catData  = checklistData.find(c => c.category === category);
-    if (!catData) return;
-
-    catData.items.forEach(item => {
-      const label = [...groupEl.querySelectorAll('.item')]
-        .find(l => l.querySelector('span').textContent.trim() === item.content);
-      if (!label) return;
+  // 체크박스 클릭 → UI 토글 + 카운트 + 폼 제출
+  document.querySelectorAll('.item').forEach(label => {
+    label.addEventListener('click', () => {
       const input = label.querySelector('input[type="checkbox"]');
       const icon  = label.querySelector('.checkbox-icon');
-      input.checked = item.is_checked;
-      icon.src = item.is_checked
+
+      input.checked = !input.checked;
+      icon.src = input.checked
         ? './static/images/icons/icon-checkbox-12=Activate.svg'
         : './static/images/icons/icon-checkbox-12=Deactivate.svg';
-    });
 
-    const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
-    const countEl = groupEl.querySelector('.group-count');
-    const checked = [...boxes].filter(cb => cb.checked).length;
-    countEl.textContent = `${checked}/${boxes.length}`;
+      const groupEl = label.closest('.checklist-group');
+      const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
+      const countEl = groupEl.querySelector('.group-count');
+      const checkedCount = [...boxes].filter(cb => cb.checked).length;
+      countEl.textContent = `${checkedCount}/${boxes.length}`;
+
+      document.getElementById('checklistSubmit').click();
+    });
   });
+});
 
   // ── 체크박스 클릭 → UI 토글 + 카운트 + 폼 제출 ──
   document.querySelectorAll('.item').forEach(label => {
@@ -135,4 +120,3 @@ window.addEventListener('DOMContentLoaded', async () => {
         : './static/images/icons/icon-dropdown-20=down.svg';
     });
   });
-});

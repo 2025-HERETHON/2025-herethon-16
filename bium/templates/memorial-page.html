@@ -51,19 +51,19 @@
       <section class="section my-section">
         <h2 class="section-title">나를 위한 추모공간</h2>
 
-        <!-- ★ 폼 태그로 감싸기 -->
+        <!-- ✅ JS가 채우는 구조 유지 -->
         <form id="mySpaceForm"
               action="../templates/mymemorial.html"
               method="get"
               class="card my-space">
           <img class="profile-pic" src="../static/images/assets/profile.jpg" alt="프로필"/>
           <div class="info">
-            <h3 class="name">김이름</h3>
-            <p class="desc">내가 없을 때, 이곳에서 나를 만나주세요.</p>
+            <h3 class="name">이름</h3>
+            <p class="desc">설명</p>
           </div>
         </form>
 
-        <!-- 새 공간 만들기도 폼 -->
+        <!-- 새 공간 만들기 -->
         <form id="createForm"
               action="memorial-edit.html"
               method="get">
@@ -78,7 +78,7 @@
       <section class="section others-section">
         <h2 class="section-title">다른 이들의 따뜻한 추모공간</h2>
         <div class="others-list">
-          <!-- JS가 비어있으면 여기에 안내 문구를 넣습니다 -->
+          <!-- ✅ JS가 여기다가 카드들을 채워 넣음 -->
         </div>
       </section>
     </main>
