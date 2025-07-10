@@ -1,38 +1,49 @@
+{% load static %}
+
 <!DOCTYPE html>
 {% load static %}
 <html lang="ko">
   <head>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Welcome to Bium</title>
   </head>
   <body>
     <div class="Container">
-      <div class="Logo">비움</div>
-      <div class="Detail">미리 비워두어, 남은이에게는 사랑만 남도록</div>
-      <div class="Input">
-        <input
-          required
-          class="InputBox"
-          id="userId"
-          type="text"
-          placeholder="아이디"
-        />
-        <input
-          required
-          class="InputBox"
-          id="userPasswd"
-          type="text"
-          placeholder="비밀번호"
-        />
-        <span class="error-msg"></span>
+      <div class="Logo">
+        <img src="{% static 'images/logo.svg' %}" />
       </div>
-      <div class="Btn">
-        <div class="LoginBtn" id="Login">로그인</div>
+      <div class="Detail">
+        미리 비워두어, <br />
+        남은이에게는 사랑만 남도록
+      </div>
+      <form method="post" url="{% url 'signup' %}">
+        {% csrf_token %}
+        <div class="Input">
+          <input
+            required
+            class="InputBox {% if error %} Input-ErrorBox {% endif %}"
+            name="username"
+            type="text"
+            placeholder="아이디"
+          />
+          <input
+            required
+            class="InputBox {% if error %} Input-ErrorBox {% endif %}"
+            name="password"
+            type="password"
+            placeholder="비밀번호"
+            autocomplete="current-password"
+          />
+          {% if error %}
+          <div class="error-msg">{{ error }}</div>
+          {% endif %}
+        </div>
+        <button type="submit" class="LoginBtn" id="Login">로그인</button>
         <div class="SignUpBtn" id="SignUp">회원가입하기</div>
-      </div>
+      </form>
     </div>
-    <script src="../static/js/login.js"></script>
+    <script src="{% static 'js/login.js' %}"></script>
   </body>
 </html>
