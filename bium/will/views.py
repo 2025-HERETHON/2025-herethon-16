@@ -18,8 +18,7 @@ def basic_info_view(request):
     info = BasicInfo.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         fields = [
             "name", "gender", "phone_number", "birth_place", "registered_domicile",
@@ -52,6 +51,9 @@ def basic_info_view(request):
             will.progress_step = 1
             will.save()
 
+        if is_draft == "true":
+            return redirect('main')
+
         return redirect('step02')
 
     context = {"info": info}
@@ -65,21 +67,25 @@ def family_record_view(request):
     record = FamilyRecord.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         fields = ["mother_record", "father_record", "siblings_record"]
 
         if not record:
             record = FamilyRecord(will=will)
+
         for field in fields:
             value = request.POST.get(field)
             setattr(record, field, value if value != "" else None)
+
         record.save()
 
         if will.progress_step < 2:
             will.progress_step = 2
             will.save()
+
+        if is_draft == "true":
+            return redirect('main')
 
         return redirect('step03')
 
@@ -94,8 +100,7 @@ def about_me_view(request):
     me = AboutMe.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         fields = [
             "name_meaning", "nickname", "favorites", "preferences",
@@ -104,14 +109,19 @@ def about_me_view(request):
 
         if not me:
             me = AboutMe(will=will)
+
         for field in fields:
             value = request.POST.get(field)
             setattr(me, field, value if value != "" else None)
+
         me.save()
 
         if will.progress_step < 3:
             will.progress_step = 3
             will.save()
+
+        if is_draft == "true":
+            return redirect('main')
 
         return redirect('step04')
 
@@ -126,8 +136,7 @@ def pet_view(request):
     pet = Pet.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         fields = [
             "name", "species", "gender", "care", "feeding", "hospital",
@@ -161,6 +170,9 @@ def pet_view(request):
             will.progress_step = 4
             will.save()
 
+        if is_draft == "true":
+            return redirect('main')
+
         return redirect('step05')
 
     context = {"pet": pet}
@@ -174,8 +186,7 @@ def funeral_view(request):
     funeral = Funeral.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         fields = [
             "funeral_type", "invited_guests", "funeral_wishes",
@@ -196,6 +207,9 @@ def funeral_view(request):
             will.progress_step = 5
             will.save()
 
+        if is_draft == "true":
+            return redirect('main')
+
         return redirect('step06')
 
     context = {"funeral": funeral}
@@ -209,8 +223,7 @@ def medical_care_preparation_view(request):
     medcare = MedicalCarePreparation.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         fields = [
             "terminal_illness",
@@ -232,6 +245,9 @@ def medical_care_preparation_view(request):
             will.progress_step = 6
             will.save()
 
+        if is_draft == "true":
+            return redirect('main')
+
         return redirect('step07')
 
     context = {"medcare": medcare}
@@ -246,8 +262,7 @@ def will_and_inheritance_view(request):
     inheritance = WillAndInheritance.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         fields = [
             "message_to_parents", "message_to_friends", "will_text", "assets_and_distribution",
@@ -267,7 +282,10 @@ def will_and_inheritance_view(request):
             will.progress_step = 7
             will.save()
 
-        return redirect('step07')
+        if is_draft == "true":
+            return redirect('main')
+
+        return redirect('step08')
 
     context = {"inheritance": inheritance}
     return render(request, 'step07.html', context)
@@ -281,8 +299,7 @@ def bucket_list_view(request):
     bucket = BucketList.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         if not bucket:
             bucket = BucketList(will=will)
@@ -295,7 +312,10 @@ def bucket_list_view(request):
             will.progress_step = 8
             will.save()
 
-        return redirect('step08')
+        if is_draft == "true":
+            return redirect('main')
+
+        return redirect('step09')
 
     context = {"bucket": bucket}
     return render(request, 'step08.html', context)
@@ -309,8 +329,7 @@ def guardian_selection_view(request):
     guardian = GuardianSelection.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         if not guardian:
             guardian = GuardianSelection(will=will)
@@ -327,7 +346,10 @@ def guardian_selection_view(request):
             will.progress_step = 9
             will.save()
 
-        return redirect('step09')
+        if is_draft == "true":
+            return redirect('main')
+
+        return redirect('step10')
 
     context = {"guardian": guardian}
     return render(request, 'step09.html', context)
@@ -341,8 +363,7 @@ def belongings_distribution_view(request):
     belongings = BelongingsDistribution.objects.filter(will=will).first()
 
     if request.method == "POST":
-        if request.POST.get("should_save") == "false":
-            return redirect('main')
+        is_draft = request.POST.get("is_draft")
 
         if not belongings:
             belongings = BelongingsDistribution(will=will)
@@ -359,7 +380,10 @@ def belongings_distribution_view(request):
             will.progress_step = 10
             will.save()
 
-        return redirect('step10')
+        if is_draft == "true":
+            return redirect('main')
+
+        return redirect('submit')
 
     context = {"belongings": belongings}
     return render(request, 'step10.html', context)

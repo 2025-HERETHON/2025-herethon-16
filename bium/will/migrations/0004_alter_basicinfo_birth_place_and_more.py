@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('will', '0003_alter_pet_gender'),
+        ('will', '0002_will_is_completed'),
     ]
 
     operations = [
