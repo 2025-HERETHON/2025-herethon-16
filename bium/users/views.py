@@ -1,9 +1,11 @@
 import re
 import datetime
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
+from django.views.decorators.http import require_GET
 
 User = get_user_model()
 
@@ -65,3 +67,25 @@ def login_api(request):
         return JsonResponse({"success": True, "message": "로그인에 성공했습니다."})
     else:
         return JsonResponse({"success": False, "message": "아이디나 비밀번호가 올바르지 않습니다."}, status=401)
+
+@require_GET
+def check_login_api(request):
+    if request.user.is_authenticated:
+        return JsonResponse({
+            "success": True,
+            "message": "로그인 상태입니다.",
+            "user": {
+                "username": request.user.username,
+                "name": request.user.name,
+                "birth_date": request.user.birth_date.strftime("%Y-%m-%d") if request.user.birth_date else None,
+                "phone_number": request.user.phone_number,
+            }
+        })
+    else:
+        return JsonResponse({"success": False, "message": "로그인 상태가 아닙니다."}, status=401)
+
+def login_view(request):
+    return render(request, 'login.html')
+
+def signup_view(request):
+    return render(request, 'signup.html')
