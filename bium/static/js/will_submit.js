@@ -1,6 +1,6 @@
 window.onload = function () {
   document.getElementById("GoHomeBtn").addEventListener("click", function () {
-    window.location.href = "main.html";
+    window.location.href = "/";
   });
 
   document.getElementById("DownloadBtn").addEventListener("click", function () {

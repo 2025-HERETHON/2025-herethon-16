@@ -35,6 +35,7 @@
               type="text"
               placeholder="후견인 이름"
               name="guardian_name"
+              value="{{ guardian.guardian_name|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -44,6 +45,7 @@
               type="text"
               placeholder="후견인 연락처"
               name="guardian_contact"
+              value="{{ guardian.guardian_contact|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -56,6 +58,7 @@
               type="text"
               placeholder="비상 연락처"
               name="emergency_contact"
+              value="{{ guardian.emergency_contact|default_if_none:'' }}"
             />
           </div>
         </form>
@@ -75,7 +78,13 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <button form="step09Form" type="submit" class="modal-text">
+            <button
+              form="step09Form"
+              name="is_draft"
+              value="true"
+              type="submit"
+              class="modal-text"
+            >
               임시저장하기
             </button>
           </div>

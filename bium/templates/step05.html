@@ -77,6 +77,7 @@
               placeholder="김모모, 대학 동창, 010-1234-5678
 김다다, 고등 동창, 010-5678-1234"
               name="invited_guests"
+              value="{{ funeral.invited_guests|default_if_none:'' }}"
             ></textarea>
           </div>
           <div class="InputBox">
@@ -90,6 +91,7 @@
               type="text"
               placeholder=""
               name="funeral_wishes"
+              value="{{ funeral.funeral_wishes|default_if_none:'' }}"
             />
           </div>
 
@@ -151,6 +153,7 @@
               type="text"
               placeholder=""
               name="grave_preparation"
+              value="{{ funeral.grave_preparation|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -160,6 +163,7 @@
               type="text"
               placeholder=""
               name="tombstone_inscription"
+              value="{{ funeral.tombstone_inscription|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -169,6 +173,7 @@
               type="text"
               placeholder=""
               name="memorial_service_wishes"
+              value="{{ funeral.memorial_service_wishes|default_if_none:'' }}"
             />
           </div>
         </form>
@@ -188,7 +193,13 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <button form="step05Form" type="submit" class="modal-text">
+            <button
+              form="step05Form"
+              name="is_draft"
+              value="true"
+              type="submit"
+              class="modal-text"
+            >
               임시저장하기
             </button>
           </div>

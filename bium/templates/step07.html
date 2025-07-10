@@ -31,6 +31,7 @@
               type="text"
               placeholder="부모님에게 남기고 싶은 말"
               name="message_to_parents"
+              value="{{ inheritance.message_to_parents|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -40,6 +41,7 @@
               type="text"
               placeholder="친구에게 남기고 싶은 말"
               name="message_to_friends"
+              value="{{ inheritance.message_to_friends|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -49,6 +51,7 @@
               type="text"
               placeholder="유언장 문구"
               name="will_text"
+              value="{{ inheritance.will_text|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -59,6 +62,7 @@
               type="text"
               placeholder="재산 목록과 배분"
               name="assets_and_distribution"
+              value="{{ inheritance.assets_and_distribution|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -68,6 +72,7 @@
               type="text"
               placeholder="신용카드 목록"
               name="credit_card_list"
+              value="{{ inheritance.credit_card_list|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -80,6 +85,7 @@
               type="text"
               placeholder="연금 및 보험 가입 내역 및 계약서"
               name="pension_and_insurance"
+              value="{{ inheritance.pension_and_insurance|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -89,6 +95,7 @@
               type="text"
               placeholder="채무의 존재"
               name="debts"
+              value="{{ inheritance.debts|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -98,6 +105,7 @@
               type="text"
               placeholder="유언장을 보관할 장소"
               name="will_storage_location"
+              value="{{ inheritance.will_storage_location|default_if_none:'' }}"
             />
           </div>
         </form>
@@ -117,7 +125,13 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <button form="step07Form" type="submit" class="modal-text">
+            <button
+              form="step07Form"
+              name="is_draft"
+              value="true"
+              type="submit"
+              class="modal-text"
+            >
               임시저장하기
             </button>
           </div>

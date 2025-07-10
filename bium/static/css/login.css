@@ -127,3 +127,14 @@ body {
   font-weight: 600;
   line-height: normal;
 }
+
+.error-msg {
+  color: var(--Error, #ea0000);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: left;
+  width: 100%;
+}

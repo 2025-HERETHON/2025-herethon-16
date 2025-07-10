@@ -31,6 +31,7 @@
               type="text"
               placeholder="버릴 것들 목록"
               name="items_to_discard"
+              value="{{ belongings.items_to_discard|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -43,6 +44,7 @@
               type="text"
               placeholder="분배할 물건 목록"
               name="items_to_distribute"
+              value="{{ belongings.items_to_distribute|default_if_none:'' }}"
             />
           </div>
         </form>
@@ -62,7 +64,13 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <button form="step10Form" type="submit" class="modal-text">
+            <button
+              form="step10Form"
+              name="is_draft"
+              value="true"
+              type="submit"
+              class="modal-text"
+            >
               임시저장하기
             </button>
           </div>

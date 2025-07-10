@@ -45,6 +45,7 @@
               type="text"
               placeholder="종말 의료 신청 여부"
               name="hospice_care"
+              value="{{ medcare.hospice_care|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -70,6 +71,7 @@
               type="text"
               placeholder="장기와 인체조직 기증"
               name="organ_and_tissue_donation"
+              value="{{ medcare.organ_and_tissue_donation|default_if_none:'' }}"
             />
           </div>
         </form>
@@ -87,7 +89,13 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <button form="step06Form" type="submit" class="modal-text">
+            <button
+              form="step06Form"
+              name="is_draft"
+              value="true"
+              type="submit"
+              class="modal-text"
+            >
               임시저장하기
             </button>
           </div>

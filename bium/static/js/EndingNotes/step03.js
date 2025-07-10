@@ -11,14 +11,13 @@ cancelBtn.addEventListener("click", function (e) {
 // 모달 닫기 (삭제하기)
 modalDelete.addEventListener("click", function () {
   modal.style.display = "none";
-  window.location.href = "/main-page/";
+  window.location.href = "/";
 });
 
 // 모달 닫기 (임시저장하기)
 modalSave.addEventListener("click", function () {
   modal.style.display = "none";
   document.getElementById("step03Form").submit();
-  window.location.href = "/main-page/";
 });
 
 window.onload = function () {
