@@ -16,18 +16,16 @@
         alt="뒤로가기"
         class="icon-back"
       />
-      <div class="search-container">
+      <form method="GET" action="/memorial-search.html" class="search-container">
         <input
           type="text"
           id="searchInput"
           placeholder="추모공간을 검색해주세요"
         />
-        <img
-          id="searchBtn"
-          src="../static/images/icons/icon-search-24.svg"
-          alt="검색"
-          class="icon-search"
-        />
+        <button type="submit" id="searchBtn">
+  <img src="../static/images/icons/icon-search-24.svg" alt="검색" class="icon-search"/>
+</button>
+</form>
       </div>
     </header>
 
