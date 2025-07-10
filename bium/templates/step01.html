@@ -21,15 +21,17 @@
       </div>
       <div class="StepTitle">01. 나의 기본 정보</div>
       <div class="Scroll">
-        <form id="step01Form" method="post">
+        <form id="step01Form" method="post" action="{% url 'step01' %}">
+          {% csrf_token %}
+
           <div class="InputBox">
             <div class="title">성함</div>
             <input
               class="content"
               type="text"
               placeholder="성함"
-              id="name"
               name="name"
+              value="{{ info.name|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -37,19 +39,20 @@
             <input
               class="content"
               type="text"
-              placeholder="2001.01.01"
-              id="birth_date"
+              placeholder="2001-01-01"
               name="birth_date"
             />
           </div>
           <div class="InputBox">
             <div class="title">성별</div>
             <div class="radio-row">
-              <input type="radio" name="gender" id="female" value="female" />
+              <input type="radio" name="gender" value="1" {{ "checked" if
+              info.gender == "1" else "" }}/>
               <label for="female">여성</label>
             </div>
             <div class="radio-row">
-              <input type="radio" name="gender" id="male" value="male" />
+              <input type="radio" name="gender" value="2" {{ "checked" if
+              info.gender == "2" else "" }}/>
               <label for="male">남성</label>
             </div>
           </div>
@@ -59,8 +62,8 @@
               class="content"
               type="text"
               placeholder="010-1234-5678"
-              id="phone_number"
               name="phone_number"
+              value="{{ info.phone_number|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -69,8 +72,8 @@
               class="content"
               type="text"
               placeholder="태어난 곳"
-              id="birth_place"
               name="birth_place"
+              value="{{ info.birth_place|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -79,8 +82,8 @@
               class="content"
               type="text"
               placeholder="본적"
-              id="registered_domicile"
               name="registered_domicile"
+              value="{{ info.registered_domicile|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -90,8 +93,8 @@
               class="content"
               type="text"
               placeholder="앓고 있는 병"
-              id="current_diseases"
               name="current_diseases"
+              value="{{ info.current_diseases|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -101,8 +104,8 @@
               class="content"
               type="text"
               placeholder="과거에 앓았던 병"
-              id="past_diseases"
               name="past_diseases"
+              value="{{ info.past_diseases|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -111,8 +114,8 @@
               class="content"
               type="text"
               placeholder="체질"
-              id="constitution"
               name="constitution"
+              value="{{ info.constitution|default_if_none:'' }}"
             />
           </div>
           <div class="InputBox">
@@ -121,13 +124,15 @@
               class="content"
               type="text"
               placeholder="가계도"
-              id="family_tree"
               name="family_tree"
+              value="{{ info.family_tree|default_if_none:'' }}"
             />
           </div>
         </form>
       </div>
-      <div class="NextBtn" id="NextBtn">다음</div>
+      <button form="step01Form" type="submit" class="NextBtn" id="NextBtn">
+        다음
+      </button>
       <div class="modal">
         <div class="modal-body">
           <div style="text-align: center; margin: 35px 0px">
@@ -136,7 +141,9 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <div class="modal-text">임시저장하기</div>
+            <button form="step01Form" type="submit" class="modal-text">
+              임시저장하기
+            </button>
           </div>
         </div>
       </div>

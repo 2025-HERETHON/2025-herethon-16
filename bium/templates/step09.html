@@ -21,30 +21,52 @@
       </div>
       <div class="StepTitle">09. 후견인 선택</div>
       <div class="Scroll">
-        <div class="InputBox">
-          <div class="title">후견인 이름</div>
-          <div class="detail">
-            내가 판단력이 흐려질 경우 내 의사를 대신해 결정권을 가질, 믿을 수
-            있는 사람을 지정해주세요.
+        <form id="step09Form" method="post" action="{% url 'step09' %}">
+          {% csrf_token %}
+
+          <div class="InputBox">
+            <div class="title">후견인 이름</div>
+            <div class="detail">
+              내가 판단력이 흐려질 경우 내 의사를 대신해 결정권을 가질, 믿을 수
+              있는 사람을 지정해주세요.
+            </div>
+            <input
+              class="content"
+              type="text"
+              placeholder="후견인 이름"
+              name="guardian_name"
+            />
           </div>
-          <input class="content" type="text" placeholder="후견인 이름" />
-        </div>
-        <div class="InputBox">
-          <div class="title">후견인 연락처</div>
-          <input class="content" type="text" placeholder="후견인 연락처" />
-        </div>
-        <div class="InputBox">
-          <div class="title">비상 연락처</div>
-          <div class="detail">
-            관계와 이름, 주소, 전화번호, 이메일, 입원 시/장례 시 연락 방식
+          <div class="InputBox">
+            <div class="title">후견인 연락처</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="후견인 연락처"
+              name="guardian_contact"
+            />
           </div>
-          <input class="content" type="text" placeholder="비상 연락처" />
-        </div>
+          <div class="InputBox">
+            <div class="title">비상 연락처</div>
+            <div class="detail">
+              관계와 이름, 주소, 전화번호, 이메일, 입원 시/장례 시 연락 방식
+            </div>
+            <input
+              class="content"
+              type="text"
+              placeholder="비상 연락처"
+              name="emergency_contact"
+            />
+          </div>
+        </form>
       </div>
       <div style="display: flex; flex-direction: row; gap: 12px">
         <div class="BeforeBtn" id="BeforeBtn">이전</div>
-        <div class="NextBtn" id="NextBtn">다음</div>
+        <button form="step09Form" type="submit" class="NextBtn" id="NextBtn">
+          다음
+        </button>
       </div>
+
       <div class="modal">
         <div class="modal-body">
           <div style="text-align: center; margin: 35px 0px">
@@ -53,7 +75,9 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <div class="modal-text">임시저장하기</div>
+            <button form="step09Form" type="submit" class="modal-text">
+              임시저장하기
+            </button>
           </div>
         </div>
       </div>

@@ -21,19 +21,31 @@
       </div>
       <div class="StepTitle">08. 향후 해보고 싶은 것들</div>
       <div class="Scroll">
-        <div class="InputBox">
-          <div class="title">해보고 싶은 목록</div>
-          <div class="detail">
-            어릴 적 꿈, 여행, 독서, 봉사, 가족과 시간 보내기 등 버킷리스트를
-            적어주세요.
+        <form id="step08Form" method="post" action="{% url 'step08' %}">
+          {% csrf_token %}
+
+          <div class="InputBox">
+            <div class="title">해보고 싶은 목록</div>
+            <div class="detail">
+              어릴 적 꿈, 여행, 독서, 봉사, 가족과 시간 보내기 등 버킷리스트를
+              적어주세요.
+            </div>
+            <input
+              class="content"
+              type="text"
+              placeholder="해보고 싶은 목록"
+              name="bucket_list"
+            />
           </div>
-          <input class="content" type="text" placeholder="해보고 싶은 목록" />
-        </div>
+        </form>
       </div>
       <div style="display: flex; flex-direction: row; gap: 12px">
         <div class="BeforeBtn" id="BeforeBtn">이전</div>
-        <div class="NextBtn" id="NextBtn">다음</div>
+        <button form="step08Form" type="submit" class="NextBtn" id="NextBtn">
+          다음
+        </button>
       </div>
+
       <div class="modal">
         <div class="modal-body">
           <div style="text-align: center; margin: 35px 0px">
@@ -42,7 +54,9 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <div class="modal-text">임시저장하기</div>
+            <button form="step08Form" type="submit" class="modal-text">
+              임시저장하기
+            </button>
           </div>
         </div>
       </div>

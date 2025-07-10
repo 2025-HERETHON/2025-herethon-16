@@ -21,20 +21,39 @@
       </div>
       <div class="StepTitle">10. 유품 분배 및 정리</div>
       <div class="Scroll">
-        <div class="InputBox">
-          <div class="title">버릴 것들 목록</div>
-          <input class="content" type="text" placeholder="버릴 것들 목록" />
-        </div>
-        <div class="InputBox">
-          <div class="title">분배할 물건 목록</div>
-          <div class="detail">분배 대상의 이름과 연락처도 함께 남겨주세요.</div>
-          <input class="content" type="text" placeholder="분배할 물건 목록" />
-        </div>
+        <form id="step10Form" method="post" action="{% url 'step10' %}">
+          {% csrf_token %}
+
+          <div class="InputBox">
+            <div class="title">버릴 것들 목록</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="버릴 것들 목록"
+              name="items_to_discard"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">분배할 물건 목록</div>
+            <div class="detail">
+              분배 대상의 이름과 연락처도 함께 남겨주세요.
+            </div>
+            <input
+              class="content"
+              type="text"
+              placeholder="분배할 물건 목록"
+              name="items_to_distribute"
+            />
+          </div>
+        </form>
       </div>
       <div style="display: flex; flex-direction: row; gap: 12px">
         <div class="BeforeBtn" id="BeforeBtn">이전</div>
-        <div class="NextBtn" id="SubmitBtn">완료</div>
+        <button form="step10Form" type="submit" class="NextBtn" id="SubmitBtn">
+          완료
+        </button>
       </div>
+
       <div class="modal">
         <div class="modal-body">
           <div style="text-align: center; margin: 35px 0px">
@@ -43,7 +62,9 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <div class="modal-text">임시저장하기</div>
+            <button form="step10Form" type="submit" class="modal-text">
+              임시저장하기
+            </button>
           </div>
         </div>
       </div>

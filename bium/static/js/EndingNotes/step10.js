@@ -1,6 +1,11 @@
+const modal = document.querySelector(".modal");
+const cancelBtn = document.getElementById("CancelBtn");
+const modalDelete = document.querySelector(".modal-delete");
+const modalSave = document.querySelector(".modal-button .modal-text");
+
 window.onload = function () {
-  document.getElementById("SubmitBtn").addEventListener("click", function () {
-    window.location.href = "/will/submit/";
+  document.getElementById("BeforeBtn").addEventListener("click", function () {
+    window.location.href = "/will/step09/";
   });
 
   cancelBtn.addEventListener("click", function (e) {
@@ -17,10 +22,7 @@ window.onload = function () {
   // 모달 닫기 (임시저장하기)
   modalSave.addEventListener("click", function () {
     modal.style.display = "none";
-
-    save(true)
-      .then((Response) => Response.json())
-      .then((data) => console.log("임시저장 성공"))
-      .catch((error) => console.error("임시저장 Error", error));
+    document.getElementById("step10Form").submit();
+    window.location.href = "/main-page/";
   });
 };

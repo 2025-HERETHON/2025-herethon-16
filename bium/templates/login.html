@@ -18,7 +18,7 @@
         미리 비워두어, <br />
         남은이에게는 사랑만 남도록
       </div>
-      <form method="post">
+      <form method="post" url="{% url 'signup' %}">
         {% csrf_token %}
         <div class="Input">
           <input
@@ -34,9 +34,10 @@
             name="password"
             type="password"
             placeholder="비밀번호"
+            autocomplete="current-password"
           />
           {% if error %}
-          <span class="error-msg">{{ message }}</span>
+          <span class="error-msg">{{ error }}</span>
           {% endif %}
         </div>
         <button type="submit" class="LoginBtn" id="Login">로그인</button>

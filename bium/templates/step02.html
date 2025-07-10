@@ -21,47 +21,60 @@
       </div>
       <div class="StepTitle">02. 가족에 대한 기록</div>
       <div class="Scroll">
-        <div class="InputBox">
-          <div class="title">어머니에 대한 기록</div>
-          <div class="detail">
-            어머니의 성함, 생년월일, 고향, 출생지, 결혼기념일, 사셨던 곳, 직업,
-            생활 모습, 유전적 사항, 앓으셨던 병명, 기일 등 자유롭게 적어주세요.
+        <form id="step02Form" method="post" action="{% url 'step02' %}">
+          {% csrf_token %}
+
+          <div class="InputBox">
+            <div class="title">어머니에 대한 기록</div>
+            <div class="detail">
+              어머니의 성함, 생년월일, 고향, 출생지, 결혼기념일, 사셨던 곳,
+              직업, 생활 모습, 유전적 사항, 앓으셨던 병명, 기일 등 자유롭게
+              적어주세요.
+            </div>
+            <textarea
+              class="content"
+              placeholder="어머니에 대한 기록"
+              name="mother_record"
+            >
+{{ record.mother_record|default_if_none:'' }}</textarea
+            >
           </div>
-          <textarea
-            class="content"
-            placeholder="어머니에 대한 기록"
-            id="mother_record"
-          ></textarea>
-        </div>
-        <div class="InputBox">
-          <div class="title">아버지에 대한 기록</div>
-          <div class="detail">
-            아버지의 성함, 생년월일, 고향, 출생지, 결혼기념일, 사셨던 곳, 직업,
-            생활 모습, 유전적 사항, 앓으셨던 병명, 기일 등 자유롭게 적어주세요.
+          <div class="InputBox">
+            <div class="title">아버지에 대한 기록</div>
+            <div class="detail">
+              아버지의 성함, 생년월일, 고향, 출생지, 결혼기념일, 사셨던 곳,
+              직업, 생활 모습, 유전적 사항, 앓으셨던 병명, 기일 등 자유롭게
+              적어주세요.
+            </div>
+            <textarea
+              class="content"
+              placeholder="아버지에 대한 기록"
+              name="father_record"
+            >
+{{ record.father_record|default_if_none:'' }}</textarea
+            >
           </div>
-          <textarea
-            class="content"
-            placeholder="아버지에 대한 기록"
-            id="father_record"
-          ></textarea>
-        </div>
-        <div class="InputBox">
-          <div class="title">형제자매에 대한 기록</div>
-          <div class="detail">
-            이름, 생년월일, 연락처, 본적, 출생지, 이름의 의미, 자녀, 취미 등
-            자유롭게 적어주세요.
+          <div class="InputBox">
+            <div class="title">형제자매에 대한 기록</div>
+            <div class="detail">
+              이름, 생년월일, 연락처, 본적, 출생지, 이름의 의미, 자녀, 취미 등
+              자유롭게 적어주세요.
+            </div>
+            <textarea
+              class="content"
+              placeholder="형제자매에 대한 기록"
+              name="siblings_record"
+            >
+{{ record.siblings_record|default_if_none:'' }}</textarea
+            >
           </div>
-          <textarea
-            class="content"
-            placeholder="형제자매에 대한 기록"
-            id="siblings_record"
-          ></textarea>
-        </div>
+        </form>
       </div>
       <div style="display: flex; flex-direction: row; gap: 12px">
         <div class="BeforeBtn" id="BeforeBtn">이전</div>
-        <div class="NextBtn" id="NextBtn">다음</div>
+        <button form="step02Form" class="NextBtn" id="NextBtn">다음</button>
       </div>
+
       <div class="modal">
         <div class="modal-body">
           <div style="text-align: center; margin: 35px 0px">
@@ -70,7 +83,9 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <div class="modal-text">임시저장하기</div>
+            <button form="step02Form" type="submit" class="modal-text">
+              임시저장하기
+            </button>
           </div>
         </div>
       </div>

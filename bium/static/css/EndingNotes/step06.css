@@ -22,6 +22,7 @@ body {
   align-items: center;
   justify-content: space-between;
   height: 56px;
+  padding: 10px 0;
 }
 
 #progress {
@@ -213,6 +214,18 @@ Scroll::-webkit-scrollbar {
   line-height: normal;
 }
 
+.BottomRow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  width: calc(100% - 40px);
+  margin: 0 20px;
+}
+
 .modal {
   position: absolute;
   display: none;
@@ -249,6 +262,7 @@ Scroll::-webkit-scrollbar {
 
 .modal-text {
   color: var(--Grayscale-33_basic, #333);
+  background: var(--Grayscale-White, #fff);
   text-align: center;
 
   /* Body1_Medium_14px_140% */
@@ -257,6 +271,7 @@ Scroll::-webkit-scrollbar {
   font-style: normal;
   font-weight: 500;
   line-height: 140%; /* 19.6px */
+  border: none; /* 버튼 기본 테두리 제거 */
 }
 
 .modal-question {
