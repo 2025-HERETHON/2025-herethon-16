@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib import admin
 from .models import Will, BasicInfo, FamilyRecord, AboutMe, Pet, Funeral, MedicalCarePreparation, WillAndInheritance, BucketList, GuardianSelection, BelongingsDistribution
 
 admin.site.register(Will)

@@ -1,6 +1,6 @@
 import re
 import datetime
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
@@ -62,7 +62,16 @@ def login_view(request):
 
     if user is not None:
         login(request, user)
-        return redirect('/admin/')
-        # return redirect('main')   // 메인 페이지로 이동
+        return redirect('/')
     else:
         return render(request, 'login.html', {"error": "아이디나 비밀번호가 올바르지 않습니다."})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+def main_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    return render(request, 'main-page.html')
