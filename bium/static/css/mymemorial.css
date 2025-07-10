@@ -1,14 +1,10 @@
 :root {
-  --primary-normal: #7F8CAA;
   --gray-ED: #EDEDED;
   --gray-33: #333333;
   --white: #FFFFFF;
-  --space-sm: 12px;
+  --primary: #333446;
   --space-md: 16px;
-
-  --button-bar-height: 48px;
-  --button-bar-vertical-padding: 12px; /* .button-bar의 위/아래 padding */
-  --toast-margin-over-button: 0px;     /* 토스트와 버튼 사이 여백 */
+  --space-sm: 12px;
 }
 
 /* reset */
@@ -23,143 +19,78 @@ body {
   color: var(--gray-33);
 }
 .container {
-  width: 100%;
   max-width: 375px;
   margin: 0 auto;
-  padding-bottom: 80px;
 }
 
 /* Topbar */
 .topbar {
   display: flex;
   align-items: center;
-  padding: 0 var(--space-md);
   height: 56px;
-  background: #fff;
+  padding: 0 var(--space-md);
 }
-.topbar .btn-back {
+.btn-back, .btn-edit {
   background: none;
   border: none;
   cursor: pointer;
 }
-.topbar .btn-back img {
+.btn-back img {
   width: 24px;
   height: 24px;
 }
-.topbar .title {
-  margin-left: 12px;
+.btn-edit img {
+  width: 16px;
+  height: 16px;
+}
+.title {
+  flex: 1;
+  text-align: center;
   font-size: 18px;
   font-weight: 600;
-  color: #1D1D1D;
-}
-.topbar .spacer {
-  flex: 1;
 }
 
 /* Cover + Profile */
-.cover-section { position:relative; margin: var(--space-md); }
-
-.cover-frame {
-  width:100%; height:200px;
-  border:1.5px solid var(--gray-ED); border-radius:12px;
-  background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%),
-  url('../images/assets/background-combined.png') center/cover no-repeat;
-  cursor:pointer;
+.cover-section {
+  position: relative;
+  margin: var(--space-md);
 }
-/* .cover-frame:hover { opacity:0.95; } */
-
-/* Profile */
+.cover-frame {
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%),
+    url('../images/assets/background-combined.png') center/cover no-repeat;
+}
 .profile-wrap {
   position: absolute;
   bottom: -44px;
   left: var(--space-md);
-  width: 88px;
-  height: 88px;
 }
-.profile-frame {
+.profile-img {
   width: 88px;
   height: 88px;
   border: 4px solid #fff;
   border-radius: 50%;
-  overflow: hidden;
-}
-.profile-frame img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-}
-.camera-overlay {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 28px;
-  height: 28px;
-  background: #fff;
-  border-radius: 16px;
-  outline: 1px var(--gray-ED) solid;
-  outline-offset: -1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-.camera-overlay img {
-  width: 16px;
-  height: 16px;
+  background: #F4F4F4;
 }
 
-/* Title & Edit */
-.title-edit-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 70px;
-  padding: 0 var(--space-md);
+/* Info section */
+.info-section {
+  margin: calc(44px + var(--space-md)) var(--space-md) var(--space-md);
 }
-.title-text {
-  font-size: 18px;
-  font-weight: 600;
-}
-.btn-edit {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 8px 12px;
-  background: #fff;
-  border: 1px solid var(--gray-ED);
-  border-radius: 8px;
-  cursor: pointer;
-}
-.btn-edit span {
+.dates {
   font-size: 14px;
-  color: var(--primary-normal);
+  margin-bottom: 8px;
 }
-.btn-edit img {
-  width: 12px;
-  height: 12px;
-}
-
-/* Description */
-.desc-section {
-  padding: var(--space-sm) var(--space-md) 0;
-}
-.desc-section p {
+.description {
   font-size: 14px;
   line-height: 1.6;
-  color: var(--gray-33);
-}
-.desc-section p[contenteditable="true"] {
-  border: 1px solid var(--gray-ED);
-  border-radius: 8px;
-  padding: 8px;
-  min-height: 80px;
-}
-.desc-section p:empty::before {
-  content: attr(data-placeholder);
-  color: #888888;
 }
 
-/* Button Bar (고정) */
+/* Button Bar */
 .button-bar {
   position: fixed;
   bottom: 0;
@@ -172,8 +103,8 @@ body {
 }
 .btn-delegate {
   width: 100%;
-  height: var(--button-bar-height);
-  background: rgba(51,49,49,0.9);
+  height: 48px;
+  background: var(--primary);
   color: #fff;
   border: none;
   border-radius: 12px;
@@ -182,34 +113,16 @@ body {
   cursor: pointer;
 }
 
-/* Toast (고정) */
-.overlay {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(
-    var(--button-bar-height)
-    + var(--button-bar-vertical-padding) * 2
-    + var(--toast-margin-over-button)
-  );
-  width: 100%;
+/* Agent Link Container */
+.agent-link-container {
   max-width: 375px;
+  margin: 12px auto 24px;
   padding: 0 var(--space-md);
-  height: var(--button-bar-height);
-  background: rgba(51,49,49,0.7);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-.overlay.hidden {
-  display: none;
-}
-.overlay-content {
-  font-size: 14px;
-  line-height: 19.6px;
-  font-weight: 600;
-  color: #fff;
   text-align: center;
+  word-break: break-all;
+}
+.agent-link-container a {
+  color: var(--primary);
+  text-decoration: underline;
+  font-size: 14px;
 }

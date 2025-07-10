@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>추모공간 수정</title>
   <link rel="stylesheet" href="../static/css/mymemorial-edit.css" />
 </head>
@@ -12,64 +12,93 @@
     <!-- Topbar -->
     <header class="topbar">
       <button class="btn-back">
-        <img src="../static/images/icons/icon-back-24.svg" alt="뒤로" />
+        <img src="../static/images/icons/icon-back-24.svg" alt="뒤로"/>
       </button>
-      <div class="title" id="topbarTitle">님 의 추모공간</div>
+      <div class="title" id="topbarTitle">님의 추모공간</div>
       <div class="spacer"></div>
     </header>
 
-    <!-- Cover + Profile -->
-    <section class="cover-section">
-      <div class="cover-edit" id="coverFrame">
-        <input type="file" id="coverInput" accept="image/*" hidden />
-      </div>
+    <!-- Form -->
+    <form id="memorialForm"
+          method="POST"
+          action="/api/memorial/space_my/"
+          enctype="multipart/form-data">
+      {% csrf_token %}
 
-      <div class="profile-edit">
-        <div class="profile-frame" id="profileFrame">
-          <img
-            src="../static/images/assets/default.png"
-            alt="프로필"
-            id="profileImg"
-          />
+      <!-- Cover + Profile -->
+      <section class="cover-section">
+        <div class="cover-edit" id="coverFrame">
+          <input type="file"
+                 id="coverInput"
+                 name="background_image"
+                 accept="image/*"
+                 hidden />
         </div>
-        <div class="camera-overlay" id="profileUploadBtn">
-          <img src="../static/images/icons/icon-camera-16.svg" alt="프로필 업로드" />
+        <div class="profile-edit">
+          <div class="profile-frame" id="profileFrame">
+            <img src="../static/images/assets/default.png"
+                 alt="프로필"
+                 id="profileImg" />
+          </div>
+          <div class="camera-overlay" id="profileUploadBtn">
+            <img src="../static/images/icons/icon-camera-16.svg"
+                 alt="프로필 업로드" />
+          </div>
+          <input type="file"
+                 id="profileInput"
+                 name="profile_image"
+                 accept="image/*"
+                 hidden />
         </div>
-        <input type="file" id="profileInput" accept="image/*" hidden />
+      </section>
+
+      <!-- Hidden public flag -->
+      <input type="hidden" name="is_public" value="true" />
+
+      <!-- 입력 필드들 -->
+      <div class="field">
+        <label for="memorialName">성함을 작성해주세요</label>
+        <input type="text"
+               id="memorialName"
+               name="name"
+               placeholder="고인의 이름을 입력해주세요"
+               required />
       </div>
-    </section>
 
-    <!-- 입력 필드들 -->
-    <div class="field">
-      <label for="memorialName">성함을 작성해주세요</label>
-      <input
-        type="text"
-        id="memorialName"
-        placeholder="고인의 이름을 입력해주세요"
-      />
-    </div>
-
-    <div class="field">
-      <label for="birthDate">생년월일</label>
-      <input type="date" id="birthDate" />
-    </div>
-
-    <div class="field">
-      <label for="description">추모공간을 소개해주세요</label>
-      <div class="description-box">
-        <div
-          id="description"
-          class="description-text"
-          contenteditable="true"
-          data-placeholder="내가 없을 때, 이곳에서 나를 만나주세요."
-        ></div>
+      <div class="field">
+        <label for="birthDate">생년월일</label>
+        <input type="date"
+               id="birthDate"
+               name="birth_date"
+               required />
       </div>
-    </div>
 
-    <!-- 완료 버튼 -->
-    <div class="button-wrap">
-      <button id="saveBtn" class="btn-save">수정 완료</button>
-    </div>
+      <div class="field">
+        <label for="deathDate">별세일</label>
+        <input type="date"
+               id="deathDate"
+               name="death_date"
+               required />
+      </div>
+
+      <div class="field">
+        <label for="description">추모공간을 소개해주세요</label>
+        <textarea id="description"
+                  name="description"
+                  class="description-text"
+                  placeholder="내가 없을 때, 이곳에서 나를 만나주세요."
+                  required></textarea>
+      </div>
+
+      <!-- 완료 버튼 -->
+      <div class="button-wrap">
+        <button type="submit"
+                id="saveBtn"
+                class="btn-save">
+          수정 완료
+        </button>
+      </div>
+    </form>
 
   </div>
 

@@ -1,51 +1,86 @@
-// — mock API data —
-// 실제 호출 전까지 이곳에 사용자 정보를 넣어두고 씁니다.
-const mockUser = {
-  name:       "김이름",
-  birth_date: "2000-01-01",
-  // background, profile 은 업로드 전엔 CSS에서 기본값 사용
-};
+document.addEventListener('DOMContentLoaded', () => {
+  const form        = document.getElementById('memorialForm');
+  const titleEl     = document.getElementById('topbarTitle');
+  const nameInput   = document.getElementById('memorialName');
+  const birthInput  = document.getElementById('birthDate');
+  const deathInput  = document.getElementById('deathDate');
+  const descInput   = document.getElementById('description');
 
-// — Topbar title 채우기 —
-const topbarTitle = document.getElementById('topbarTitle');
-topbarTitle.textContent = `${mockUser.name} 님의 추모공간`;
+  const coverFrame   = document.getElementById('coverFrame');
+  const coverInput   = document.getElementById('coverInput');
+  const profileFrame = document.getElementById('profileFrame');
+  const profileImg   = document.getElementById('profileImg');
+  const profileBtn   = document.getElementById('profileUploadBtn');
+  const profileInput = document.getElementById('profileInput');
 
-// — 폼 기본값 세팅 —
-document.getElementById('memorialName').value = mockUser.name;
-document.getElementById('birthDate').value    = mockUser.birth_date;
+  // 뒤로가기
+  document.querySelector('.btn-back')
+    .addEventListener('click', () => window.history.back());
 
-// — 뒤로가기 —
-document.querySelector('.btn-back').addEventListener('click', () => {
-  window.location.href = 'mymemorial.html';
-});
+  // 1) 조회 API
+  fetch('/api/memorial/space_my/', {
+    method: 'GET',
+    credentials: 'include'
+  })
+    .then(res => res.json())
+    .then(json => {
+      if (json.success && json.memorials.length) {
+        const d = json.memorials[0];
+        // Topbar 이름
+        titleEl.textContent = `${d.name} 님의 추모공간`;
+        // 필드 채우기
+        nameInput.value   = d.name;
+        birthInput.value  = d.birth_date;
+        deathInput.value  = d.death_date;
+        descInput.value   = d.description;
+        // 이미지 반영
+        if (d.profile_image) profileImg.src = d.profile_image;
+        if (d.background_image) {
+          coverFrame.style.background =
+            `linear-gradient(180deg, rgba(255,255,255,0)0%, rgba(255,255,255,1)80%), `+
+            `url(${d.background_image}) center/cover no-repeat`;
+        }
+      }
+    })
+    .catch(e => console.error('조회 오류:', e));
 
-// — COVER 업로드 —
-const coverFrame = document.getElementById('coverFrame');
-const coverInput = document.getElementById('coverInput');
+  // 2) 배경 업로드
+  coverFrame.addEventListener('click', () => coverInput.click());
+  coverInput.addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return;
+    const url = URL.createObjectURL(f);
+    coverFrame.style.background =
+      `linear-gradient(180deg, rgba(255,255,255,0)0%,rgba(255,255,255,1)80%), `+
+      `url(${url}) center/cover no-repeat`;
+  });
 
-coverFrame.addEventListener('click', () => coverInput.click());
-coverInput.addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const url = URL.createObjectURL(file);
-  coverFrame.style.backgroundImage =
-    `linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%), url(${url})`;
-});
+  // 3) 프로필 업로드
+  profileBtn.addEventListener('click', () => profileInput.click());
+  profileInput.addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return;
+    profileImg.src = URL.createObjectURL(f);
+  });
 
-// — PROFILE 업로드 —
-const profileFrame = document.getElementById('profileFrame');
-const profileInput = document.getElementById('profileInput');
-const profileImg   = document.getElementById('profileImg');
-
-profileFrame.addEventListener('click', () => profileInput.click());
-profileInput.addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  profileImg.src = URL.createObjectURL(file);
-});
-
-// — 저장 버튼 —
-document.getElementById('saveBtn').addEventListener('click', () => {
-  alert('추모공간이 수정 완료되었습니다.');
-  // 여기에 실제 API 호출 로직을 넣으시면 됩니다.
+  // 4) 폼 제출
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = new FormData(form);
+    fetch(form.action, {
+      method: form.method,
+      credentials: 'include',
+      body: data
+    })
+    .then(r => r.json().then(json => ({ status: r.status, json })))
+    .then(({ status, json }) => {
+      if (status === 201 && json.success) {
+        window.location.href = 'mymemorial.html';
+      } else {
+        alert(json.message || '저장 중 오류가 발생했습니다.');
+      }
+    })
+    .catch(err => {
+      console.error('저장 오류:', err);
+      alert('서버 통신 중 오류가 발생했습니다.');
+    });
+  });
 });

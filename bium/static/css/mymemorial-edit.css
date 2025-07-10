@@ -7,7 +7,7 @@
   --space-md: 16px;
 }
 
-/* ─ reset ─────────────────────────────────────────────────── */
+/* reset */
 * {
   margin: 0; padding: 0; box-sizing: border-box;
 }
@@ -20,36 +20,29 @@ body {
   margin: 0 auto; padding-bottom: 80px;
 }
 
-/* ─ Topbar ───────────────────────────────────────────────── */
+/* Topbar */
 .topbar {
   display: flex; align-items: center;
   height: 56px; padding: 0 var(--space-md);
 }
-.btn-back {
-  background: none; border: none; cursor: pointer;
-}
+.btn-back { background: none; border: none; cursor: pointer; }
 .btn-back img { width: 24px; height: 24px; }
-.title {
-  margin-left: 12px; font-size: 18px; font-weight: 600;
-}
+.title { margin-left: 12px; font-size: 18px; font-weight: 600; }
 .spacer { flex: 1; }
 
-/* ─ Cover + Profile ─────────────────────────────────────── */
-.cover-section {
-  position: relative; margin: var(--space-md);
-}
+/* Cover + Profile */
+.cover-section { position: relative; margin: var(--space-md); }
 .cover-edit {
-  width: 100%; height: 200px;
-  border-radius: 12px; cursor: pointer;
+  width:100%; height:200px;
+  border-radius:12px; cursor:pointer;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%),
-    url('../images/assets/background-combined.png') center/cover no-repeat;
+    linear-gradient(180deg, rgba(255,255,255,0)0%, rgba(255,255,255,1)80%),
+    url('../images/assets/background-combined.png')
+    center/cover no-repeat;
   transition: background-image .3s;
 }
-
 .profile-edit {
-  position: absolute;
-  bottom: -44px; left: var(--space-md);
+  position: absolute; bottom: -44px; left: var(--space-md);
 }
 .profile-frame {
   width: 88px; height: 88px;
@@ -57,23 +50,16 @@ body {
   overflow: hidden; background: #F4F4F4;
   outline: 1px solid var(--gray-ed); outline-offset: -1px;
 }
-.profile-frame img {
-  width: 100%; height: 100%; object-fit: cover;
-}
+.profile-frame img { width:100%; height:100%; object-fit:cover; }
 .camera-overlay {
-  position: absolute;
-  bottom: -4px; right: -4px;
-  width: 28px; height: 28px;
-  background: #fff; border-radius: 14px;
-  outline: 1px solid var(--gray-ed);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; z-index: 10;
+  position: absolute; bottom: -4px; right: -4px;
+  width:28px; height:28px; background:#fff; border-radius:14px;
+  outline:1px solid var(--gray-ed); display:flex;
+  align-items:center; justify-content:center; cursor:pointer;
 }
-.camera-overlay img {
-  width: 16px; height: 16px;
-}
+.camera-overlay img { width:16px; height:16px; }
 
-/* ─ Fields ──────────────────────────────────────────────── */
+/* Fields */
 .field {
   padding: 0 var(--space-md);
   margin-top: 70px;
@@ -83,38 +69,17 @@ body {
   display: block; margin-bottom: 8px;
   font-size: 14px; font-weight: 500;
 }
-.field input[type="text"],
-.field input[type="date"] {
+.field input, .field textarea {
   width: 100%; padding: 8px;
   border: 1px solid var(--gray-ed);
   border-radius: 8px;
-  font-size: 14px;
-  font-family: Pretendard;
-}
-
-/* ─ Description 박스 ──────────────────────────────────── */
-.description-box {
-  display: inline-flex;
-  width: 100%;
-  padding: 12px 16px;
-  background: var(--white);
-  border-radius: 8px;
-  outline: 1px solid #DFDFDF;
-  outline-offset: -1px;
+  font-size: 14px; font-family: Pretendard;
 }
 .description-text {
-  flex: 1;
-  min-height: 124px;
-  color: #333333;
-  font-size: 14px; font-weight: 500;
-  line-height: 1.6; word-wrap: break-word;
-}
-.description-text:empty::before {
-  content: attr(data-placeholder);
-  color: #888888;
+  min-height: 124px; resize: vertical;
 }
 
-/* ─ Button ──────────────────────────────────────────────── */
+/* Button */
 .button-wrap {
   padding: 16px; margin-top: 24px;
   display: flex; justify-content: center;
