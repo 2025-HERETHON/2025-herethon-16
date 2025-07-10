@@ -1,97 +1,196 @@
-// memorial-detail.js
-document.addEventListener('DOMContentLoaded', () => {
-  // — 꽃 선택 & count 업데이트 변수 선언 —
-  const flowersEl   = document.getElementById('flowers');
-  const infoEl      = document.querySelector('.comment-info');
-  let selectedFlowerUrl = null;
+document.addEventListener('DOMContentLoaded', async () => {
+  // — URL에서 memorial_id 꺼내기 —
+  const params = new URLSearchParams(location.search);
+  const memorialId = params.get('memorial_id');
+  if (!memorialId) {
+    alert('잘못된 접근입니다.');
+    return;
+  }
 
-  // — 꽃 클릭 이벤트 —
+  // — 요소 참조 —
+  const btnBack        = document.getElementById('btnBack');
+  const coverFrame     = document.getElementById('coverFrame');
+  const profileImg     = document.getElementById('profileImg');
+  const memorialTitle  = document.getElementById('memorialTitle');
+  const memorialName   = document.getElementById('memorialName');
+  const memorialDates  = document.getElementById('memorialDates');
+  const profileDescSec = document.getElementById('profileDescription');
+  const openedDate     = document.getElementById('openedDate');
+  const commentInfo    = document.getElementById('commentInfo');
+  const flowersEl      = document.getElementById('flowers');
+  const commentList    = document.getElementById('comment-list');
+  const sendBtn        = document.getElementById('send-btn');
+  const commentInput   = document.getElementById('comment-input');
+
+  let selectedFlower  = null;  // data-path 값
+
+  // — 뒤로가기 —
+  btnBack.addEventListener('click', () => history.back());
+
+  // — 꽃 선택 로직 —
   flowersEl.addEventListener('click', e => {
     const f = e.target.closest('.flower');
     if (!f) return;
-    // 기존 선택 해제
-    flowersEl.querySelectorAll('.flower').forEach(el => el.classList.remove('selected'));
-    // 새로 선택
+    flowersEl.querySelectorAll('.flower').forEach(x => x.classList.remove('selected'));
     f.classList.add('selected');
-    // background-image:url('…') → '…'
-    selectedFlowerUrl = f.style.backgroundImage.slice(5, -2);
+    selectedFlower = f.dataset.path; 
   });
 
-  // — 뒤로가기 버튼 —
-  const btnBack = document.querySelector('.btn-back');
-  btnBack.addEventListener('click', () => {
-    window.location.href = 'memorial-page.html';
-  });
+  // — API: 단일 추모공간 조회 —
+  try {
+    const res = await fetch(`/api/memorial/space/${memorialId}/`, {
+      credentials: 'include'
+    });
+    const json = await res.json();
+    if (!res.ok || !json.success) throw new Error(json.message || res.statusText);
 
-  // — 댓글 등록 관련 변수 선언 —
-  const sendBtn     = document.getElementById('send-btn');
-  const inputEl     = document.getElementById('comment-input');
-  const commentList = document.getElementById('comment-list');
+    const m = json.memorial;
+    // 1) 제목 / 이름
+    memorialName.textContent  = m.name;
+    memorialTitle.textContent = `故 ${m.name} 님의 추모공간`;
 
-  // — 댓글 전송 클릭 —
-  sendBtn.addEventListener('click', () => {
-    const text = inputEl.value.trim();
-    if (!text || !selectedFlowerUrl) {
-      // 메시지 혹은 꽃이 선택되지 않았으면 아무 동작도 하지 않습니다.
-      return;
+    // 2) 날짜
+    const bd = new Date(m.birth_date).toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric' });
+    const dd = new Date(m.death_date).toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric' });
+    memorialDates.textContent  = `${bd} – ${dd}`;
+
+    // 3) 커버 / 프로필
+    if (m.background_image) {
+      coverFrame.style.backgroundImage =
+        `linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%), url(${m.background_image})`;
+    }
+    if (m.profile_image) {
+      profileImg.src = m.profile_image;
     }
 
-    // 날짜 포맷 (YYYY.MM.DD)
-    const date = new Date().toISOString().slice(0,10).replace(/-/g,'.');
+    // 4) 소개
+    profileDescSec.innerHTML = `<p>${m.description}</p>`;
 
-    // 댓글 카드 엘리먼트 생성
-    const card = document.createElement('div');
-    card.className = 'comment-card';
-    card.innerHTML = `
-      <img src="${selectedFlowerUrl}" alt="꽃"/>
-      <div class="comment-content">
-        <div class="meta">
-          <span class="name">이름없음</span>
-          <span class="date">${date}</span>
-        </div>
-        <div class="comment-actions">
-          <button class="edit-btn">수정</button>
-          <span class="separator">|</span>
-          <button class="delete-btn">삭제</button>
-        </div>
-      </div>
-      <div class="text">${text}</div>
-      </div>
-    `;
+    // 5) 개설일
+    const created = new Date(m.created_at).toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric' });
+    openedDate.textContent = `이 추모공간은 ${created}에 개설되었습니다.`;
 
-    // 카드 붙이기
-    commentList.append(card);
-    // 입력창 초기화
-    inputEl.value = '';
+  } catch (err) {
+    console.error(err);
+    alert('추모공간 정보를 불러오지 못했습니다.');
+    return;
+  }
 
-    // 꽃·입력 비활성화
-    selectedFlowerUrl = null;
-    flowersEl.querySelectorAll('.flower').forEach(el => el.classList.remove('selected'));
+  // — API: 댓글 조회 —
+  async function loadComments() {
+    commentList.innerHTML = '';
+    try {
+      const res = await fetch(`/api/memorial/space/${memorialId}/messages/`, {
+        credentials: 'include'
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json.message);
 
-    // 댓글 수 업데이트
-    const count = commentList.children.length;
-    infoEl.textContent = `${count}명이 함께 꽃으로 기억을 이어가고 있습니다.`;
+      json.messages.forEach(msg => {
+        const card = document.createElement('div');
+        card.className = 'comment-card';
+        card.innerHTML = `
+          <img src="${msg.flower_image}" alt="꽃"/>
+          <div class="comment-content">
+            <div class="meta">
+              <span class="name">${msg.writer}</span>
+              <span class="date">${new Date(msg.created_at)
+                .toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})}</span>
+            </div>
+            <div class="comment-actions">
+              <button class="edit-btn" data-id="${msg.id}">수정</button>
+              <span class="separator">|</span>
+              <button class="delete-btn" data-id="${msg.id}">삭제</button>
+            </div>
+          </div>
+          <div class="text" data-id="${msg.id}">${msg.message}</div>
+        `;
+        commentList.append(card);
+      });
 
-    // — 등록된 카드에 수정/삭제 이벤트 달기 —
-    const editBtn   = card.querySelector('.edit-btn');
-    const deleteBtn = card.querySelector('.delete-btn');
-    const textEl    = card.querySelector('.text');
+      // 댓글 수 업데이트
+      commentInfo.textContent = `${json.messages.length}명이 함께 꽃으로 기억을 이어가고 있습니다.`;
 
-    editBtn.addEventListener('click', () => {
-      const newText = prompt('댓글을 수정하세요:', textEl.textContent);
-      if (newText !== null) {
-        textEl.textContent = newText.trim();
+      // 수정·삭제 핸들러
+      commentList.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.id;
+          const textEl = commentList.querySelector(`.text[data-id="${id}"]`);
+          const newMsg = prompt('댓글을 수정하세요:', textEl.textContent);
+          if (newMsg===null) return;
+          const fd = new FormData();
+          fd.append('message', newMsg);
+          // flower 그대로 re-send
+          const flower = textEl.previousElementSibling
+                          .previousElementSibling
+                          .querySelector('img').src;
+          fd.append('flower_image', flower);
+          const r = await fetch(`/api/memorial/space/messages/${id}/`, {
+            method: 'PUT',
+            credentials: 'include',
+            body: fd
+          });
+          const j = await r.json();
+          if (r.ok && j.success) {
+            textEl.textContent = newMsg;
+          } else {
+            alert(j.message || '수정에 실패했습니다.');
+          }
+        });
+      });
+
+      commentList.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('정말 삭제하시겠습니까?')) return;
+          const id = btn.dataset.id;
+          const r = await fetch(`/api/memorial/space/messages/${id}/`, {
+            method: 'DELETE',
+            credentials: 'include'
+          });
+          const j = await r.json();
+          if (r.ok && j.success) {
+            loadComments();
+          } else {
+            alert(j.message || '삭제에 실패했습니다.');
+          }
+        });
+      });
+
+    } catch (err) {
+      console.error(err);
+      alert('댓글을 불러오지 못했습니다.');
+    }
+  }
+
+  await loadComments();
+
+  // — 댓글 작성 —
+  sendBtn.addEventListener('click', async () => {
+    const msg = commentInput.value.trim();
+    if (!msg || !selectedFlower) return;
+    const fd = new FormData();
+    fd.append('message', msg);
+    fd.append('flower_image', selectedFlower);
+
+    try {
+      const res = await fetch(`/api/memorial/space/${memorialId}/messages/`, {
+        method: 'POST',
+        credentials: 'include',
+        body: fd
+      });
+      const j = await res.json();
+      if (res.ok && j.success) {
+        commentInput.value = '';
+        flowersEl.querySelectorAll('.flower').forEach(x => x.classList.remove('selected'));
+        selectedFlower = null;
+        await loadComments();
+      } else {
+        alert(j.message || '작성에 실패했습니다.');
       }
-    });
-
-    deleteBtn.addEventListener('click', () => {
-      if (confirm('정말 삭제하시겠습니까?')) {
-        card.remove();
-        const newCount = commentList.children.length;
-        infoEl.textContent = `${newCount}명이 함께 꽃으로 기억을 이어가고 있습니다.`;
-      }
-    });
+    } catch (err) {
+      console.error(err);
+      alert('작성 중 오류가 발생했습니다.');
+    }
   });
+
 });
-
-

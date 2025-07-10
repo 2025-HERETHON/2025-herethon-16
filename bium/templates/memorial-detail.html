@@ -4,76 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>memorial-detail</title>
-  <link rel="stylesheet" href="../static/css/memorial-detail.css">
+  <link rel="stylesheet" href="../static/css/memorial-detail.css" />
 </head>
 <body>
   <div class="container">
 
     <!-- 1) Topbar -->
     <header class="topbar">
-      <button class="btn-back">
+      <button class="btn-back" id="btnBack">
         <img src="../static/images/icons/icon-back-24.svg" alt="뒤로" />
       </button>
-      <h1 class="title">故 김이름 님의 추모공간</h1>
+      <h1 class="title" id="memorialTitle">故 — 님의 추모공간</h1>
       <div class="spacer"></div>
     </header>
 
     <!-- 2) Cover + Profile -->
-    <section class="cover-frame">
-      <!-- CSS 배경으로 대체되므로 숨겨집니다 -->
+    <section class="cover-frame" id="coverFrame">
+      <!-- 실제 업로드된 이미지는 JS에서 background-image 로 세팅 -->
       <img src="../static/images/assets/background-combined.png"
            alt="커버 이미지"
            class="cover-img"/>
       <img src="../static/images/assets/profile.jpg"
            alt="고인 사진"
-           class="profile-img"/>
+           class="profile-img"
+           id="profileImg"/>
     </section>
 
     <!-- 3) Title + Dates -->
     <section class="profile-text">
-      <p class="profile-title"><strong>故 김이름 님</strong>의 추모공간</p>
-      <p class="profile-dates">2001년 1월 1일 – 2025년 5월 5일</p>
+      <p class="profile-title"><strong id="memorialName">—</strong>님의 추모공간</p>
+      <p class="profile-dates" id="memorialDates">— 년 —월 —일 – — 년 —월 —일</p>
     </section>
 
     <!-- 4) Description -->
-    <section class="profile-description">
-      <p>이 추모공간은 우리가 사랑했던 김이름님을 위해 만들어졌습니다.</p>
-      <p>가장 행복한 사람이 여기 잠들어 있습니다. 계절은 흘러, 초여름으로 접어들며 자연은 신록의 기적을 펼쳐보이고 있습니다.</p>
-      <p>생의 마지막, 그는 흡사 어머니 곁에 잠든 아이처럼 평온한 얼굴로 떠났습니다. 그 말에 그를 여읜 슬픔으로 찢어지는 제 가슴이 일말의 위로를 받습니다.</p>
-      <p>천국으로 가는 길, 평안하고 행복하기를 빕니다.</p>
-      <p>감사합니다.</p>
+    <section class="profile-description" id="profileDescription">
+      <p>—</p>
     </section>
 
     <!-- 5) Opened Date -->
-    <p class="opened-date">
-      이 추모공간은 2025년 5월 5일에 개설되었습니다.
+    <p class="opened-date" id="openedDate">
+      이 추모공간은 — 에 개설되었습니다.
     </p>
 
     <!-- 6) Flower Info -->
-    <p class="comment-info">0명이 함께 꽃으로 기억을 이어가고 있습니다.</p>
+    <p class="comment-info" id="commentInfo">
+      0명이 함께 꽃으로 기억을 이어가고 있습니다.
+    </p>
+
     <!-- 7) Comment Prompt -->
     <p class="comment-prompt">
       헌화와 함께 따뜻한 조문 메시지를 남겨주세요
     </p>
+
     <!-- 8) Flowers Scroll -->
     <div class="flowers" id="flowers">
-      <div class="flower selected"
-           style="background-image:url('../static/images/assets/flower1.png')"></div>
-      <div class="flower"
-           style="background-image:url('../static/images/assets/flower2.png')"></div>
-      <div class="flower"
-           style="background-image:url('../static/images/assets/flower3.png')"></div>
-      <div class="flower"
-           style="background-image:url('../static/images/assets/flower4.png')"></div>
-      <div class="flower"
-           style="background-image:url('../static/images/assets/flower5.png')"></div>
-      <div class="flower"
-           style="background-image:url('../static/images/assets/flower6.png')"></div>
-      <div class="flower"
-           style="background-image:url('../static/images/assets/flower7.png')"></div>
+      <!-- JS가 first-load 시 자동으로 selected 처리 -->
+      <div class="flower" data-path="condolences/flower/flower1.png" style="background-image:url('../static/images/assets/flower1.png')"></div>
+      <div class="flower" data-path="condolences/flower/flower2.png" style="background-image:url('../static/images/assets/flower2.png')"></div>
+      <div class="flower" data-path="condolences/flower/flower3.png" style="background-image:url('../static/images/assets/flower3.png')"></div>
+      <div class="flower" data-path="condolences/flower/flower4.png" style="background-image:url('../static/images/assets/flower4.png')"></div>
+      <div class="flower" data-path="condolences/flower/flower5.png" style="background-image:url('../static/images/assets/flower5.png')"></div>
+      <div class="flower" data-path="condolences/flower/flower6.png" style="background-image:url('../static/images/assets/flower6.png')"></div>
+      <div class="flower" data-path="condolences/flower/flower7.png" style="background-image:url('../static/images/assets/flower7.png')"></div>
     </div>
-
-
 
     <!-- 9) Input Area -->
     <div class="input-area">

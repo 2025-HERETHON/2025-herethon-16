@@ -3,20 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy"
-      content="script-src 'self' 'unsafe-eval' 'unsafe-inline';">
+  <meta http-equiv="Content-Security-Policy"
+        content="script-src 'self' 'unsafe-eval' 'unsafe-inline';">
   <title>BIUM</title>
   <link rel="stylesheet" href="./static/css/main-page.css" />
 </head>
 <body>
   <!-- 사이드바 (햄버거 클릭 시 열림) -->
   <aside id="sidebar" class="sidebar">
-    <img
-      id="closeSidebar"
-      src="./static/images/icons/icon-close-24.svg"
-      alt="닫기 아이콘"
-      class="icon-close"
-    />
+    <img id="closeSidebar"
+         src="./static/images/icons/icon-close-24.svg"
+         alt="닫기 아이콘"
+         class="icon-close" />
     <nav class="sidebar-menu">
       <!-- 홈 -->
       <section class="sidebar-section">
@@ -50,34 +48,26 @@
   <div class="main-frame">
     <!-- 3.1 상단 바: 햄버거 · 로고 · 내 공간 -->
     <header class="main-top">
-      <img
-        id="openSidebar"
-        src="./static/images/icons/icon-menu-24.svg"
-        alt="메뉴 아이콘"
-        class="icon-menu"
-      />
+      <img id="openSidebar"
+           src="./static/images/icons/icon-menu-24.svg"
+           alt="메뉴 아이콘"
+           class="icon-menu" />
       <div class="logo">
-        <img
-          src="./static/images/assets/logo.svg"
-          alt="로고"
-          class="logo"
-        />
+        <img src="./static/images/assets/logo.svg"
+             alt="로고"
+             class="logo" />
       </div>
-      <img
-        src="./static/images/icons/icon-myspace-24.svg"
-        alt="내 공간 아이콘"
-        class="icon-myspace"
-      />
+      <img src="./static/images/icons/icon-myspace-24.svg"
+           alt="내 공간 아이콘"
+           class="icon-myspace" />
     </header>
 
     <!-- 3.2 커버 이미지: will 단계에 따라 교체 -->
     <div class="cover-frame">
-      <img
-        id="coverImg"
-        src="./static/images/assets/will-image-before.png"
-        alt="커버 이미지"
-        class="cover-img"
-      />
+      <img id="coverImg"
+           src="./static/images/assets/will-image-before.png"
+           alt="커버 이미지"
+           class="cover-img" />
     </div>
 
     <!-- 3.3 서브헤더 -->
@@ -88,22 +78,17 @@
     <!-- 3.4 유언장 작성 버튼 -->
     <button class="will-btn">
       <span>유언장 작성하기</span>
-      <img
-        src="./static/images/icons/icon-arrow-right-20.svg"
-        alt="오른쪽 화살표 아이콘"
-        class="icon-right-arrow"
-      />
+      <img src="./static/images/icons/icon-arrow-right-20.svg"
+           alt="오른쪽 화살표 아이콘"
+           class="icon-right-arrow" />
     </button>
 
     <!-- 3.5 체크리스트 (폼+리다이렉트) -->
-    <div class="subtitle">
-      장례 전 준비해야 할 목록
-    </div>
+    <div class="subtitle">장례 전 준비해야 할 목록</div>
     <form id="checklistForm"
           action="/api/checklist/save/"
           method="POST"
           class="checklist-wrapper">
-      <!-- Django 템플릿 내에서 CSRF 토큰 -->
       {% csrf_token %}
       <div class="checklist-container">
         {% for category in checklist %}
@@ -127,10 +112,8 @@
           </div>
         {% endfor %}
       </div>
-      <button type="submit"
-              id="checklistSubmit"
-              style="display:none">
-      </button>
+      <!-- 자동 제출을 위한 숨은 버튼 -->
+      <button type="submit" id="checklistSubmit" style="display:none"></button>
     </form>
   </div>
 

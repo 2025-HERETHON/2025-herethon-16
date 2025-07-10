@@ -20,12 +20,6 @@ const mainFrame = document.querySelector('.main-frame');
 const openBtn   = document.getElementById('openSidebar');
 const closeBtn  = document.getElementById('closeSidebar');
 
-document.querySelectorAll('.sidebar-menu a').forEach(link => {
-  link.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-    mainFrame.classList.remove('blurred');
-  });
-});
 openBtn.addEventListener('click', () => {
   sidebar.classList.add('open');
   mainFrame.classList.add('blurred');
@@ -34,6 +28,12 @@ closeBtn.addEventListener('click', () => {
   sidebar.classList.remove('open');
   mainFrame.classList.remove('blurred');
 });
+document.querySelectorAll('.sidebar-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    mainFrame.classList.remove('blurred');
+  });
+});
 
 // ── “내 공간” 아이콘 클릭 분기 ──
 const myspaceBtn = document.querySelector('.icon-myspace');
@@ -41,8 +41,8 @@ if (myspaceBtn) {
   myspaceBtn.addEventListener('click', async () => {
     const loggedIn = await checkLogin();
     window.location.href = loggedIn
-      ? '../templates/mymemorial-edit.html'
-      : '../templates/login.html';
+      ? './templates/mymemorial-edit.html'
+      : './templates/login.html';
   });
 }
 
@@ -71,17 +71,17 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
     if (res2.ok) {
       const json2 = await res2.json();
-      checklistData = json2.data;  // [{category, items:[{id,content,is_checked},…]},…]
+      checklistData = json2.data;
     }
   } catch (e) {
     console.error('체크리스트 조회 실패:', e);
   }
 
-  //  초기 화면 체크 상태 & 카운트 갱신
   document.querySelectorAll('.checklist-group').forEach(groupEl => {
     const category = groupEl.querySelector('.group-title').textContent.trim();
     const catData  = checklistData.find(c => c.category === category);
     if (!catData) return;
+
     catData.items.forEach(item => {
       const label = [...groupEl.querySelectorAll('.item')]
         .find(l => l.querySelector('span').textContent.trim() === item.content);
@@ -93,42 +93,46 @@ window.addEventListener('DOMContentLoaded', async () => {
         ? './static/images/icons/icon-checkbox-12=Activate.svg'
         : './static/images/icons/icon-checkbox-12=Deactivate.svg';
     });
+
     const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
     const countEl = groupEl.querySelector('.group-count');
     const checked = [...boxes].filter(cb => cb.checked).length;
     countEl.textContent = `${checked}/${boxes.length}`;
   });
 
-  // ── 체크박스 클릭 → UI 토글 + 그룹 카운트 + 폼 제출 ──
+  // ── 체크박스 클릭 → UI 토글 + 카운트 + 폼 제출 ──
   document.querySelectorAll('.item').forEach(label => {
     label.addEventListener('click', () => {
       const input = label.querySelector('input[type="checkbox"]');
       const icon  = label.querySelector('.checkbox-icon');
-      // 토글
+
+      // 1) UI 토글
       input.checked = !input.checked;
       icon.src = input.checked
         ? './static/images/icons/icon-checkbox-12=Activate.svg'
         : './static/images/icons/icon-checkbox-12=Deactivate.svg';
-      // 그룹 카운트 갱신
+
+      // 2) 그룹 카운트 갱신
       const groupEl = label.closest('.checklist-group');
       const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
       const countEl = groupEl.querySelector('.group-count');
       const checkedCount = [...boxes].filter(cb => cb.checked).length;
       countEl.textContent = `${checkedCount}/${boxes.length}`;
-      // 폼 제출 (리다이렉트)
+
+      // 3) 자동 폼 제출 (리다이렉트)
       document.getElementById('checklistSubmit').click();
     });
   });
 
-  // ── FAQ 토글 & 아이콘 교체 ──
+  // ── FAQ 토글 & 아이콘 교체 (필요 시 유지) ──
   document.querySelectorAll('.faq-item').forEach(item => {
     const btn  = item.querySelector('.faq-question');
     const icon = btn.querySelector('.icon-dropdown');
     btn.addEventListener('click', () => {
       const isOpen = item.classList.toggle('open');
       icon.src = isOpen
-        ? '../static/images/icons/icon-dropdown-20=up.svg'
-        : '../static/images/icons/icon-dropdown-20=down.svg';
+        ? './static/images/icons/icon-dropdown-20=up.svg'
+        : './static/images/icons/icon-dropdown-20=down.svg';
     });
   });
 });
