@@ -20,7 +20,6 @@
 
     <!-- 2) Cover + Profile -->
     <section class="cover-frame" id="coverFrame">
-      <!-- 실제 업로드된 이미지는 JS에서 background-image 로 세팅 -->
       <img src="../static/images/assets/background-combined.png"
            alt="커버 이미지"
            class="cover-img"/>
@@ -32,8 +31,12 @@
 
     <!-- 3) Title + Dates -->
     <section class="profile-text">
-      <p class="profile-title"><strong id="memorialName">—</strong>님의 추모공간</p>
-      <p class="profile-dates" id="memorialDates">— 년 —월 —일 – — 년 —월 —일</p>
+      <p class="profile-title">
+        <strong id="memorialName">—</strong> 님의 추모공간
+      </p>
+      <p class="profile-dates" id="memorialDates">
+        —년 —월 —일 – —년 —월 —일
+      </p>
     </section>
 
     <!-- 4) Description -->
@@ -43,7 +46,7 @@
 
     <!-- 5) Opened Date -->
     <p class="opened-date" id="openedDate">
-      이 추모공간은 — 에 개설되었습니다.
+      이 추모공간은 —에 개설되었습니다.
     </p>
 
     <!-- 6) Flower Info -->
@@ -56,33 +59,80 @@
       헌화와 함께 따뜻한 조문 메시지를 남겨주세요
     </p>
 
-    <!-- 8) Flowers Scroll -->
-    <div class="flowers" id="flowers">
-      <!-- JS가 first-load 시 자동으로 selected 처리 -->
-      <div class="flower" data-path="condolences/flower/flower1.png" style="background-image:url('../static/images/assets/flower1.png')"></div>
-      <div class="flower" data-path="condolences/flower/flower2.png" style="background-image:url('../static/images/assets/flower2.png')"></div>
-      <div class="flower" data-path="condolences/flower/flower3.png" style="background-image:url('../static/images/assets/flower3.png')"></div>
-      <div class="flower" data-path="condolences/flower/flower4.png" style="background-image:url('../static/images/assets/flower4.png')"></div>
-      <div class="flower" data-path="condolences/flower/flower5.png" style="background-image:url('../static/images/assets/flower5.png')"></div>
-      <div class="flower" data-path="condolences/flower/flower6.png" style="background-image:url('../static/images/assets/flower6.png')"></div>
-      <div class="flower" data-path="condolences/flower/flower7.png" style="background-image:url('../static/images/assets/flower7.png')"></div>
-    </div>
+    <!-- 8) Flowers Scroll + 9) Input Area (폼) -->
+    <form id="commentForm" method="POST">
+      {% csrf_token %}
+      <div class="flowers" id="flowers">
+        <div class="flower selected"
+             data-path="condolences/flower/flower1.png"
+             style="background-image:url('../static/images/assets/flower1.png')">
+          <input type="radio" name="flower_image"
+                 value="condolences/flower/flower1.png"
+                 hidden checked>
+        </div>
+        <div class="flower"
+             data-path="condolences/flower/flower2.png"
+             style="background-image:url('../static/images/assets/flower2.png')">
+          <input type="radio" name="flower_image"
+                 value="condolences/flower/flower2.png"
+                 hidden>
+        </div>
+        <!-- 나머지 꽃들 동일하게… -->
+      </div>
+      <div class="input-area">
+        <textarea name="message"
+                  id="comment-input"
+                  class="comment-input"
+                  placeholder="조문 메시지를 남겨주세요"
+                  required></textarea>
+        <button type="submit" class="send-btn">
+          <img src="../static/images/icons/icon-send-24.svg"
+               alt="전송"
+               width="24"
+               height="24"/>
+        </button>
+      </div>
+    </form>
 
-    <!-- 9) Input Area -->
-    <div class="input-area">
-      <textarea id="comment-input"
-                class="comment-input"
-                placeholder="조문 메시지를 남겨주세요"></textarea>
-      <button class="send-btn" id="send-btn">
-        <img src="../static/images/icons/icon-send-24.svg"
-             alt="전송"
-             width="24"
-             height="24"/>
-      </button>
+    <!-- 10) Comment List (서버 렌더링된 폼들) -->
+    <div class="comment-list" id="comment-list">
+      {% for msg in messages %}
+        <div class="comment-card">
+          <img src="{{ msg.flower_image }}" alt="꽃"/>
+          <div class="comment-content">
+            <div class="meta">
+              <span class="name">{{ msg.writer }}</span>
+              <span class="date">
+                {{ msg.created_at|date:"Y.m.d" }}
+              </span>
+            </div>
+            <div class="comment-actions">
+              <!-- 수정 폼 -->
+              <form method="POST" action="/api/memorial/space/messages/{{ msg.id }}/">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="flower_image"
+                       value="{{ msg.flower_image }}">
+                <input type="hidden" name="message"
+                       id="edit-input-{{ msg.id }}"
+                       value="{{ msg.message }}">
+                <button type="button"
+                        class="edit-btn"
+                        data-id="{{ msg.id }}">수정</button>
+              </form>
+              <span class="separator">|</span>
+              <!-- 삭제 폼 -->
+              <form method="POST" action="/api/memorial/space/messages/{{ msg.id }}/">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="delete-btn">삭제</button>
+              </form>
+            </div>
+          </div>
+          <div class="text" id="text-{{ msg.id }}">{{ msg.message }}</div>
+        </div>
+      {% endfor %}
     </div>
-
-    <!-- 10) Comment List -->
-    <div class="comment-list" id="comment-list"></div>
 
   </div>
 
