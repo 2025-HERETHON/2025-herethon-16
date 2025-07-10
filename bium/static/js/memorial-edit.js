@@ -29,6 +29,8 @@ coverInput.addEventListener('change', e => {
 const profileFrame = document.getElementById('profileFrame');
 const profileInput = document.getElementById('profileInput');
 const profileImg   = document.getElementById('profileImg');
+const profileImgUrl = window.profileImageUrl || null;
+const coverImgUrl = window.coverImageUrl || null;
 profileFrame.addEventListener('click', () => profileInput.click());
 profileInput.addEventListener('change', e => {
   const f = e.target.files[0];
@@ -65,3 +67,59 @@ document.getElementById('saveBtn').addEventListener('click', () => {
 document.querySelector('.btn-back').addEventListener('click', () => {
   window.location.href = 'memorial-page.html';
 });
+
+// 프로필 이미지 fallback 처리
+if (profileImgUrl) {
+  profileImg.src = profileImgUrl;
+  profileImg.onerror = () => {
+    profileImg.src = '../static/images/assets/default.png';
+  };
+} else {
+  profileImg.src = '../static/images/assets/default.png';
+}
+
+// 배경 커버 이미지 fallback 처리
+if (coverImgUrl) {
+  const img = new Image();
+  img.onload = () => {
+    coverFrame.style.background =
+      `linear-gradient(
+         180deg,
+         rgba(255,255,255,0) 0%,
+         rgba(255,255,255,1) 80%
+       ),
+       url(${coverImgUrl})
+       center/cover no-repeat`;
+  };
+  img.onerror = () => {
+    setDefaultCover();
+  };
+  img.src = coverImgUrl;
+} else {
+  setDefaultCover();
+}
+
+function setDefaultCover() {
+  coverFrame.style.background =
+    `linear-gradient(
+       180deg,
+       rgba(255,255,255,0) 0%,
+       rgba(255,255,255,1) 80%
+     ),
+     url('../static/images/assets/background-combined.png')
+     center/cover no-repeat`;
+}
+
+// 저장 버튼 누르면 memorial-detail.html로 리다이렉트
+document.getElementById('saveBtn').addEventListener('click', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const memorialId = urlParams.get('memorial_id');
+  alert(isNew ? '추모공간이 생성되었습니다.' : '추모공간이 수정되었습니다.');
+  
+  if (!isNew && memorialId) {
+    window.location.href = `memorial-detail.html?memorial_id=${memorialId}`;
+  } else {
+    window.location.href = 'memorial-page.html';
+  }
+});
+

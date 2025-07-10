@@ -2,6 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <script>
+  window.currentUsername = "{{ user.username }}";
+</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>memorial-detail</title>
   <link rel="stylesheet" href="../static/css/memorial-detail.css" />
@@ -20,6 +23,15 @@
 
     <!-- 2) Cover + Profile -->
     <section class="cover-frame" id="coverFrame">
+      <!-- cover-frame 안에 조건부 form -->
+<form id="editForm" method="GET" action="memorial-edit.html" style="display: none;">
+  <input type="hidden" name="memorial_id" id="editFormId" />
+  <button type="submit" class="edit-btn">
+    <img src="../static/images/icons/icon-pencil-20.svg" alt="수정" />
+  </button>
+</form>
+
+
       <img src="../static/images/assets/background-combined.png"
            alt="커버 이미지"
            class="cover-img"/>

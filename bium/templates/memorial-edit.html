@@ -89,6 +89,13 @@
     </div>
   </div>
 
+  <script>
+  // 백엔드에서 유저의 이미지가 있다면 해당 URL 삽입, 없으면 빈 문자열
+  window.profileImageUrl = "{{ user_memorial.profile_img_url|default:'' }}";
+  window.coverImageUrl   = "{{ user_memorial.cover_img_url|default:'' }}";
+</script>
+
+
   <script src="../static/js/memorial-edit.js"></script>
 </body>
 </html>

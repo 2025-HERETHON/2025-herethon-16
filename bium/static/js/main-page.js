@@ -85,29 +85,48 @@ window.addEventListener('DOMContentLoaded', async () => {
   });
 });
 
-  // ── 체크박스 클릭 → UI 토글 + 카운트 + 폼 제출 ──
+ 
+// ── 체크박스 UI 반영 및 제출 로직 ──
+window.addEventListener('DOMContentLoaded', () => {
+  // 체크박스 상태 UI 초기화
+  document.querySelectorAll('.checklist-group').forEach(groupEl => {
+    const boxes = groupEl.querySelectorAll('input[type="checkbox"]');
+    const countEl = groupEl.querySelector('.group-count');
+
+    // 그룹 카운트 표시
+    const checkedCount = [...boxes].filter(cb => cb.checked).length;
+    countEl.textContent = `${checkedCount}/${boxes.length}`;
+  });
+
+  // 클릭 이벤트 등록
   document.querySelectorAll('.item').forEach(label => {
     label.addEventListener('click', () => {
       const input = label.querySelector('input[type="checkbox"]');
       const icon  = label.querySelector('.checkbox-icon');
 
-      // 1) UI 토글
       input.checked = !input.checked;
       icon.src = input.checked
         ? './static/images/icons/icon-checkbox-12=Activate.svg'
         : './static/images/icons/icon-checkbox-12=Deactivate.svg';
 
-      // 2) 그룹 카운트 갱신
+      // 그룹 카운트 업데이트
       const groupEl = label.closest('.checklist-group');
       const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
       const countEl = groupEl.querySelector('.group-count');
       const checkedCount = [...boxes].filter(cb => cb.checked).length;
       countEl.textContent = `${checkedCount}/${boxes.length}`;
 
-      // 3) 자동 폼 제출 (리다이렉트)
+      // 폼 자동 제출
       document.getElementById('checklistSubmit').click();
     });
   });
+
+  // 유언장 10단계 이미지 변경 (기본 src로 서버에서 렌더링 권장)
+  const coverImg = document.getElementById('coverImg');
+  if (coverImg && coverImg.dataset.completed === 'true') {
+    coverImg.src = './static/images/assets/will-image-after.png';
+  }
+});
 
   // ── FAQ 토글 & 아이콘 교체 (필요 시 유지) ──
   document.querySelectorAll('.faq-item').forEach(item => {
