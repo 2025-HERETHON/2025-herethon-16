@@ -1,0 +1,143 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="{% static 'css/EndingNotes/step05.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>step 07</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <progress id="progress" value="70" min="0" max="100"></progress>
+        <img
+          id="CancelBtn"
+          src="{% static 'images/icon-close-24.svg' %}"
+          width="24px"
+          height="24px"
+        />
+      </div>
+      <div class="StepTitle">07. 유언과 상속</div>
+      <div class="Scroll">
+        <form id="step07Form" method="post" action="{% url 'step07' %}">
+          {% csrf_token %}
+
+          <div class="InputBox">
+            <div class="title">유언과 상속</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="부모님에게 남기고 싶은 말"
+              name="message_to_parents"
+              value="{{ inheritance.message_to_parents|default_if_none:'' }}"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">친구에게 남기고 싶은 말</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="친구에게 남기고 싶은 말"
+              name="message_to_friends"
+              value="{{ inheritance.message_to_friends|default_if_none:'' }}"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">유언장 문구</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="유언장 문구"
+              name="will_text"
+              value="{{ inheritance.will_text|default_if_none:'' }}"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">재산 목록과 배분</div>
+            <div class="detail">부동산, 금융, 주식 등</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="재산 목록과 배분"
+              name="assets_and_distribution"
+              value="{{ inheritance.assets_and_distribution|default_if_none:'' }}"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">신용카드 목록</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="신용카드 목록"
+              name="credit_card_list"
+              value="{{ inheritance.credit_card_list|default_if_none:'' }}"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">연금 및 보험 가입 내역 및 계약서</div>
+            <div class="detail">
+              각종 보험 계약과 보험금 수령자, 거래하는 금융기관의 목록
+            </div>
+            <input
+              class="content"
+              type="text"
+              placeholder="연금 및 보험 가입 내역 및 계약서"
+              name="pension_and_insurance"
+              value="{{ inheritance.pension_and_insurance|default_if_none:'' }}"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">채무의 존재</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="채무의 존재"
+              name="debts"
+              value="{{ inheritance.debts|default_if_none:'' }}"
+            />
+          </div>
+          <div class="InputBox">
+            <div class="title">유언장을 보관할 장소</div>
+            <input
+              class="content"
+              type="text"
+              placeholder="유언장을 보관할 장소"
+              name="will_storage_location"
+              value="{{ inheritance.will_storage_location|default_if_none:'' }}"
+            />
+          </div>
+        </form>
+      </div>
+      <div style="display: flex; flex-direction: row; gap: 12px">
+        <div class="BeforeBtn" id="BeforeBtn">이전</div>
+        <button form="step07Form" type="submit" class="NextBtn" id="NextBtn">
+          다음
+        </button>
+      </div>
+
+      <div class="modal">
+        <div class="modal-body">
+          <div style="text-align: center; margin: 35px 0px">
+            <div class="modal-text">지금까지 작성한 내용이 삭제됩니다.</div>
+            <div class="modal-question">임시저장하시겠습니까?</div>
+          </div>
+          <div class="modal-button">
+            <div class="modal-delete">내용 삭제하기</div>
+            <button
+              form="step07Form"
+              name="is_draft"
+              value="true"
+              type="submit"
+              class="modal-text"
+            >
+              임시저장하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'js/EndingNotes/step07.js' %}"></script>
+  </body>
+</html>

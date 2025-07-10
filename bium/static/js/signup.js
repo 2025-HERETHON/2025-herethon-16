@@ -1,38 +1,34 @@
 let account = {};
-const name = document.getElementById("Name");
-const birth = document.getElementById("Birth");
-const phone = document.getElementById("Phone");
-const id = document.getElementById("Id");
-const passwd = document.getElementById("Passwd");
-const idErrorMsgEl = document.querySelector(".id-error-msg");
-const passwdErrorMsgEl = document.querySelector(".passwd-error-msg");
+const id = document.getElementById("username");
+const passwd = document.getElementById("password");
+const ErrorMsgEl = document.querySelector(".id-error-msg");
 
-id.addEventListener("change", () => {
+id.addEventListener("input", () => {
   const idRegExp = /^[a-zA-Z0-9]{4,}$/; // 4글자 이상의 영문 소문자와 숫자
   if (idRegExp.test(id.value)) {
     // 유효성 검사 성공
-    idErrorMsgEl.textContent = "";
+    ErrorMsgEl.textContent = "";
     account.id = id.value;
     id.classList.remove("Input-ErrorBox");
   } else {
     // 유효성 검사 실패
-    idErrorMsgEl.textContent = errMsg.id.invalid;
+    ErrorMsgEl.textContent = errMsg.id.invalid;
     account.id = null;
     id.classList.add("Input-ErrorBox");
   }
   console.log(account);
 });
 
-passwd.addEventListener("change", () => {
+passwd.addEventListener("input", () => {
   const passwdRegExp = /^[a-zA-Z0-9]{6,}$/; // 4글자 이상의 영문 소문자와 숫자
   if (passwdRegExp.test(passwd.value)) {
     // 유효성 검사 성공
-    passwdErrorMsgEl.textContent = "";
-    account.id = passwd.value;
+    ErrorMsgEl.textContent = "";
+    account.passwd = passwd.value;
     passwd.classList.remove("Input-ErrorBox");
   } else {
     // 유효성 검사 실패
-    passwdErrorMsgEl.textContent = errMsg.passwd.invalid;
+    ErrorMsgEl.textContent = errMsg.passwd.invalid;
     account.passwd = null;
     passwd.classList.add("Input-ErrorBox");
   }
@@ -48,12 +44,13 @@ const errMsg = {
   },
 };
 
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("BackBtn").addEventListener("click", function () {
-    window.location.href = "login.html";
+    window.location.href = "/users/login/";
   });
 
-  document.getElementById("SignUp").addEventListener("click", function () {
-    window.location.href = "main.html";
+  document.getElementById("SignupForm").addEventListener("submit", function () {
+    console.log("회원가입 완료!");
+    window.location.href = "/admin/";
   });
-};
+});

@@ -1,0 +1,101 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <link rel="stylesheet" href="{% static 'css/EndingNotes/step02.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>step 02</title>
+  </head>
+  <body>
+    <div class="Container">
+      <div class="Bar">
+        <progress id="progress" value="20" min="0" max="100"></progress>
+        <img
+          id="CancelBtn"
+          src="{% static 'images/icon-close-24.svg' %}"
+          width="24px"
+          height="24px"
+        />
+      </div>
+      <div class="StepTitle">02. 가족에 대한 기록</div>
+      <div class="Scroll">
+        <form id="step02Form" method="post" action="{% url 'step02' %}">
+          {% csrf_token %}
+
+          <div class="InputBox">
+            <div class="title">어머니에 대한 기록</div>
+            <div class="detail">
+              어머니의 성함, 생년월일, 고향, 출생지, 결혼기념일, 사셨던 곳,
+              직업, 생활 모습, 유전적 사항, 앓으셨던 병명, 기일 등 자유롭게
+              적어주세요.
+            </div>
+            <textarea
+              class="content"
+              placeholder="어머니에 대한 기록"
+              name="mother_record"
+            >
+{{ record.mother_record|default_if_none:'' }}</textarea
+            >
+          </div>
+          <div class="InputBox">
+            <div class="title">아버지에 대한 기록</div>
+            <div class="detail">
+              아버지의 성함, 생년월일, 고향, 출생지, 결혼기념일, 사셨던 곳,
+              직업, 생활 모습, 유전적 사항, 앓으셨던 병명, 기일 등 자유롭게
+              적어주세요.
+            </div>
+            <textarea
+              class="content"
+              placeholder="아버지에 대한 기록"
+              name="father_record"
+            >
+{{ record.father_record|default_if_none:'' }}</textarea
+            >
+          </div>
+          <div class="InputBox">
+            <div class="title">형제자매에 대한 기록</div>
+            <div class="detail">
+              이름, 생년월일, 연락처, 본적, 출생지, 이름의 의미, 자녀, 취미 등
+              자유롭게 적어주세요.
+            </div>
+            <textarea
+              class="content"
+              placeholder="형제자매에 대한 기록"
+              name="siblings_record"
+            >
+{{ record.siblings_record|default_if_none:'' }}</textarea
+            >
+          </div>
+        </form>
+      </div>
+      <div style="display: flex; flex-direction: row; gap: 12px">
+        <div class="BeforeBtn" id="BeforeBtn">이전</div>
+        <button form="step02Form" class="NextBtn" id="NextBtn">다음</button>
+      </div>
+
+      <div class="modal">
+        <div class="modal-body">
+          <div style="text-align: center; margin: 35px 0px">
+            <div class="modal-text">지금까지 작성한 내용이 삭제됩니다.</div>
+            <div class="modal-question">임시저장하시겠습니까?</div>
+          </div>
+          <div class="modal-button">
+            <div class="modal-delete">내용 삭제하기</div>
+            <button
+              form="step02Form"
+              name="is_draft"
+              value="true"
+              type="submit"
+              class="modal-text"
+            >
+              임시저장하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'js/EndingNotes/step02.js' %}"></script>
+  </body>
+</html>
