@@ -1,24 +1,10 @@
-// ── 세션 기반 로그인 확인 ──
-async function checkLogin() {
-  try {
-    const res = await fetch('/api/users/check_login/', {
-      method: 'GET',
-      credentials: 'include'
-    });
-    if (!res.ok) return false;
-    const json = await res.json();
-    return json.success === true;
-  } catch (err) {
-    console.error('로그인 상태 조회 중 오류:', err);
-    return false;
-  }
-}
+// script.js
 
-// ── 사이드바 & 토글 로직 ──
-const sidebar   = document.getElementById('sidebar');
-const mainFrame = document.querySelector('.main-frame');
+// ── 사이드바 토글 ──
 const openBtn   = document.getElementById('openSidebar');
 const closeBtn  = document.getElementById('closeSidebar');
+const sidebar   = document.getElementById('sidebar');
+const mainFrame = document.querySelector('.main-frame');
 
 openBtn.addEventListener('click', () => {
   sidebar.classList.add('open');
@@ -28,104 +14,40 @@ closeBtn.addEventListener('click', () => {
   sidebar.classList.remove('open');
   mainFrame.classList.remove('blurred');
 });
-document.querySelectorAll('.sidebar-menu a').forEach(link => {
-  link.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-    mainFrame.classList.remove('blurred');
+
+// ── FAQ 토글 & 아이콘 교체 ──
+document.querySelectorAll('.faq-item').forEach(item => {
+  const btn  = item.querySelector('.faq-question');
+  const icon = btn.querySelector('.icon-dropdown');
+  btn.addEventListener('click', () => {
+    const isOpen = item.classList.toggle('open');
+    icon.src = isOpen
+      ? '../static/images/icons/icon-dropdown-20=up.svg'
+      : '../static/images/icons/icon-dropdown-20=down.svg';
   });
 });
 
-// “내 공간” 아이콘 클릭 → form 제출
-const myspaceBtn = document.querySelector('.icon-myspace');
-if (myspaceBtn) {
-  myspaceBtn.addEventListener('click', () => {
-    const form = document.getElementById('goMyspaceForm');
-    if (form) form.submit();
+// ── 체크리스트 카운트 업데이트 ──
+document.querySelectorAll('.item').forEach(label => {
+  const icon  = label.querySelector('.checkbox-icon');
+  const input = label.querySelector('input[type="checkbox"]');
+
+  // 라벨 혹은 아이콘 클릭 시
+  label.addEventListener('click', e => {
+    // 체크박스 state 토글
+    input.checked = !input.checked;
+
+    // 아이콘 src 교체
+    icon.src = input.checked
+      ? '../static/images/icons/icon-checkbox-12=activate.svg'
+      : '../static/images/icons/icon-checkbox-12=deactivate.svg';
+
+    // 체크리스트 카운트도 업데이트
+    const group = label.closest('.checklist-group');
+    const boxes = group.querySelectorAll('input[type="checkbox"]');
+    const countE = group.querySelector('.group-count');
+    const total = boxes.length;
+    const checked = [...boxes].filter(cb => cb.checked).length;
+    countE.textContent = `${checked}/${total}`;
   });
-}
-
-// 유언장 10단계 이미지 변경 (서버에서 렌더링 시 제공된 data-* 값 활용)
-const coverImg = document.getElementById('coverImg');
-if (coverImg && coverImg.dataset.completed === 'true') {
-  coverImg.src = './static/images/assets/will-image-after.png';
-}
-
-
-  // ── 체크리스트 초기 상태 반영 ──
-    let checklistData = [];
-
-  // 체크박스 클릭 → UI 토글 + 카운트 + 폼 제출
-  document.querySelectorAll('.item').forEach(label => {
-    label.addEventListener('click', () => {
-      const input = label.querySelector('input[type="checkbox"]');
-      const icon  = label.querySelector('.checkbox-icon');
-
-      input.checked = !input.checked;
-      icon.src = input.checked
-        ? './static/images/icons/icon-checkbox-12=Activate.svg'
-        : './static/images/icons/icon-checkbox-12=Deactivate.svg';
-
-      const groupEl = label.closest('.checklist-group');
-      const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
-      const countEl = groupEl.querySelector('.group-count');
-      const checkedCount = [...boxes].filter(cb => cb.checked).length;
-      countEl.textContent = `${checkedCount}/${boxes.length}`;
-
-      document.getElementById('checklistSubmit').click();
-    });
-  });
-
- 
-// ── 체크박스 UI 반영 및 제출 로직 ──
-window.addEventListener('DOMContentLoaded', () => {
-  // 체크박스 상태 UI 초기화
-  document.querySelectorAll('.checklist-group').forEach(groupEl => {
-    const boxes = groupEl.querySelectorAll('input[type="checkbox"]');
-    const countEl = groupEl.querySelector('.group-count');
-
-    // 그룹 카운트 표시
-    const checkedCount = [...boxes].filter(cb => cb.checked).length;
-    countEl.textContent = `${checkedCount}/${boxes.length}`;
-  });
-
-  // 클릭 이벤트 등록
-  document.querySelectorAll('.item').forEach(label => {
-    label.addEventListener('click', () => {
-      const input = label.querySelector('input[type="checkbox"]');
-      const icon  = label.querySelector('.checkbox-icon');
-
-      input.checked = !input.checked;
-      icon.src = input.checked
-        ? './static/images/icons/icon-checkbox-12=Activate.svg'
-        : './static/images/icons/icon-checkbox-12=Deactivate.svg';
-
-      // 그룹 카운트 업데이트
-      const groupEl = label.closest('.checklist-group');
-      const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
-      const countEl = groupEl.querySelector('.group-count');
-      const checkedCount = [...boxes].filter(cb => cb.checked).length;
-      countEl.textContent = `${checkedCount}/${boxes.length}`;
-
-      // 폼 자동 제출
-      document.getElementById('checklistSubmit').click();
-    });
-  });
-
-  // 유언장 10단계 이미지 변경 (기본 src로 서버에서 렌더링 권장)
-  const coverImg = document.getElementById('coverImg');
-  if (coverImg && coverImg.dataset.completed === 'true') {
-    coverImg.src = './static/images/assets/will-image-after.png';
-  }
 });
-
-  // ── FAQ 토글 & 아이콘 교체 (필요 시 유지) ──
-  document.querySelectorAll('.faq-item').forEach(item => {
-    const btn  = item.querySelector('.faq-question');
-    const icon = btn.querySelector('.icon-dropdown');
-    btn.addEventListener('click', () => {
-      const isOpen = item.classList.toggle('open');
-      icon.src = isOpen
-        ? './static/images/icons/icon-dropdown-20=up.svg'
-        : './static/images/icons/icon-dropdown-20=down.svg';
-    });
-  });
