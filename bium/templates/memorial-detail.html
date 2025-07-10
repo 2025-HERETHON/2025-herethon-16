@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+  window.currentUsername = "{{ user.username }}";
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>memorial-detail</title>
+  <link rel="stylesheet" href="../static/css/memorial-detail.css" />
+</head>
+<body>
+  <div class="container">
+
+    <!-- 1) Topbar -->
+    <header class="topbar">
+      <button class="btn-back" id="btnBack">
+        <img src="../static/images/icons/icon-back-24.svg" alt="뒤로" />
+      </button>
+      <h1 class="title" id="memorialTitle">故 — 님의 추모공간</h1>
+      <div class="spacer"></div>
+    </header>
+
+    <!-- 2) Cover + Profile -->
+    <section class="cover-frame" id="coverFrame">
+      <!-- cover-frame 안에 조건부 form -->
+<form id="editForm" method="GET" action="memorial-edit.html" style="display: none;">
+  <input type="hidden" name="memorial_id" id="editFormId" />
+  <button type="submit" class="edit-btn">
+    <img src="../static/images/icons/icon-pencil-20.svg" alt="수정" />
+  </button>
+</form>
+
+
+      <img src="../static/images/assets/background-combined.png"
+           alt="커버 이미지"
+           class="cover-img"/>
+      <img src="../static/images/assets/profile.jpg"
+           alt="고인 사진"
+           class="profile-img"
+           id="profileImg"/>
+    </section>
+
+    <!-- 3) Title + Dates -->
+    <section class="profile-text">
+      <p class="profile-title">
+        <strong id="memorialName">—</strong> 님의 추모공간
+      </p>
+      <p class="profile-dates" id="memorialDates">
+        —년 —월 —일 – —년 —월 —일
+      </p>
+    </section>
+
+    <!-- 4) Description -->
+    <section class="profile-description" id="profileDescription">
+      <p>—</p>
+    </section>
+
+    <!-- 5) Opened Date -->
+    <p class="opened-date" id="openedDate">
+      이 추모공간은 —에 개설되었습니다.
+    </p>
+
+    <!-- 6) Flower Info -->
+    <p class="comment-info" id="commentInfo">
+      0명이 함께 꽃으로 기억을 이어가고 있습니다.
+    </p>
+
+    <!-- 7) Comment Prompt -->
+    <p class="comment-prompt">
+      헌화와 함께 따뜻한 조문 메시지를 남겨주세요
+    </p>
+
+    <!-- 8) Flowers Scroll + 9) Input Area (폼) -->
+    <form id="commentForm" method="POST">
+      {% csrf_token %}
+      <div class="flowers" id="flowers">
+        <div class="flower selected"
+             data-path="condolences/flower/flower1.png"
+             style="background-image:url('../static/images/assets/flower1.png')">
+          <input type="radio" name="flower_image"
+                 value="condolences/flower/flower1.png"
+                 hidden checked>
+        </div>
+        <div class="flower"
+             data-path="condolences/flower/flower2.png"
+             style="background-image:url('../static/images/assets/flower2.png')">
+          <input type="radio" name="flower_image"
+                 value="condolences/flower/flower2.png"
+                 hidden>
+        </div>
+        <!-- 나머지 꽃들 동일하게… -->
+      </div>
+      <div class="input-area">
+        <textarea name="message"
+                  id="comment-input"
+                  class="comment-input"
+                  placeholder="조문 메시지를 남겨주세요"
+                  required></textarea>
+        <button type="submit" class="send-btn">
+          <img src="../static/images/icons/icon-send-24.svg"
+               alt="전송"
+               width="24"
+               height="24"/>
+        </button>
+      </div>
+    </form>
+
+    <!-- 10) Comment List (서버 렌더링된 폼들) -->
+    <div class="comment-list" id="comment-list">
+      {% for msg in messages %}
+        <div class="comment-card">
+          <img src="{{ msg.flower_image }}" alt="꽃"/>
+          <div class="comment-content">
+            <div class="meta">
+              <span class="name">{{ msg.writer }}</span>
+              <span class="date">
+                {{ msg.created_at|date:"Y.m.d" }}
+              </span>
+            </div>
+            <div class="comment-actions">
+              <!-- 수정 폼 -->
+              <form method="POST" action="/api/memorial/space/messages/{{ msg.id }}/">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="flower_image"
+                       value="{{ msg.flower_image }}">
+                <input type="hidden" name="message"
+                       id="edit-input-{{ msg.id }}"
+                       value="{{ msg.message }}">
+                <button type="button"
+                        class="edit-btn"
+                        data-id="{{ msg.id }}">수정</button>
+              </form>
+              <span class="separator">|</span>
+              <!-- 삭제 폼 -->
+              <form method="POST" action="/api/memorial/space/messages/{{ msg.id }}/">
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="delete-btn">삭제</button>
+              </form>
+            </div>
+          </div>
+          <div class="text" id="text-{{ msg.id }}">{{ msg.message }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <script src="../static/js/memorial-detail.js"></script>
+</body>
+</html>

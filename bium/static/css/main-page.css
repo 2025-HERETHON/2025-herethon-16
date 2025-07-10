@@ -1,134 +1,129 @@
-/* styles.css */
 :root {
-  /* Primary */
-  --primary-light: #EAEFEF;    /* Primary_light */
-  --primary-normal: #7F8CAA;   /* Primary_normal */
-  --primary-dark: #333446;     /* Primary_dark */
-
-  /* Grayscale */
-  --gray-33: #333333;  /* 33_Basic */
-  --white:   #FFFFFF;  /* White */
-  --gray-F4: #F4F4F4;  /* F4 */
-  --gray-ED: #EDEDED;  /* ED */
-  --gray-DF: #DFDFDF;  /* DF */
-  --gray-88: #888888;  /* 88 */
-  --gray-56: #565656;  /* 56 */
-
+  --primary-light: #EAEFEF;
+  --primary-normal: #7F8CAA;
+  --primary-dark: #333446;
+  --gray-33: #333333;
+  --white: #FFFFFF;
+  --gray-F4: #F4F4F4;
+  --gray-ED: #EDEDED;
+  --gray-DF: #DFDFDF;
+  --gray-88: #888888;
+  --gray-56: #565656;
   --space-md: 16px;
 }
 
-/* ──────────────────────────────────────────────────────────────────────────── */
-/* 기본 리셋 */
+/* ── 공통 Reset ── */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-html, body {
-  width: 100%;
-  height: 100%;
-  background: var(--white);
-}
-body {
-  font-family: Pretendard, sans-serif;
-  color: var(--gray-33);
-}
 
-/* ──────────────────────────────────────────────────────────────────────────── */
-/* 사이드바 */
+/* ── 사이드바 ── */
 .sidebar {
-  position: fixed;
-  top: 0; left: -80%;
-  width: 80%; max-width: 300px;
-  height: 100vh;
+  position: fixed; top: 0; left: 0;
+  width: 240px; height: 100vh;
   background: var(--white);
-  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
-  transition: left 0.3s;
-  padding: 20px;
-  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform .3s;
+  z-index: 100;
 }
 .sidebar.open {
-  left: 0;
+  transform: translateX(0);
 }
-.sidebar .icon-close {
-  display: block;
-  margin-left: auto;
+.icon-close {
   width: 24px; height: 24px;
+  margin: 16px;
   cursor: pointer;
 }
+.sidebar-menu {
+  padding: 0 16px;
+}
+.sidebar-section + .sidebar-section {
+  margin-top: 24px;
+}
+.section-title {
+  font-size: 14px; font-weight: 600;
+  color: var(--primary-normal);
+  margin-bottom: 8px;
+}
+.sidebar-section ul {
+  list-style: none;
+}
+.sidebar-section li + li {
+  margin-top: 8px;
+}
+.sidebar-section a {
+  text-decoration: none;
+  color: var(--gray-33);
+  font-size: 14px;
+}
 
-/* ──────────────────────────────────────────────────────────────────────────── */
-/* 메인 컨테이너 */
+/* ── 메인 프레임 ── */
 .main-frame {
-  width: 375px;
-  margin: 0 auto;
-  padding: 0 20px;           /* 좌우 20px 패딩 추가 */
-  background: var(--white);
-  transition: filter 0.3s;
+  padding: 0 16px;
+  transition: filter .3s;
 }
 .main-frame.blurred {
-  filter: brightness(0.7);
+  filter: blur(4px);
 }
 
-/* ──────────────────────────────────────────────────────────────────────────── */
-/* 상단 바 */
+/* ── 상단 바 ── */
 .main-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  background: var(--white);
-  border-bottom: 1px solid var(--gray-ED);
+  height: 56px;
 }
 .icon-menu,
 .icon-myspace {
   width: 24px; height: 24px;
   cursor: pointer;
 }
-.logo {
-  font-size: 18px;
-  font-weight: 600;
+.logo img {
+  height: 24px;
 }
 
-/* ──────────────────────────────────────────────────────────────────────────── */
-/* 서브헤더 */
-.subtitle {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 12px;         /* 아래만 12px, 좌우 여백은 .main-frame 패딩으로 처리 */
+/* ── 커버 ── */
+.cover-frame {
+  margin: 16px 0;
+  border-radius: 12px;
+  overflow: hidden;
 }
-
-/* ──────────────────────────────────────────────────────────────────────────── */
-/* “유언장 작성하기” 버튼 */
-.will-btn {
+.cover-img {
   width: 100%;
-  height: 48px;
-  margin: var(--space-md) 0;
-  padding: 0 20px;
-  background: var(--primary-light);
+  height: 200px;
+  object-fit: cover;
+}
+
+/* ── 서브헤더 ── */
+.subtitle {
+  font-size: 16px; font-weight: 500;
+  margin: 24px 0 12px;
+}
+
+/* ── 유언장 버튼 ── */
+.will-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary-normal);
+  color: var(--white);
   border: none;
   border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 12px 16px;
+  font-size: 14px;
   cursor: pointer;
-  
 }
-.will-btn span {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--gray-33);
-}
-.will-btn .icon-right-arrow {
+.icon-right-arrow {
   width: 20px; height: 20px;
 }
 
-/* ──────────────────────────────────────────────────────────────────────────── */
-/* 체크리스트 */
+/* ── 체크리스트 ── */
 .checklist-wrapper {
-  margin: 0 0 12px;         /* 아래만 12px */
   overflow-x: auto;
   scrollbar-width: none;
+  cursor: pointer;
 }
 .checklist-wrapper::-webkit-scrollbar {
   display: none;
@@ -138,54 +133,32 @@ body {
   gap: 12px;
 }
 .checklist-group {
-  flex: 0 0 335px;
-  background: var(--white);
-  border: 1px solid var(--gray-ED);
-  border-radius: 8px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  min-width: 160px;
 }
 .group-header {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  margin-bottom: 8px;
 }
 .group-title {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 14px; font-weight: 600;
 }
 .group-count {
-  font-size: 12px;
-  color: var(--gray-88);
+  font-size: 12px; color: var(--gray-88);
 }
 .item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  margin-bottom: 8px;
 }
-/* .item input[type="checkbox"] {
-  appearance: none;
-  width: 16px; height: 16px;
-  background: url('../static/images/icons/icon-checkbox-12=Deactivate.svg') no-repeat center/contain;
-  cursor: pointer;
-} */
-/* .item input[type="checkbox"]:checked {
-  background: url('../static/images/icons/icon-checkbox-12=Activate.svg') no-repeat center/contain;
-} */
-
 .checkbox-icon {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  vertical-align: middle;
-  margin-right: 8px;
+  width: 12px; height: 12px;
 }
-
 .item span {
   font-size: 14px;
 }
+
 
 /* ──────────────────────────────────────────────────────────────────────────── */
 /* FAQ (Q&A 토글) */
@@ -244,4 +217,21 @@ body {
 /* 열렸을 때 답변 표시 */
 .faq-item.open .faq-answer {
   display: block;
+}
+
+/* 3.1-1 커버 이미지 영역 */
+.cover-frame {
+  width: 100%;
+  max-width: 335px;    
+  height: 180px;        
+  margin: 20px auto;   
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cover-frame .cover-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   
 }
