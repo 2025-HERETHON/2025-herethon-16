@@ -364,3 +364,11 @@ main {
   pointer-events: none;
   z-index: 500;
 }
+
+
+.others-list .empty-msg {
+  text-align: center;
+  color: #888888;
+  margin: 40px 0;
+  font-size: 14px;
+}
