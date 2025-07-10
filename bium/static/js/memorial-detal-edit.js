@@ -1,95 +1,61 @@
-// memorial-detail.js
-document.addEventListener('DOMContentLoaded', () => {
-  // — 꽃 선택 & count 업데이트 변수 선언 —
-  const flowersEl   = document.getElementById('flowers');
-  const infoEl      = document.querySelector('.comment-info');
-  let selectedFlowerUrl = null;
+// — mock API data —
+const mockUser = {
+  name:       "김이름",
+  birth_date: "2000-01-01",
+  death_date: "2025-05-05",
+  description:"내가 없을 때, 이곳에서 나를 만나주세요."
+};
 
-  // — 꽃 클릭 이벤트 —
-  flowersEl.addEventListener('click', e => {
-    const f = e.target.closest('.flower');
+document.addEventListener('DOMContentLoaded', () => {
+  // 필드 참조
+  const inName   = document.getElementById('memorialName');
+  const inBirth  = document.getElementById('birthDate');
+  const inDeath  = document.getElementById('deathDate');
+  const inDesc   = document.getElementById('description');
+
+  const coverFrame   = document.getElementById('coverFrame');
+  const coverInput   = document.getElementById('coverInput');
+  const profileBtn   = document.getElementById('profileUploadBtn');
+  const profileInput = document.getElementById('profileInput');
+  const profileImg   = document.getElementById('profileImg');
+
+  const saveBtn = document.getElementById('saveBtn');
+  const btnBack = document.querySelector('.btn-back');
+
+  // 1) 초기값 세팅
+  inName.value         = mockUser.name;
+  inBirth.value        = mockUser.birth_date;
+  inDeath.value        = mockUser.death_date;
+  inDesc.textContent   = mockUser.description;
+
+  // 2) Cover 업로드
+  coverFrame.addEventListener('click', () => coverInput.click());
+  coverInput.addEventListener('change', e => {
+    const f = e.target.files[0];
     if (!f) return;
-    // 기존 선택 해제
-    flowersEl.querySelectorAll('.flower').forEach(el => el.classList.remove('selected'));
-    // 새로 선택
-    f.classList.add('selected');
-    // background-image:url('…') → '…'
-    selectedFlowerUrl = f.style.backgroundImage.slice(5, -2);
+    const url = URL.createObjectURL(f);
+    coverFrame.style.background =
+      `linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 80%),
+       url(${url}) center/cover no-repeat`;
   });
 
-  // — 뒤로가기 버튼 —
-  const btnBack = document.querySelector('.btn-back');
+  // 3) Profile 업로드
+  profileBtn.addEventListener('click', () => profileInput.click());
+  profileInput.addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    profileImg.src = URL.createObjectURL(f);
+  });
+
+  // 4) 저장 버튼
+  saveBtn.addEventListener('click', () => {
+    alert('추모공간이 수정 완료되었습니다.');
+    // 실제 API 호출 후 리다이렉트:
+    // window.location.href = 'memorial-page.html';
+  });
+
+  // 5) 뒤로가기
   btnBack.addEventListener('click', () => {
     window.location.href = 'memorial-page.html';
-  });
-
-  // — 댓글 등록 관련 변수 선언 —
-  const sendBtn     = document.getElementById('send-btn');
-  const inputEl     = document.getElementById('comment-input');
-  const commentList = document.getElementById('comment-list');
-
-  // — 댓글 전송 클릭 —
-  sendBtn.addEventListener('click', () => {
-    const text = inputEl.value.trim();
-    if (!text || !selectedFlowerUrl) {
-      // 메시지 혹은 꽃이 선택되지 않았으면 아무 동작도 하지 않습니다.
-      return;
-    }
-
-    // 날짜 포맷 (YYYY.MM.DD)
-    const date = new Date().toISOString().slice(0,10).replace(/-/g,'.');
-
-    // 댓글 카드 엘리먼트 생성
-    const card = document.createElement('div');
-    card.className = 'comment-card';
-    card.innerHTML = `
-      <img src="${selectedFlowerUrl}" alt="꽃"/>
-      <div class="comment-content">
-        <div class="meta">
-          <span class="name">이름없음</span>
-          <span class="date">${date}</span>
-        </div>
-        <div class="comment-actions">
-          <button class="edit-btn">수정</button>
-          <span class="separator">|</span>
-          <button class="delete-btn">삭제</button>
-        </div>
-      </div>
-      <div class="text">${text}</div>
-      </div>
-    `;
-
-    // 카드 붙이기
-    commentList.append(card);
-    // 입력창 초기화
-    inputEl.value = '';
-
-    // 꽃·입력 비활성화
-    selectedFlowerUrl = null;
-    flowersEl.querySelectorAll('.flower').forEach(el => el.classList.remove('selected'));
-
-    // 댓글 수 업데이트
-    const count = commentList.children.length;
-    infoEl.textContent = `${count}명이 함께 꽃으로 기억을 이어가고 있습니다.`;
-
-    // — 등록된 카드에 수정/삭제 이벤트 달기 —
-    const editBtn   = card.querySelector('.edit-btn');
-    const deleteBtn = card.querySelector('.delete-btn');
-    const textEl    = card.querySelector('.text');
-
-    editBtn.addEventListener('click', () => {
-      const newText = prompt('댓글을 수정하세요:', textEl.textContent);
-      if (newText !== null) {
-        textEl.textContent = newText.trim();
-      }
-    });
-
-    deleteBtn.addEventListener('click', () => {
-      if (confirm('정말 삭제하시겠습니까?')) {
-        card.remove();
-        const newCount = commentList.children.length;
-        infoEl.textContent = `${newCount}명이 함께 꽃으로 기억을 이어가고 있습니다.`;
-      }
-    });
   });
 });
