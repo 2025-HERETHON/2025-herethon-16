@@ -10,21 +10,21 @@ class Will(models.Model):
 class BasicInfo(models.Model):
     will = models.OneToOneField(Will, on_delete=models.CASCADE)
 
-    name = models.CharField(max_length=30)  # 이름
-    birth_date = models.DateField(null=True, blank=True)  # 생년월일
+    name = models.CharField(max_length=30, blank=True, null=True)  # 이름
+    birth_date = models.DateField(blank=True, null=True)  # 생년월일
 
     GENDER_CHOICES = [
         (1, '여성'),
         (2, '남성'),
     ]
-    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)  # 성별
+    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, blank=True, null=True)  # 성별
 
-    phone_number = models.CharField(max_length=13, unique=True, null=True, blank=True)  # 휴대전화 번호
-    birth_place = models.CharField(max_length=100)  # 태어난 곳
-    registered_domicile = models.CharField(max_length=100)  # 본적
+    phone_number = models.CharField(max_length=13, unique=True, blank=True, null=True)  # 휴대전화 번호
+    birth_place = models.CharField(max_length=100, blank=True, null=True)  # 태어난 곳
+    registered_domicile = models.CharField(max_length=100, blank=True, null=True)  # 본적
     current_diseases = models.TextField(blank=True, null=True)  # 앓고 있는 병
     past_diseases = models.TextField(blank=True, null=True)  # 과거 앓았던 병
-    constitution = models.CharField(max_length=100)  # 체질
+    constitution = models.CharField(max_length=100, blank=True, null=True)  # 체질
     family_tree = models.TextField(blank=True, null=True)  # 가계도
 
 # 02. 가족에 대한 기록
@@ -51,15 +51,15 @@ class AboutMe(models.Model):
 class Pet(models.Model):
     will = models.OneToOneField(Will, on_delete=models.CASCADE)
 
-    name = models.CharField(max_length=30)  # 이름
-    species = models.CharField(max_length=100)  # 종별
-    birth_date = models.DateField(null=True, blank=True)  # 생년월일
+    name = models.CharField(max_length=30, blank=True, null=True)  # 이름
+    species = models.CharField(max_length=100, blank=True, null=True)  # 종별
+    birth_date = models.DateField(blank=True, null=True)  # 생년월일
 
     GENDER_CHOICES = [
         (1, '암컷'),
         (2, '수컷'),
     ]
-    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)  # 성별
+    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, blank=True, null=True)  # 성별
 
     care = models.TextField(blank=True, null=True)  # 피임, 거세수술, 예방접종
     feeding = models.TextField(blank=True, null=True)  # 먹이
@@ -81,7 +81,7 @@ class Funeral(models.Model):
         (4, '종교장'),
         (5, '기타'),
     ]
-    funeral_type = models.PositiveSmallIntegerField(choices=FUNERAL_TYPE_CHOICES)  # 장례 방식
+    funeral_type = models.PositiveSmallIntegerField(choices=FUNERAL_TYPE_CHOICES, blank=True, null=True)  # 장례 방식
 
     invited_guests = models.TextField(blank=True, null=True)  # 초대하고 싶은 손님
     funeral_wishes = models.TextField(blank=True, null=True)  # 장례식에 대한 희망사항
@@ -94,7 +94,7 @@ class Funeral(models.Model):
         (5, '잔디장'),
         (6, '기타'),
     ]
-    grave_type = models.PositiveSmallIntegerField(choices=GRAVE_TYPE_CHOICES)  # 산소 유형
+    grave_type = models.PositiveSmallIntegerField(choices=GRAVE_TYPE_CHOICES, blank=True, null=True)  # 산소 유형
 
     grave_preparation = models.TextField(blank=True, null=True)  # 장지에 대한 준비
     tombstone_inscription = models.TextField(blank=True, null=True)  # 묘비 문구
@@ -104,14 +104,14 @@ class Funeral(models.Model):
 class MedicalCarePreparation(models.Model):
     will = models.OneToOneField(Will, on_delete=models.CASCADE)
 
-    terminal_illness = models.BooleanField(default=False)  # 시한부
+    terminal_illness = models.BooleanField(blank=True, null=True)  # 시한부
     hospice_care = models.TextField(blank=True, null=True)  # 종말 의료 신청 여부
 
     LIFE_SUPPORT_CHOICES = [
         (1, '연명치료를 원해요.'),
         (2, '연명치료를 원치 않아요.'),
     ]
-    life_sustaining_treatment = models.PositiveSmallIntegerField(choices=LIFE_SUPPORT_CHOICES)  # 연명치료
+    life_sustaining_treatment = models.PositiveSmallIntegerField(choices=LIFE_SUPPORT_CHOICES, blank=True, null=True)  # 연명치료
 
     organ_and_tissue_donation = models.TextField(blank=True, null=True)  # 장기 및 인체조직 기증
 

@@ -19,7 +19,7 @@ def basic_info_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step02')
+            return redirect('main')
 
         fields = [
             "name", "gender", "phone_number", "birth_place", "registered_domicile",
@@ -30,8 +30,8 @@ def basic_info_view(request):
             info = BasicInfo(will=will)
 
         for field in fields:
-            value = request.POST.get(field, "")
-            setattr(info, field, value)
+            value = request.POST.get(field)
+            setattr(info, field, value if value != "" else None)
 
         birth_date_str = request.POST.get("birth_date")
         if birth_date_str:
@@ -43,6 +43,8 @@ def basic_info_view(request):
                     "error_message": "생년월일 형식이 올바르지 않습니다. YYYY-MM-DD 형식으로 입력해 주세요."
                 }
                 return render(request, 'step01.html', context)
+        else:
+            info.birth_date = None
 
         info.save()
 
@@ -64,7 +66,7 @@ def family_record_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step03')
+            return redirect('main')
 
         fields = ["mother_record", "father_record", "siblings_record"]
 
@@ -72,8 +74,7 @@ def family_record_view(request):
             record = FamilyRecord(will=will)
         for field in fields:
             value = request.POST.get(field)
-            if value is not None:
-                setattr(record, field, value)
+            setattr(record, field, value if value != "" else None)
         record.save()
 
         if will.progress_step < 2:
@@ -94,7 +95,7 @@ def about_me_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step04')
+            return redirect('main')
 
         fields = [
             "name_meaning", "nickname", "favorites", "preferences",
@@ -105,8 +106,7 @@ def about_me_view(request):
             me = AboutMe(will=will)
         for field in fields:
             value = request.POST.get(field)
-            if value is not None:
-                setattr(me, field, value)
+            setattr(me, field, value if value != "" else None)
         me.save()
 
         if will.progress_step < 3:
@@ -127,7 +127,7 @@ def pet_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step05')
+            return redirect('main')
 
         fields = [
             "name", "species", "gender", "care", "feeding", "hospital",
@@ -139,8 +139,8 @@ def pet_view(request):
             pet = Pet(will=will)
 
         for field in fields:
-            value = request.POST.get(field, "")
-            setattr(pet, field, value)
+            value = request.POST.get(field)
+            setattr(pet, field, value if value != "" else None)
 
         birth_date_str = request.POST.get("birth_date")
         if birth_date_str:
@@ -152,6 +152,8 @@ def pet_view(request):
                     "error_message": "생년월일 형식이 올바르지 않습니다. YYYY-MM-DD 형식으로 입력해 주세요."
                 }
                 return render(request, 'step04.html', context)
+        else:
+            pet.birth_date = None
 
         pet.save()
 
@@ -173,7 +175,7 @@ def funeral_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step06')
+            return redirect('main')
 
         fields = [
             "funeral_type", "invited_guests", "funeral_wishes",
@@ -185,8 +187,8 @@ def funeral_view(request):
             funeral = Funeral(will=will)
 
         for field in fields:
-            value = request.POST.get(field, "")
-            setattr(funeral, field, value)
+            value = request.POST.get(field)
+            setattr(funeral, field, value if value != "" else None)
 
         funeral.save()
 
@@ -208,7 +210,7 @@ def medical_care_preparation_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step06')
+            return redirect('main')
 
         fields = [
             "terminal_illness",
@@ -221,8 +223,8 @@ def medical_care_preparation_view(request):
             medcare = MedicalCarePreparation(will=will)
 
         for field in fields:
-            value = request.POST.get(field, "")
-            setattr(medcare, field, value)
+            value = request.POST.get(field)
+            setattr(medcare, field, value if value != "" else None)
 
         medcare.save()
 
@@ -245,7 +247,7 @@ def will_and_inheritance_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step07')
+            return redirect('main')
 
         fields = [
             "message_to_parents", "message_to_friends", "will_text", "assets_and_distribution",
@@ -256,8 +258,8 @@ def will_and_inheritance_view(request):
             inheritance = WillAndInheritance(will=will)
 
         for field in fields:
-            value = request.POST.get(field, "")
-            setattr(inheritance, field, value)
+            value = request.POST.get(field)
+            setattr(inheritance, field, value if value != "" else None)
 
         inheritance.save()
 
@@ -280,7 +282,7 @@ def bucket_list_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step08')
+            return redirect('main')
 
         if not bucket:
             bucket = BucketList(will=will)
@@ -308,7 +310,7 @@ def guardian_selection_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step09')
+            return redirect('main')
 
         if not guardian:
             guardian = GuardianSelection(will=will)
@@ -316,8 +318,8 @@ def guardian_selection_view(request):
         fields = ["guardian_name", "guardian_contact", "emergency_contact"]
 
         for field in fields:
-            value = request.POST.get(field, "")
-            setattr(guardian, field, value)
+            value = request.POST.get(field)
+            setattr(guardian, field, value if value != "" else None)
 
         guardian.save()
 
@@ -340,7 +342,7 @@ def belongings_distribution_view(request):
 
     if request.method == "POST":
         if request.POST.get("should_save") == "false":
-            return redirect('step10')
+            return redirect('main')
 
         if not belongings:
             belongings = BelongingsDistribution(will=will)
@@ -348,8 +350,8 @@ def belongings_distribution_view(request):
         fields = ["items_to_discard", "items_to_distribute"]
 
         for field in fields:
-            value = request.POST.get(field, "")
-            setattr(belongings, field, value)
+            value = request.POST.get(field)
+            setattr(belongings, field, value if value != "" else None)
 
         belongings.save()
 
