@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  // 1) 단계 정보
   const stepsData = [
     { label: '나의 기본 정보',       desc: '이름과 생년월일, 성별, 전화번호 등 나의 기본 정보를 작성해요.' },
     { label: '가족에 대한 기록',     desc: '부모님과 형제자매의 이름, 생년월일, 연락처 등을 자유롭게 적어주세요.' },
     { label: '나에 대하여',         desc: '내 이름의 뜻과 별명, 좋아한 것들 등 나에 대해 다시 한번 생각해봐요.' },
-    { label: '반려동물',           desc: '현재 함께하는 반려동물의 이름과 종, 생일 등을 기록하고 돌봄 책임자도 지정해요.' },
+    { label: '반려동물',             desc: '현재 함께하는 반려동물의 이름과 종, 생일 등을 기록하고 돌봄 책임자도 지정해요.' },
     { label: '장례 관련',           desc: '원하는 장례 방식과 초대할 손님, 희망사항 등을 적어주세요.' },
     { label: '의료와 간병 준비',     desc: '연명의료 의사 여부, 신체 기증 의사 등을 작성하세요.' },
     { label: '유언과 상속',         desc: '부모님/친구에게 남기고 싶은 말을 작성하고 상속 내용을 적어주세요.' },
@@ -12,67 +13,73 @@ document.addEventListener("DOMContentLoaded", async () => {
     { label: '유품 분배 및 정리',     desc: '사후에 분배 및 정리할 유품 목록을 정리해요.' }
   ];
 
-  let completedStep = 0; // 초기값 설정
+  // 2) DOM 참조
+  const container      = document.getElementById("stepsContainer");
+  const completedCount = document.getElementById("completedCount");
+  let completedStep    = 0;
 
+  // 3) API 호출
   try {
-    // 실제 API 호출로 변경
-    const response = await fetch('/api/will/progress_step/', {
+    const res = await fetch('/api/will/progress_step/', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-        // 필요하다면 인증토큰 헤더 추가 ex) 'Authorization': 'Bearer <token>'
-      }
+      credentials: 'include'
     });
-
-    const result = await response.json();
-
-    if (response.ok && result.success) {
-      completedStep = result.progress_step;
+    const json = await res.json();
+    if (res.ok && json.success) {
+      completedStep = json.progress_step;
     } else {
-      alert("진행 단계를 불러오지 못했습니다.");
-      return; // 에러 발생 시 이후 코드 실행하지 않음
+      console.warn("진행 단계 조회 실패:", json);
     }
-  } catch (error) {
-    console.error('API 호출 중 오류:', error);
-    alert("서버와 통신 중 오류가 발생했습니다.");
-    return; // 네트워크 오류 시 이후 코드 실행하지 않음
+  } catch (e) {
+    console.error("API 호출 오류:", e);
   }
 
-  document.getElementById("completedCount").textContent = completedStep;
-  const container = document.getElementById("stepsContainer");
+  // 4) 완료 카운트 반영
+  completedCount.textContent = completedStep;
 
-  stepsData.forEach((step, i) => {
-    const num = i + 1;
-    let state = num < completedStep
+  // 5) UI 생성
+  const iconMap = {
+    completed: "icon-progress-20=Done.svg",
+    current:   "icon-progress-20=In Progress.svg",
+    pending:   "icon-progress-20=Not Started.svg"
+  };
+
+  stepsData.forEach((step, idx) => {
+    const num   = idx + 1;
+    const state = num < completedStep
       ? "completed"
       : num === completedStep
         ? "current"
         : "pending";
 
-    const iconPath = state === "completed"
-      ? "../static/images/icons/icon-progress-20=Done.svg"
-      : state === "pending"
-        ? "../static/images/icons/icon-progress-20=Not Started.svg"
-        : "";
+    // 아이콘 HTML
+    const iconName = iconMap[state];
+    const iconHTML = `<img class="icon"
+                           src="../static/images/icons/${iconName}"
+                           alt="${state} 아이콘" />`;
 
-    const wrapper = document.createElement("div");
-    wrapper.className = `step ${state}`;
-    wrapper.innerHTML = `
+    // 라인
+    const lineHTML = idx < stepsData.length - 1
+      ? `<div class="line"></div>`
+      : "";
+
+    // 마크업 조립
+    const wrap = document.createElement("div");
+    wrap.className = `step ${state}`;
+    wrap.innerHTML = `
       <div class="marker">
-        ${state !== "current"
-          ? `<img class="icon" src="${iconPath}" alt="${state} 아이콘">`
-          : `<div class="icon"></div>`
-        }
-        ${num < stepsData.length ? `<div class="line"></div>` : ""}
+        ${iconHTML}
+        ${lineHTML}
       </div>
       <div class="content">
         <div class="title">${step.label}</div>
         <div class="desc">${step.desc}</div>
       </div>
     `;
-    container.appendChild(wrapper);
+    container.appendChild(wrap);
   });
 
+  // 6) 뒤로가기
   document.querySelector(".btn-back").addEventListener("click", () => {
     window.location.href = "main-page.html";
   });

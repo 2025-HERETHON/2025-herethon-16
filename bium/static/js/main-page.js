@@ -3,11 +3,9 @@ async function checkLogin() {
   try {
     const res = await fetch('/api/users/check_login/', {
       method: 'GET',
-      credentials: 'include'   // 세션 쿠키 자동 포함
+      credentials: 'include'
     });
-    if (!res.ok) {
-      return false
-    }
+    if (!res.ok) return false;
     const json = await res.json();
     return json.success === true;
   } catch (err) {
@@ -28,7 +26,6 @@ document.querySelectorAll('.sidebar-menu a').forEach(link => {
     mainFrame.classList.remove('blurred');
   });
 });
-
 openBtn.addEventListener('click', () => {
   sidebar.classList.add('open');
   mainFrame.classList.add('blurred');
@@ -49,54 +46,42 @@ if (myspaceBtn) {
   });
 }
 
-// ── 체크리스트 API 헬퍼 ──
-let checklistData = [];
-
-async function fetchChecklist() {
-  const res = await fetch('/api/checklist/check/', {
-    method: 'GET',
-    credentials: 'include'
-  });
-  if (!res.ok) throw new Error('체크리스트 조회 실패');
-  const json = await res.json();
-  return json.data;  // [{ category, items:[{id,content,is_checked},…] }, …]
-}
-
-async function saveChecklist(items) {
-  await fetch('/api/checklist/save/', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ items })
-  });
-}
-
-// ── 페이지 로드 이후 초기화 ──
+// ── 유언장 진행 단계 조회 → 커버 이미지 토글 ──
 window.addEventListener('DOMContentLoaded', async () => {
-
-  // 1) 사이드바 현재 페이지 강조
-  const current = window.location.pathname.split('/').pop();
-  document.querySelectorAll('.sidebar-section').forEach(sec => {
-    const hrefs = Array.from(sec.querySelectorAll('a'))
-                       .map(a => a.href.split('/').pop());
-    sec.classList.toggle('active', hrefs.includes(current));
-  });
-
-  // 2) 체크리스트 데이터 불러오기
   try {
-    checklistData = await fetchChecklist();
+    const res = await fetch('/api/will/progress_step/', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    const json = await res.json();
+    if (json.success && json.progress_step >= 10) {
+      document.getElementById('coverImg').src =
+        './static/images/assets/will-image-after.png';
+    }
   } catch (e) {
-    console.error(e);
-    checklistData = [];
+    console.error('진행 단계 조회 실패:', e);
   }
 
-  // 3) 초기 화면에 체크 상태 및 카운트 반영
+  // ── 체크리스트 초기 상태 반영 ──
+  let checklistData = [];
+  try {
+    const res2 = await fetch('/api/checklist/check/', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (res2.ok) {
+      const json2 = await res2.json();
+      checklistData = json2.data;  // [{category, items:[{id,content,is_checked},…]},…]
+    }
+  } catch (e) {
+    console.error('체크리스트 조회 실패:', e);
+  }
+
+  //  초기 화면 체크 상태 & 카운트 갱신
   document.querySelectorAll('.checklist-group').forEach(groupEl => {
     const category = groupEl.querySelector('.group-title').textContent.trim();
     const catData  = checklistData.find(c => c.category === category);
     if (!catData) return;
-
-    // 항목별 상태 설정
     catData.items.forEach(item => {
       const label = [...groupEl.querySelectorAll('.item')]
         .find(l => l.querySelector('span').textContent.trim() === item.content);
@@ -105,55 +90,33 @@ window.addEventListener('DOMContentLoaded', async () => {
       const icon  = label.querySelector('.checkbox-icon');
       input.checked = item.is_checked;
       icon.src = item.is_checked
-        ? '../static/images/icons/icon-checkbox-12=Activate.svg'
-        : '../static/images/icons/icon-checkbox-12=Deactivate.svg';
+        ? './static/images/icons/icon-checkbox-12=Activate.svg'
+        : './static/images/icons/icon-checkbox-12=Deactivate.svg';
     });
-
-    // 그룹 카운트 업데이트
     const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
     const countEl = groupEl.querySelector('.group-count');
     const checked = [...boxes].filter(cb => cb.checked).length;
     countEl.textContent = `${checked}/${boxes.length}`;
   });
 
-  // 4) 체크박스 클릭 핸들러 등록 (상태 토글 & 저장)
+  // ── 체크박스 클릭 → UI 토글 + 그룹 카운트 + 폼 제출 ──
   document.querySelectorAll('.item').forEach(label => {
-    const input = label.querySelector('input[type="checkbox"]');
-    const icon  = label.querySelector('.checkbox-icon');
-
-    label.addEventListener('click', async () => {
-      // 4-1) 토글 UI
+    label.addEventListener('click', () => {
+      const input = label.querySelector('input[type="checkbox"]');
+      const icon  = label.querySelector('.checkbox-icon');
+      // 토글
       input.checked = !input.checked;
       icon.src = input.checked
-        ? '../static/images/icons/icon-checkbox-12=Activate.svg'
-        : '../static/images/icons/icon-checkbox-12=Deactivate.svg';
-
-      // 4-2) 해당 그룹 카운트 갱신
+        ? './static/images/icons/icon-checkbox-12=Activate.svg'
+        : './static/images/icons/icon-checkbox-12=Deactivate.svg';
+      // 그룹 카운트 갱신
       const groupEl = label.closest('.checklist-group');
       const boxes   = groupEl.querySelectorAll('input[type="checkbox"]');
       const countEl = groupEl.querySelector('.group-count');
       const checkedCount = [...boxes].filter(cb => cb.checked).length;
       countEl.textContent = `${checkedCount}/${boxes.length}`;
-
-      // 4-3) 전체 항목의 최신 상태 수집
-      const updatedItems = [];
-      checklistData.forEach(cat => {
-        cat.items.forEach(item => {
-          const grpEl = [...document.querySelectorAll('.checklist-group')]
-            .find(g => g.querySelector('.group-title').textContent.trim() === cat.category);
-          const lbl = [...grpEl.querySelectorAll('.item')]
-            .find(l => l.querySelector('span').textContent.trim() === item.content);
-          const isChecked = lbl.querySelector('input[type="checkbox"]').checked;
-          updatedItems.push({ id: item.id, is_checked: isChecked });
-        });
-      });
-
-      // 4-4) 서버에 저장
-      try {
-        await saveChecklist(updatedItems);
-      } catch (e) {
-        console.error('체크리스트 저장 실패:', e);
-      }
+      // 폼 제출 (리다이렉트)
+      document.getElementById('checklistSubmit').click();
     });
   });
 
@@ -168,5 +131,4 @@ window.addEventListener('DOMContentLoaded', async () => {
         : '../static/images/icons/icon-dropdown-20=down.svg';
     });
   });
-
 });
