@@ -44,21 +44,12 @@ if (myspaceBtn) {
   });
 }
 
-// ── 유언장 진행 단계 조회 → 커버 이미지 토글 ──
-window.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const res = await fetch('/api/will/progress_step/', {
-      method: 'GET',
-      credentials: 'include'
-    });
-    const json = await res.json();
-    if (json.success && json.progress_step >= 10) {
-      document.getElementById('coverImg').src =
-        './static/images/assets/will-image-after.png';
-    }
-  } catch (e) {
-    console.error('진행 단계 조회 실패:', e);
-  }
+// 유언장 10단계 이미지 변경 (서버에서 렌더링 시 제공된 data-* 값 활용)
+const coverImg = document.getElementById('coverImg');
+if (coverImg && coverImg.dataset.completed === 'true') {
+  coverImg.src = './static/images/assets/will-image-after.png';
+}
+
 
   // ── 체크리스트 초기 상태 반영 ──
     let checklistData = [];
@@ -83,7 +74,6 @@ window.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('checklistSubmit').click();
     });
   });
-});
 
  
 // ── 체크박스 UI 반영 및 제출 로직 ──

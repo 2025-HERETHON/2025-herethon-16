@@ -69,10 +69,17 @@
 
     <!-- 3.2 커버 이미지: will 단계에 따라 교체 -->
     <div class="cover-frame">
-      <img id="coverImg"
-           src="./static/images/assets/will-image-before.png"
-           alt="커버 이미지"
-           class="cover-img" />
+      <img
+  id="coverImg"
+  class="cover-img"
+  src="{% if progress_step >= 10 %}
+          ./static/images/assets/will-image-after.png
+        {% else %}
+          ./static/images/assets/will-image-before.png
+        {% endif %}"
+  data-completed="{% if progress_step >= 10 %}true{% else %}false{% endif %}"
+  alt="커버 이미지" />
+
     </div>
 
     <!-- 3.3 서브헤더 -->
