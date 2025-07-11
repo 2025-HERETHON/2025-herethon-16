@@ -34,10 +34,10 @@
     </tr>
     <tr width="100%">
       <td  align="center"><p>서비스 기획</p><p>UI, UX 디자인</p><p>프로젝트 총괄</p></td>
-      <td  align="center"><p>회원가입/로그인 <br>페이지 개발</p><p>유언장 작성 페이지 개발</p></td>
-      <td  align="center"><p>메인 페이지 개발</p><p>추모공간 페이지 개발</p></td>
-      <td  align="center"><p>회원가입/로그인 <br>기능 개발</p><p>유언장 작성 기능 개발</p></td>
-      <td  align="center"><p>체크리스트 기능 개발</p><p>추모공간 기능 개발</p></td>
+      <td  align="center"><p>회원가입/로그인 <br>페이지 개발</p><p>유언장 작성<br>페이지 개발</p></td>
+      <td  align="center"><p>메인 페이지 개발</p><p>추모공간<br>페이지 개발</p></td>
+      <td  align="center"><p>회원가입/로그인 <br>기능 개발</p><p>유언장 작성<br>기능 개발</p></td>
+      <td  align="center"><p>체크리스트<br>기능 개발</p><p>추모공간 기능 개발</p></td>
     </tr>
   </table>
 
