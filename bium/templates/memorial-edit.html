@@ -17,7 +17,7 @@
     {% if is_new %}
       {% url 'my_memorial_space_create_view' as form_action %}
     {% else %}
-      {% url 'memorial_edit_view' memorial.id as form_action %}
+      {% url 'memorial_edit_view' space.id as form_action %}
     {% endif %}
 
     <form

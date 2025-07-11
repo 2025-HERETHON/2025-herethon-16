@@ -19,18 +19,4 @@ urlpatterns = [
     path("space_my/<int:memorial_id>/generate_agent_link", views.generate_agent_link_view, name="generate_agent_link_view"),
     path("space/agent/<uuid:agent_token>/", views.agent_access_view, name="agent_access_view"),
 
-    # # ✅ [API] 추모공간 API 묶음
-    # path("api/", include([
-    #     path("space/", views.public_memorial_list_api, name="public_memorial_list_api"),
-    #     path("space/<int:memorial_id>/", views.memorial_list_detail_api, name="memorial_list_detail_api"),
-
-    #     path("space_my/", views.my_memorial_space_api, name="my_memorial_space_api"),
-    #     path("space_my/<int:memorial_id>/", views.update_delete_my_memorial_space_api, name="update_delete_my_memorial_space_api"),
-
-    #     path("space/<int:memorial_id>/messages/", views.condolence_message_api, name="condolence_message_api"),
-    #     path("space/messages/<int:message_id>/", views.condolence_update_delete_api, name="condolence_update_delete_api"),
-
-    #     path("space_my/<int:memorial_id>/generate_agent_link/", views.generate_agent_link_api, name="generate_agent_link_api"),
-    #     path("space/agent/<uuid:agent_token>/", views.agent_access_view_api, name="agent_access_view_api"),
-    #])),
 ]

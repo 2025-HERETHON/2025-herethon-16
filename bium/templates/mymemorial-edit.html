@@ -27,7 +27,7 @@
           action="{% if is_new %}
                     {% url 'my_memorial_space_create_view' %}
                   {% else %}
-                    {% url 'memorial_edit_view' memorial.id %}
+                    {% url 'memorial_edit_view' space.id %}
                   {% endif %}"
           enctype="multipart/form-data">
       {% csrf_token %}
