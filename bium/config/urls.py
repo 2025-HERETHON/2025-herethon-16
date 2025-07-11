@@ -7,6 +7,7 @@ urlpatterns = [
     path('', main_view, name='main'),
     path('users/', include('users.urls')),
     path('will/', include('will.urls')),
-    path('api/memorial/',include('memorial.urls')),
+    path('memorial/',include('memorial.urls')),
+
     path('api/checklist/',include('checklist.urls')),
 ]

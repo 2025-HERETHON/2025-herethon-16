@@ -1,0 +1,375 @@
+/* memorial-page.css */
+
+/*————————————————————————————————————
+  1. 변수 선언
+————————————————————————————————————*/
+:root {
+  /* Primary */
+  --primary-light: #EAEFEF;
+  --primary-normal: #7F8CAA;
+  --primary-dark: #333446;
+
+  /* Grayscale */
+  --gray-33: #333333;
+  --white:   #FFFFFF;
+  --gray-F4: #F4F4F4;
+  --gray-ED: #EDEDED;
+  --gray-DF: #DFDFDF;
+  --gray-88: #888888;
+  --gray-56: #565656;
+
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+}
+
+/*————————————————————————————————————
+  2. 전역 리셋 & 기본 설정
+————————————————————————————————————*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Pretendard, sans-serif;
+  color: var(--gray-33);
+  background-color: var(--white);
+}
+
+.container {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  padding: 0; /* body padding 은 topbar 에서 */
+}
+
+/*————————————————————————————————————
+  3. 상단 바 (Topbar)
+————————————————————————————————————*/
+.topbar {
+  position: relative;       /* 아이콘 좌우 절대배치 위해 */
+  display: inline-flex;
+  justify-content: center;  /* 제목을 가운데로 */
+  align-items: center;
+  width: 100%;
+  padding: 16px 20px;
+  background-color: var(--white);
+}
+
+.icon-menu {
+  position: absolute;
+  left: 20px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-33);
+}
+
+.icon-search {
+  position: absolute;
+  right: 20px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/*————————————————————————————————————
+  4. 메인 레이아웃
+————————————————————————————————————*/
+main {
+  padding: 20px;
+  padding-top: 20px;  /* topbar 높이 만큼 여유 */
+  padding-bottom: 56px;
+}
+
+/*————————————————————————————————————
+  5. 섹션 제목
+————————————————————————————————————*/
+.section {
+  margin-bottom: var(--space-md);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+  margin-bottom: var(--space-sm);
+}
+
+.my-section .section-title {
+  margin-top: 0;
+}
+
+/*————————————————————————————————————
+  6. 나를 위한 추모공간 카드
+————————————————————————————————————*/
+.card.my-space {
+  width: 100%;
+  max-width: 335px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 20px;
+  border-radius: 12px;
+  outline: 1px solid var(--gray-ED);
+  outline-offset: -1px;
+  background: url("../images/assets/background-combined.png") no-repeat center center;
+  background-size: cover;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 20px 0 40px;
+}
+
+.profile-pic {
+  width: 64px;
+  height: 64px;
+  background: var(--gray-F4);
+  border-radius: 9999px;
+  border: 1.5px solid var(--white);
+  object-fit: cover;
+}
+
+.card.my-space .info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card.my-space .name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card.my-space .desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+  color: var(--gray-33);
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*————————————————————————————————————
+  7. 새 추모공간 만들기 버튼
+————————————————————————————————————*/
+.create-btn {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 335px;
+  height: 56px;
+  padding: 0 20px;
+  background-color: var(--white);
+  border: 1px solid var(--primary-light);
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+  cursor: pointer;
+  margin: 0 0 40px;
+}
+
+.create-btn:focus {
+  outline: none;
+}
+
+.create-btn::-moz-focus-inner {
+  border: 0;
+}
+
+.icon-right-arrow {
+  width: 20px;
+  height: 20px;
+}
+
+/*————————————————————————————————————
+  8. 다른 이들의 추모공간 리스트
+————————————————————————————————————*/
+.others-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: 40px;
+}
+
+.card.other-card {
+  width: 100%;
+  max-width: 335px;
+  min-width: 120px;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 32px 12px 12px;
+  border-radius: 12px;
+  outline: 1px solid var(--gray-ED);
+  outline-offset: -1px;
+  background: url("../images/assets/background-combined.png") no-repeat center center;
+  background-size: cover;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.card.other-card .avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--gray-F4);
+  border: 1.5px solid var(--white);
+  object-fit: cover;
+}
+
+.card.other-card .info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card.other-card .name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card.other-card .desc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+  color: var(--gray-33);
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card.other-card .dates {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray-56);
+}
+/*─────────────────────────────────────────────*/
+/* 9. 사이드바 */
+.sidebar {
+  position: fixed;
+  top: 0; left: -80%;
+  width: 80%; max-width: 300px;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  transition: left 0.3s;
+  padding: var(--space-md);
+  z-index: 1000;
+}
+.sidebar.open {
+  left: 0;
+}
+.sidebar .icon-close {
+  display: block;
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/*─────────────────────────────────────────────*/
+/* 9-1. 섹션 컨테이너 (fieldset 스타일) */
+.sidebar-section {
+  position: relative;
+  border: 1px solid var(--gray-ED);
+  border-radius: 8px;
+  background: var(--white);
+  /* 상단 패딩에 제목 half 높이(≈8px) 추가 */
+  padding: calc(var(--space-xs) + 12px) var(--space-md) var(--space-md);
+  margin-top: 20px;
+}
+.sidebar-section.active {
+  border-color: var(--primary-normal);
+}
+
+/* 9-2. 제목(legend처럼) */
+.sidebar-section .section-title {
+  position: absolute;
+  top: -10px;               /* 컨테이너 바깥으로 */
+  left: var(--space-md);
+  background: var(--white);
+  padding: 0 var(--space-xs);
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+  border: none;             /* 기존 작은 테두리 제거 */
+}
+
+/*─────────────────────────────────────────────*/
+/* 9-3. 목록 초기화 & 간격 */
+.sidebar-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sidebar-section ul li + li {
+  margin-top: var(--space-xs);
+}
+
+/* 9-4. 대시 마커 */
+.sidebar-section ul li {
+  position: relative;
+  padding-left: 14px;
+}
+.sidebar-section ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--gray-33);
+}
+
+/* 9-5. 링크 스타일 (테두리 완전 제거) */
+.sidebar-section ul li a {
+  display: block;           /* 텍스트 폭만큼 */
+  padding: 4px 0;           /* 위·아래 여백만 */
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-33);    /* 항상 검정 */
+  text-decoration: none;
+  border: none;             /* 작은 테두리 제거 */
+}
+
+/* 링크 호버 효과 */
+.sidebar-section ul li a:hover {
+  color: var(--primary-normal);
+}
+
+/*─────────────────────────────────────────────*/
+/* 10. 메인 프레임 블러 처리 (기존 그대로) */
+.main-frame {
+  position: relative;
+}
+.main-frame.blurred::after {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.2);
+  pointer-events: none;
+  z-index: 500;
+}
+
+
+.others-list .empty-msg {
+  text-align: center;
+  color: #888888;
+  margin: 40px 0;
+  font-size: 14px;
+}

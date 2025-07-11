@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>디지털 유언장 진행 단계</title>
+  <link rel="stylesheet" href="{% static 'css/digitalwill-temp.css' %}" />
+</head>
+<body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <a class="btn-back" href="{% url 'main' %}">
+      <img src="{% static 'images/icons/icon-back-24.svg' %}" alt="뒤로"/>
+    </a>
+    <div class="spacer"></div>
+  </header>
+
+  <div class="container">
+    <!-- 진행 정보 -->
+    <div class="info">
+      <p class="completed">
+        10단계 중 <span id="completedCount">{{ completed_step }}</span>단계까지 완료하였습니다.
+      </p>
+      <h2 class="heading">남은 이야기를 이어가볼까요?</h2>
+    </div>
+
+    <!-- 단계 리스트 -->
+    <div class="steps" id="stepsContainer">
+      {% for step in steps %}
+      <div class="step {{ step.state }}">
+        <div class="marker">
+          {% if step.state != 'current' %}
+            <img class="icon"
+                 src="{% static step.icon %}"
+                 alt="{{ step.state }} 아이콘">
+          {% else %}
+            <div class="icon"></div>
+          {% endif %}
+          {% if not forloop.last %}
+            <div class="line"></div>
+          {% endif %}
+        </div>
+        <div class="content">
+          <div class="title">{{ step.label }}</div>
+          <div class="desc">{{ step.desc }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,355 @@
+:root {
+  --primary-normal: #7f8caa;
+  --primary-dark: #333446;
+  --gray-33: #333333;
+  --gray-56: #565656;
+  --gray-88: #888888;
+  --gray-ED: #ededed;
+  --white: #ffffff;
+  --space-sm: 12px;
+  --space-md: 16px;
+}
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Pretendard", sans-serif;
+  background: var(--white);
+  color: var(--gray-33);
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+}
+
+/* 1) Topbar */
+.topbar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--space-md);
+  background: var(--white);
+}
+.btn-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.btn-back img {
+  width: 24px;
+  height: 24px;
+}
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: var(--space-md);
+  flex: 1;
+  text-align: left;
+}
+.spacer {
+  width: 24px;
+  height: 24px;
+}
+
+/* 2) Cover Frame */
+.cover-frame {
+  position: relative;
+  margin: 0 var(--space-sm);
+  height: 200px;
+  /* border: 1px solid var(--gray-ED); */
+  border-radius: 12px;
+  overflow: hidden;
+  background-image: url("../images/assets/background-combined.png");
+  background-size: cover;
+  background-position: center;
+}
+.cover-frame .cover-img {
+  display: none;
+}
+.profile-img {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  /* transform: translateX(-50%); */
+  width: 104px;
+  height: 104px;
+  border: 4px solid var(--white);
+  border-radius: 50%;
+  background: var(--gray-56);
+  object-fit: cover;
+}
+
+/* 3) Profile Text */
+.profile-text {
+  margin: calc(44px + var(--space-md)) var(--space-md) 0;
+}
+.profile-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+.profile-title strong {
+  margin-right: 4px;
+}
+.profile-dates {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--gray-88);
+}
+
+/* 4) Description */
+.profile-description {
+  margin: var(--space-md) var(--space-md) 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333333;
+}
+.profile-description p + p {
+  margin-top: var(--space-md);
+}
+
+/* 5) Opened Date */
+.opened-date {
+  margin: var(--space-md) var(--space-md) 0;
+  font-size: 12px;
+  color: var(--gray-88);
+  text-align: left;
+  border-bottom: 1px solid var(--gray-ED);
+  padding-bottom: var(--space-md);
+}
+
+/* 6) Flower Info */
+.comment-info {
+  margin: var(--space-md) var(--space-md) 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 7) Flowers */
+/* flowers 전체 줄: 가로 정렬 유지 */
+.flowers {
+  display: flex;
+  flex-direction: row; /* ← 세로가 아니라 가로로 정렬 */
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px var(--space-md);
+  white-space: nowrap;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+/* 개별 flower: 가로 슬라이딩을 위한 inline-block */
+.flower {
+  flex: 0 0 auto;
+  display: inline-flex; /* ← block → inline-flex */
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--gray-ED);
+}
+
+/* input radio: 겹치도록 절대 위치 (선택 반응) */
+.flower input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* 이미지: 정확히 가운데 꽉 채움 */
+.flower img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  z-index: 1;
+}
+
+/* 선택된 경우 outline 보이기 */
+.flower input[type="radio"]:checked + img {
+  outline: 2px solid var(--primary-normal);
+  outline-offset: -2px;
+}
+
+/* 8) Comment Prompt */
+.comment-prompt {
+  margin: var(--space-md) var(--space-md) 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+}
+
+/* 9) Input Area */
+.input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: var(--space-md) var(--space-md) 0;
+  height: 48px;
+}
+.comment-input {
+  flex: 1;
+  padding: 12px var(--space-md);
+  background: var(--gray-ED);
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 19.6px;
+  color: var(--gray-33);
+  resize: none;
+}
+.comment-input::placeholder {
+  color: var(--gray-88);
+  font-weight: 500;
+  width: 100%;
+  font-size: 14px;
+  font-family: Pretendard;
+  line-height: 19.6px;
+  word-wrap: break-word;
+}
+.send-btn {
+  width: 48px;
+  height: 48px;
+  background: var(--primary-normal);
+  border: none;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+.send-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+/* ──────────────────────────────────────────────
+   10) Comment List (댓글 카드)
+────────────────────────────────────────────── */
+
+/* 댓글 카드 컨테이너 */
+.comment-list {
+  margin: var(--space-md) var(--space-md) 40px;
+}
+
+/* 댓글 카드: 꽃 아이콘 + 내용 사이 간격 8px */
+.comment-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px; /* ← 카드 내부 요소 간격 (꽃 이미지 ↔ 내용) */
+  padding: 12px var(--space-md);
+  border-bottom: 1px solid var(--gray-ED);
+}
+
+/* 꽃 아이콘 */
+.comment-card img {
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  background-color: #f4f4f4;
+  border: 1px solid var(--gray-ED) !important;
+  object-fit: cover;
+  /* margin-bottom 제거, gap으로 대체했으니 마진 쓰지 않습니다 */
+}
+
+/* 이름·날짜 행: 간격 8px, 카드 gap과 동일하게 */
+.comment-content .meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* ← 이름 ↔ 날짜 간격 */
+  margin-bottom: 8px; /* ← 메타 아래(메시지 위) 간격 */
+}
+
+/* 메시지 본문 */
+.comment-content .text {
+  margin: 0; /* 기본 p 여백 제거 */
+}
+
+/* ── 수정 & 삭제 버튼 ── */
+.comment-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  /* “수정 | 삭제” 사이 약간 여유 */
+}
+
+.comment-actions button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-family: Pretendard, sans-serif;
+  color: var(--primary-normal);
+  cursor: pointer;
+}
+
+.comment-actions .separator {
+  color: var(--gray-56);
+  user-select: none;
+}
+/* ── 댓글 헤더: 이름·날짜 · 수정/삭제 버튼 ── */
+.comment-content .comment-header {
+  display: flex;
+  justify-content: space-between; /* 왼쪽(meta) / 오른쪽(actions) */
+  align-items: center;
+  margin-bottom: 8px;
+  width: 100%; /* 텍스트 위 여백 */
+}
+
+/* 이름 + 날짜(meta) */
+.comment-content .meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* 이름 ↔ 날짜 간격 8px */
+}
+
+/* 이름 */
+.comment-content .meta .name {
+  font-size: 14px; /* 14px */
+  font-weight: 600;
+  color: #333333;
+  line-height: 19.6px;
+}
+
+/* 날짜 */
+.comment-content .meta .date {
+  font-size: 12px; /* 12px */
+  font-weight: 400;
+  color: #888888;
+  line-height: 19.6px;
+}
+
+.comment-content .comment-actions .separator {
+  color: #888888;
+  user-select: none;
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+}
+
+.edit-btn img {
+  width: 20px;
+  height: 20px;
+}

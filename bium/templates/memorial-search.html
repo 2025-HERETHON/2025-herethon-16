@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>추모공간 검색</title>
+  <link rel="stylesheet" href="{% static 'css/memorial-search.css' %}" />
+</head>
+<body>
+  <div class="main-frame container">
+    <!-- Topbar: 뒤로가기 + 검색창 -->
+    <header class="topbar">
+      <a href="{% url 'public_memorial_list_view' %}">
+        <img src="{% static 'images/icons/icon-back-24.svg' %}" alt="뒤로가기" class="icon-back"/>
+      </a>
+      <form method="GET" action="{% url 'memorial_search' %}" class="search-container">
+        <input
+          type="text"
+          name="q"
+          id="searchInput"
+          placeholder="추모공간을 검색해주세요"
+          value="{{ query|default:'' }}"
+        />
+        <button type="submit" id="searchBtn">
+  <img src="{% static 'images/icons/icon-search-24.svg' %}" alt="검색" class="icon-search"/>
+</button>
+</form>
+      </div>
+    </header>
+
+    <main>
+  {% if spaces %}
+    <div class="others-list">
+      {% for space in spaces %}
+        <a href="{% url 'memorial_detail_view' space.id %}" class="memorial-card">
+          <img
+            {% if space.profile_image %}
+              <img src="{{ space.profile_image.url }}" alt="프로필" class="profile-img" />
+            {% else %}
+              <img src="{% static 'images/assets/default.png' %}" alt="기본 프로필" class="profile-img" />
+            {% endif %}
+            alt="프로필"
+            class="profile-img"
+          />
+          <div class="info">
+            <h3 class="name">{{ space.name }}</h3>
+            <p class="desc">{{ space.description|default:"소개글이 없습니다." }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="no-results">검색 결과가 없습니다.</div>
+  {% endif %}
+</main>
+
+  </div>
+
+</body>
+</html>

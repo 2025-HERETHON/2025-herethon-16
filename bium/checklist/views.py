@@ -4,8 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import ChecklistCategory, ChecklistItem, UserChecklist
+from django.shortcuts import render
+
 
 # 사용자 체크리스트 조회
 @require_http_methods(["GET"])
@@ -31,6 +34,7 @@ def checklist_get_api(request):
             "category": category.name,
             "items": items
         })
+    
 
     return JsonResponse({"success": True, "data": result})
 
@@ -41,8 +45,6 @@ def checklist_get_api(request):
 @require_http_methods(["POST"])
 def checklist_save_api(request):
     try:
-        if not request.user.is_authenticated:
-            return JsonResponse({"success": False, "message": "로그인이 필요합니다."}, status=401)
 
         body = json.loads(request.body)
         checklist = body.get("checklist", [])
@@ -51,7 +53,13 @@ def checklist_save_api(request):
             item_id = entry.get("item_id")
             is_checked = entry.get("is_checked", False)
 
-            item = ChecklistItem.objects.get(id=item_id)
+            try:
+                item = ChecklistItem.objects.get(id=item_id)
+            except ObjectDoesNotExist:
+                return JsonResponse({
+                    "success": False,
+                    "message": f"항목 ID {item_id} 가 존재하지 않습니다."
+                }, status=404)
 
             UserChecklist.objects.update_or_create(
                 user=request.user,
@@ -63,6 +71,7 @@ def checklist_save_api(request):
 
     except Exception as e:
         return JsonResponse({"success": False, "message": str(e)}, status=400)
+
 
 
 
