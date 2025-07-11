@@ -22,9 +22,11 @@ def signup_view(request):
 
     if not all([username, password, name, birth_date_str, phone_number]):
         errors['not_all'] = "모든 항목을 입력해 주세요."
+        return render(request, 'signup.html', {"errors": errors})
+
 
     if User.objects.filter(username=username).exists():
-        errors['exists'] = "이미 존재하는 아이디입니다."
+        errors['username'] = "이미 존재하는 아이디입니다."
 
     if len(username) < 4:
         errors['username'] = "아이디는 4자 이상 작성해 주세요."

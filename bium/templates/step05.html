@@ -12,12 +12,7 @@
     <div class="Container">
       <div class="Bar">
         <progress id="progress" value="50" min="0" max="100"></progress>
-        <img
-          id="CancelBtn"
-          src="{% static 'images/icon-close-24.svg' %}"
-          width="24px"
-          height="24px"
-        />
+        <img id="CancelBtn" src="{% static 'images/icon-close-24.svg' %}" width="24px" height="24px" />
       </div>
       <div class="StepTitle">05. 장례 관련</div>
       <div class="Scroll">
@@ -27,41 +22,35 @@
           <div class="InputBox">
             <div class="title">장례 방식</div>
             <div class="radio-row">
-              <input type="radio" name="funeral_type" value="1" />
+              <input type="radio" name="funeral_type" value="1" {% if funeral.funeral_type == 1 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="1">일반 장례식</label>
-                <div class="radioDetail">
-                  가족과 지인이 함께하는 3일장을 원해요.
-                </div>
+                <div class="radioDetail">가족과 지인이 함께하는 3일장을 원해요.</div>
               </div>
             </div>
             <div class="radio-row">
-              <input type="radio" name="funeral_type" value="2" />
+              <input type="radio" name="funeral_type" value="2" {% if funeral.funeral_type == 2 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="2">가족장</label>
                 <div class="radioDetail">3일장을 가족끼리 치르고 싶어요.</div>
               </div>
             </div>
             <div class="radio-row">
-              <input type="radio" name="funeral_type" value="3" />
+              <input type="radio" name="funeral_type" value="3" {% if funeral.funeral_type == 3 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="3">무빈소장례식</label>
-                <div class="radioDetail">
-                  빈소를 차리지 않고 간소하게 치르고 싶어요.
-                </div>
+                <div class="radioDetail">빈소를 차리지 않고 간소하게 치르고 싶어요.</div>
               </div>
             </div>
             <div class="radio-row">
-              <input type="radio" name="funeral_type" value="4" />
+              <input type="radio" name="funeral_type" value="4" {% if funeral.funeral_type == 4 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="4">종교장</label>
-                <div class="radioDetail">
-                  제가 믿는 종교에 따라 진행하고 싶어요.
-                </div>
+                <div class="radioDetail">제가 믿는 종교에 따라 진행하고 싶어요.</div>
               </div>
             </div>
             <div class="radio-row">
-              <input type="radio" name="funeral_type" value="5" />
+              <input type="radio" name="funeral_type" value="5" {% if funeral.funeral_type == 5 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="5">기타</label>
                 <div class="radioDetail">저만의 희망사항이 있어요.</div>
@@ -82,55 +71,42 @@
           </div>
           <div class="InputBox">
             <div class="title">장례식에 대한 희망사항</div>
-            <div class="detail">
-              비용, 상조, 규모, 영정사지느 수의, 입관, 종교, 빈소 예절, 조의금
-              등
-            </div>
-            <input
-              class="content"
-              type="text"
-              placeholder=""
-              name="funeral_wishes"
-              value="{{ funeral.funeral_wishes|default_if_none:'' }}"
-            />
+            <div class="detail">비용, 상조, 규모, 영정사지느 수의, 입관, 종교, 빈소 예절, 조의금 등</div>
+            <input class="content" type="text" placeholder="" name="funeral_wishes" value="{{ funeral.funeral_wishes|default_if_none:'' }}" />
           </div>
 
           <div class="InputBox">
             <div class="title">산소 유형</div>
             <div class="radio-row">
-              <input type="radio" name="grave_type" value="1" />
+              <input type="radio" name="grave_type" value="1" {% if funeral.grave_type == 1 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="1">매장묘</label>
                 <div class="radioDetail">전통 방식대로 터에 묻히길 원해요.</div>
               </div>
             </div>
             <div class="radio-row">
-              <input type="radio" name="grave_type" value="2" />
+              <input type="radio" name="grave_type" value="2" {% if funeral.grave_type == 2 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="2">봉안묘</label>
-                <div class="radioDetail">
-                  화장 후 실외 시설물에 안치되길 원해요.
-                </div>
+                <div class="radioDetail">화장 후 실외 시설물에 안치되길 원해요.</div>
               </div>
             </div>
             <div class="radio-row">
-              <input type="radio" name="grave_type" value="3" />
+              <input type="radio" name="grave_type" value="3" {% if funeral.grave_type == 3 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="3">납골당</label>
-                <div class="radioDetail">
-                  화장 후 실내 시설물에 안치되길 원해요.
-                </div>
+                <div class="radioDetail">화장 후 실내 시설물에 안치되길 원해요.</div>
               </div>
             </div>
             <div class="radio-row">
-              <input type="radio" name="grave_type" value="4" />
+              <input type="radio" name="grave_type" value="4" {% if funeral.grave_type == 4 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="4">수목장</label>
                 <div class="radioDetail">화장 후 나무 아래 묻히길 원해요.</div>
               </div>
             </div>
             <div class="radio-row">
-              <input type="radio" name="grave_type" value="5" />
+              <input type="radio" name="grave_type" value="5" {% if funeral.grave_type == 5 %}checked{% endif %} />
               <div class="radio-text">
                 <label for="5">잔디장</label>
                 <div class="radioDetail">화장 후 잔디 아래 묻히길 원해요.</div>
@@ -148,41 +124,21 @@
           <div class="InputBox">
             <div class="title">장지에 대한 준비</div>
             <div class="detail">시신의 매장 또는 화장 및 매장 장소</div>
-            <input
-              class="content"
-              type="text"
-              placeholder=""
-              name="grave_preparation"
-              value="{{ funeral.grave_preparation|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="" name="grave_preparation" value="{{ funeral.grave_preparation|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">묘비 문구</div>
-            <input
-              class="content"
-              type="text"
-              placeholder=""
-              name="tombstone_inscription"
-              value="{{ funeral.tombstone_inscription|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="" name="tombstone_inscription" value="{{ funeral.tombstone_inscription|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">제사에 대한 희망사항</div>
-            <input
-              class="content"
-              type="text"
-              placeholder=""
-              name="memorial_service_wishes"
-              value="{{ funeral.memorial_service_wishes|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="" name="memorial_service_wishes" value="{{ funeral.memorial_service_wishes|default_if_none:'' }}" />
           </div>
         </form>
       </div>
       <div style="display: flex; flex-direction: row; gap: 12px">
         <div class="BeforeBtn" id="BeforeBtn">이전</div>
-        <button form="step05Form" type="submit" class="NextBtn" id="NextBtn">
-          다음
-        </button>
+        <button form="step05Form" type="submit" class="NextBtn" id="NextBtn">다음</button>
       </div>
 
       <div class="modal">
@@ -191,17 +147,9 @@
             <div class="modal-text">지금까지 작성한 내용이 삭제됩니다.</div>
             <div class="modal-question">임시저장하시겠습니까?</div>
           </div>
-          <div class="modal-button">
+          <div style="display: flex; flex-direction: row; gap: 12px">
             <div class="modal-delete">내용 삭제하기</div>
-            <button
-              form="step05Form"
-              name="is_draft"
-              value="true"
-              type="submit"
-              class="modal-text"
-            >
-              임시저장하기
-            </button>
+            <button form="step05Form" name="is_draft" value="true" type="submit" class="modal-text">임시저장하기</button>
           </div>
         </div>
       </div>

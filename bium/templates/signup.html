@@ -12,62 +12,44 @@
   <body>
     <div class="Container">
       <div class="Bar">
-        <img
-          id="BackBtn"
-          src="{% static 'images/icon-back-24.png' %}"
-          width="24px"
-          height="24px"
-        />
+        <img id="BackBtn" src="{% static 'images/icon-back-24.png' %}" width="24px" height="24px" />
         <div class="Title">회원가입</div>
       </div>
       <form method="post" id="SignupForm">
         {% csrf_token %}
+
         <div class="Input">
-          <input
-            required
-            name="name"
-            class="InputBox {% if error %} Input-ErrorBox {% endif %}"
-            type="text"
-            placeholder="이름"
-          />
-          <input
-            required
-            name="birth_date"
-            class="InputBox {% if error %} Input-ErrorBox {% endif %}"
-            type="text"
-            placeholder="생년월일 (0000-00-00)"
-          />
-          <input
-            required
-            name="phone_number"
-            class="InputBox {% if error %} Input-ErrorBox {% endif %}"
-            type="text"
-            placeholder="휴대전화 번호 (000-0000-0000)"
-          />
+          <input name="name" class="InputBox {% if errors.name or errors.not_all %} Input-ErrorBox {% endif %}" type="text" placeholder="이름" />
+          {% if errors.name %}
+          <div id="name-error" class="error-msg">{{ errors.name }}</div>
+          {% endif %}
+          <input name="birth_date" class="InputBox {% if errors.birth_date or errors.not_all %} Input-ErrorBox {% endif %}" type="text" placeholder="생년월일 (0000-00-00)" />
+          {% if errors.birth_date %}
+          <div id="birth-error" class="error-msg">{{ errors.birth_date }}</div>
+          {% endif %}
+          <input name="phone_number" class="InputBox {% if errors.phone_number or errors.not_all %} Input-ErrorBox {% endif %}" type="text" placeholder="휴대전화 번호 (000-0000-0000)" />
+          {% if errors.phone_number %}
+          <div id="phone-error" class="error-msg">{{ errors.phone_number }}</div>
+          {% endif %}
         </div>
+
         <div class="Input">
+          <input name="username" id="username" class="InputBox {% if errors.username or errors.not_all %} Input-ErrorBox {% endif %}" type="text" placeholder="아이디 (4자 이상)" />
+          {% if errors.username %}
+          <div id="id-error" class="error-msg">{{ errors.username }}</div>
+          {% endif %}
           <input
-            minlength="4"
-            required
-            name="username"
-            id="username"
-            class="InputBox {% if error %} Input-ErrorBox {% endif %}"
-            type="text"
-            placeholder="아이디 (4자 이상)"
-          />
-          <input
-            minlength="6"
-            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
-            required
             name="password"
             id="password"
-            class="InputBox {% if error %} Input-ErrorBox {% endif %}"
+            class="InputBox {% if errors.password or errors.not_all %} Input-ErrorBox {% endif %}"
             type="password"
             autocomplete="new-password"
             placeholder="비밀번호 (6자 이상 영어 소문자, 숫자 포함)"
           />
-          {% if error %}
-          <span class="error-msg">{{ error }}</span>
+          {% if errors.password %}
+          <div id="passwd-error" class="error-msg">{{ errors.password }}</div>
+          {% endif %} {% if errors.not_all %}
+          <div id="name-error" class="error-msg">{{ errors.not_all }}</div>
           {% endif %}
         </div>
         <button type="submit" id="SignUp" class="SignUpBtn">가입하기</button>

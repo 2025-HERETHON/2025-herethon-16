@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <link rel="stylesheet" href="{% static 'css/EndingNotes/step03.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/EndingNotes/step05.css' %}" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>step 03</title>
@@ -12,12 +12,7 @@
     <div class="Container">
       <div class="Bar">
         <progress id="progress" value="30" min="0" max="100"></progress>
-        <img
-          id="CancelBtn"
-          src="{% static 'images/icon-close-24.svg' %}"
-          width="24px"
-          height="24px"
-        />
+        <img id="CancelBtn" src="{% static 'images/icon-close-24.svg' %}" width="24px" height="24px" />
       </div>
       <div class="StepTitle">03. 나에 대하여</div>
       <div class="Scroll">
@@ -27,88 +22,41 @@
           <div class="InputBox">
             <div class="title">이름의 뜻</div>
             <div class="detail">한자나 영어도 알려주세요.</div>
-            <input
-              class="content"
-              type="text"
-              placeholder="이름의 뜻"
-              name="name_meaning"
-              value="{{ me.name_meaning|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="이름의 뜻" name="name_meaning" value="{{ me.name_meaning|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">별명</div>
-            <input
-              class="content"
-              type="text"
-              placeholder="별명"
-              name="nickname"
-              value="{{ me.nickname|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="별명" name="nickname" value="{{ me.nickname|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">좋아한 것들</div>
             <div class="detail">놀이, 노래, 활동, 장소, 친구 등</div>
-            <input
-              class="content"
-              type="text"
-              placeholder="좋아한 것들"
-              name="favorites"
-              value="{{ me.favorites|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="좋아한 것들" name="favorites" value="{{ me.favorites|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">취향</div>
             <div class="detail">동경한 사람, 직업, 좋아한 책, 취미, 특기</div>
-            <input
-              class="content"
-              type="text"
-              placeholder="취미"
-              name="preferences"
-              value="{{ me.preferences|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="취미" name="preferences" value="{{ me.preferences|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">학창 시절</div>
             <div class="detail">동아리 활동, 대학/대학원의 전공</div>
-            <input
-              class="content"
-              type="text"
-              placeholder="00000000"
-              name="school_days"
-              value="{{ me.school_days|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="00000000" name="school_days" value="{{ me.school_days|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">직장과 사회생활</div>
-            <div class="detail">
-              경력, 활동 이력, 사회봉사, 여행 기록, 은퇴, 은퇴 후 활동(창업,
-              모임, 취미, 봉사)
-            </div>
-            <input
-              class="content"
-              type="text"
-              placeholder="직장과 사회생활"
-              name="work_and_social_life"
-              value="{{ me.work_and_social_life|default_if_none:'' }}"
-            />
+            <div class="detail">경력, 활동 이력, 사회봉사, 여행 기록, 은퇴, 은퇴 후 활동(창업, 모임, 취미, 봉사)</div>
+            <input class="content" type="text" placeholder="직장과 사회생활" name="work_and_social_life" value="{{ me.work_and_social_life|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">내가 쓴 글, 시, 편지 모음</div>
-            <input
-              class="content"
-              type="text"
-              placeholder="내가 쓴 글, 시, 편지 모음"
-              name="writings"
-              value="{{ me.writings|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="내가 쓴 글, 시, 편지 모음" name="writings" value="{{ me.writings|default_if_none:'' }}" />
           </div>
         </form>
       </div>
-      <div style="display: flex; flex-direction: row; gap: 12px">
+      <div style="display: flex; flex-direction: row; gap: 12px; height: 56px">
         <div class="BeforeBtn" id="BeforeBtn">이전</div>
-        <button form="step03Form" type="submit" class="NextBtn" id="NextBtn">
-          다음
-        </button>
+        <button form="step03Form" type="submit" class="NextBtn" id="NextBtn">다음</button>
       </div>
 
       <div class="modal">
@@ -119,15 +67,7 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <button
-              form="step03Form"
-              name="is_draft"
-              value="true"
-              type="submit"
-              class="modal-text"
-            >
-              임시저장하기
-            </button>
+            <button form="step03Form" name="is_draft" value="true" type="submit" class="modal-text">임시저장하기</button>
           </div>
         </div>
       </div>

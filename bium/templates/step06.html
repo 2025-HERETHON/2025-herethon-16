@@ -12,12 +12,7 @@
     <div class="Container">
       <div class="Bar">
         <progress id="progress" value="60" min="0" max="100"></progress>
-        <img
-          id="CancelBtn"
-          src="{% static 'images/icon-close-24.svg' %}"
-          width="24px"
-          height="24px"
-        />
+        <img id="CancelBtn" src="{% static 'images/icon-close-24.svg' %}" width="24px" height="24px" />
       </div>
       <div class="StepTitle">06. 의료와 간병에 대한 준비</div>
       <div class="Scroll">
@@ -27,52 +22,35 @@
           <div class="InputBox">
             <div class="title">시한부</div>
             <div class="radio-row">
-              <input type="radio" name="terminal_illness" value="True" />
+              <input type="radio" name="terminal_illness" value="True" {% if medcare.terminal_illness == True %}checked{% endif %} />
               <label for="1">그렇다.</label>
             </div>
             <div class="radio-row">
-              <input type="radio" name="terminal_illness" value="False" />
+              <input type="radio" name="terminal_illness" value="False" {% if medcare.terminal_illness == False %}checked{% endif %} />
               <label for="2">그렇지 않다.</label>
             </div>
           </div>
           <div class="InputBox">
             <div class="title">종말 의료 신청 여부</div>
-            <div class="detail">
-              호스피스 서비스와 통증 완화에 대해 적어주세요.
-            </div>
-            <input
-              class="content"
-              type="text"
-              placeholder="종말 의료 신청 여부"
-              name="hospice_care"
-              value="{{ medcare.hospice_care|default_if_none:'' }}"
-            />
+            <div class="detail">호스피스 서비스와 통증 완화에 대해 적어주세요.</div>
+            <input class="content" type="text" placeholder="종말 의료 신청 여부" name="hospice_care" value="{{ medcare.hospice_care|default_if_none:'' }}" />
           </div>
           <div class="InputBox">
             <div class="title">연명치료</div>
-            <div class="detail">
-              연명치료를 원치 않으신다면, 전국 보건소에서 연명치료 거부 신청을
-              하실 수 있습니다.
-            </div>
+            <div class="detail">연명치료를 원치 않으신다면, 전국 보건소에서 연명치료 거부 신청을 하실 수 있습니다.</div>
             <div class="radio-row">
-              <input type="radio" name="life_sustaining_treatment" value="1" />
+              <input type="radio" name="life_sustaining_treatment" value="1" {% if medcare.life_sustaining_treatment == 1 %}checked{% endif %} />
               <label for="1">연명치료를 원해요.</label>
             </div>
             <div class="radio-row">
-              <input type="radio" name="life_sustaining_treatment" value="2" />
+              <input type="radio" name="life_sustaining_treatment" value="2" {% if medcare.life_sustaining_treatment == 2 %}checked{% endif %} />
               <label for="2">연명치료를 원치 않아요.</label>
             </div>
           </div>
           <div class="InputBox">
             <div class="title">장기와 인체조직 기증</div>
             <div class="detail">신청 여부와 그 내용을 적어주세요.</div>
-            <input
-              class="content"
-              type="text"
-              placeholder="장기와 인체조직 기증"
-              name="organ_and_tissue_donation"
-              value="{{ medcare.organ_and_tissue_donation|default_if_none:'' }}"
-            />
+            <input class="content" type="text" placeholder="장기와 인체조직 기증" name="organ_and_tissue_donation" value="{{ medcare.organ_and_tissue_donation|default_if_none:'' }}" />
           </div>
         </form>
       </div>
@@ -89,15 +67,7 @@
           </div>
           <div class="modal-button">
             <div class="modal-delete">내용 삭제하기</div>
-            <button
-              form="step06Form"
-              name="is_draft"
-              value="true"
-              type="submit"
-              class="modal-text"
-            >
-              임시저장하기
-            </button>
+            <button form="step06Form" name="is_draft" value="true" type="submit" class="modal-text">임시저장하기</button>
           </div>
         </div>
       </div>
