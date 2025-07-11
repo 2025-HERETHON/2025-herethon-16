@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    window.STATIC_URL = "{% static '' %}";
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ is_new|yesno:"추모공간 작성,추모공간 수정" }}</title>
+  <link rel="stylesheet" href="{% static 'css/memorial-edit.css' %}" />
+</head>
+<body>
+  <div class="container">
+
+    <!-- form action 설정 -->
+    {% if is_new %}
+      {% url 'my_memorial_space_create_view' as form_action %}
+    {% else %}
+      {% url 'memorial_edit_view' memorial.id as form_action %}
+    {% endif %}
+
+    <form
+      id="editForm"
+      method="post"
+      action="{{ form_action }}"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="btn-back" onclick="history.back();">
+          <img src="{% static 'images/icons/icon-back-24.svg' %}" alt="뒤로" />
+        </button>
+        <div class="title">
+          {{ is_new|yesno:"새 추모공간 만들기,추모공간 수정" }}
+        </div>
+        <div class="spacer"></div>
+      </header>
+
+      <!-- Cover + Profile -->
+      <div class="cover-edit" id="coverFrame">
+        <input type="file" id="coverInput" name="background_image" accept="image/*" hidden />
+        <div class="profile-edit">
+          <div class="profile-frame" id="profileFrame">
+            {% if memorial.profile_image %}
+              <img src="{{ memorial.profile_image.url }}" alt="프로필" id="profileImg" />
+            {% else %}
+              <img src="{% static 'images/assets/default.png' %}" alt="기본 프로필" id="profileImg" />
+            {% endif %}
+            <div class="camera-overlay" id="profileUploadBtn">
+              <img src="{% static 'images/icons/icon-camera-16.svg' %}" alt="업로드" />
+            </div>
+            <input type="file" id="profileInput" name="profile_image" accept="image/*" hidden />
+          </div>
+        </div>
+      </div>
+
+      <!-- 이름 입력 -->
+      <div class="field">
+        <label for="memorialName">성함을 작성해주세요</label>
+        <input
+          type="text"
+          id="memorialName"
+          name="name"
+          placeholder="고인의 이름을 입력해주세요"
+          value="{{ memorial.name|default:'' }}"
+          required
+        />
+      </div>
+
+      <!-- 날짜 입력 -->
+      <div class="field dates">
+        <div class="date-field">
+          <label for="birthDate">생년월일</label>
+          <input
+            type="date"
+            name="birth_date"
+            id="birthDate"
+            value="{{ memorial.birth_date|date:'Y-m-d'|default_if_none:'' }}"
+            required
+          />
+        </div>
+        <div class="date-field">
+          <label for="deathDate">별세일</label>
+          <input
+            type="date"
+            name="death_date"
+            id="deathDate"
+            value="{{ memorial.death_date|date:'Y-m-d'|default_if_none:'' }}"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- 설명 -->
+      <div class="field">
+        <label for="description">추모공간을 설명해주세요</label>
+        <div class="description-box">
+          <textarea
+            id="description"
+            name="description"
+            class="description-text"
+            placeholder="고인을 위한 추모공간의 내용을 입력해주세요"
+            required
+          >{{ memorial.description|default:'' }}</textarea>
+        </div>
+      </div>
+
+      <!-- 공개 여부 -->
+      <div class="field">
+        <label>
+          <input type="checkbox" name="is_public" {% if memorial.is_public %}checked{% endif %}>
+          공개 추모공간으로 설정
+        </label>
+      </div>
+
+      <!-- 완료 버튼 -->
+      <div class="button-wrap">
+        <button type="submit" id="saveBtn" class="btn-save">
+          {{ is_new|yesno:"작성 완료,수정 완료" }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- SSR 기반 이미지 JS 변수 주입 -->
+  <script>
+    window.profileImageUrl = "{% if memorial.profile_image %}{{ memorial.profile_image.url }}{% else %}{% static 'images/assets/default.png' %}{% endif %}";
+    window.coverImageUrl = "{% if memorial.background_image %}{{ memorial.background_image.url }}{% else %}{% static 'images/assets/default-background.jpg' %}{% endif %}";
+  </script>
+
+  <script src="{% static 'js/memorial-edit.js' %}"></script>
+</body>
+</html>

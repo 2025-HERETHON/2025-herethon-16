@@ -1,257 +1,382 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BIUM</title>
-  <link rel="stylesheet" href="../static/css/main-page.css" />
+  <link rel="stylesheet" href="{% static 'css/main-page.css' %}" />
 </head>
 <body>
-  <!-- 사이드바 (햄버거 클릭 시 열림) -->
-<aside id="sidebar" class="sidebar">
-  <img
-    id="closeSidebar"
-    src="../static/images/icons/icon-close-24.svg"
-    alt="닫기 아이콘"
-    class="icon-close"
-  />
-  <!-- 사이드바 내용 추가 -->
-</aside>
-
+  <!-- 사이드바 -->
+  <aside id="sidebar" class="sidebar">
+    <img
+      id="closeSidebar"
+      src="{% static 'images/icons/icon-close-24.svg' %}"
+      alt="닫기 아이콘"
+      class="icon-close"
+    />
+    <nav class="sidebar-menu">
+      <!-- 홈 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">홈</h3>
+        <ul>
+          <li><a href="{% url 'main' %}">장례 전 준비해야 할 목록</a></li>
+          <li><a href="{% url 'main' %}">장례에 대한 정보들</a></li>
+        </ul>
+      </section>
+      <!-- 추모공간 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">추모공간</h3>
+        <ul>
+          <li><a href="{% url 'my_memorial_space_view' %}">내 추모공간</a></li>
+          <li><a href="{% url 'public_memorial_list_view' %}">다른 사람들의 추모공간</a></li>
+        </ul>
+      </section> 
+      <!-- 디지털 유언장 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">디지털 유언장</h3>
+        <ul>
+          <li><a href="{% url 'step01' %}">디지털 유언장 작성</a></li>
+          <li><a href="{% url 'submit' %}">디지털 유언장 PDF 다운로드</a></li>
+        </ul>
+      </section>
+    </nav>
+  </aside>
 
   <div class="main-frame">
-    <!-- 3.1 상단 바: 햄버거 · 로고 · 프로필 -->
+    <!-- 상단 바 -->
     <header class="main-top">
-    <img
-  id="openSidebar"
-    src="../static/images/icons/icon-menu-24.svg"
-  alt="메뉴 아이콘"
-  class="icon-menu"
-/> 
-      <div class="logo">비움</div>
       <img
-  src="../static/images/icons/icon-myspace-24.svg"
-  alt="내 공간 아이콘"
-  class="icon-myspace"
-/> 
+        id="openSidebar"
+        src="/static/images/icons/icon-menu-24.svg"
+        alt="메뉴 아이콘"
+        class="icon-menu"
+      />
+      <div class="logo">
+        <img
+          src="/static/images/assets/logo.svg"
+          alt="로고"
+          class="logo"
+        />
+      </div>
+      <a href="{% url 'my_memorial_space_view' %}">
+        <img
+          src="/static/images/icons/icon-myspace-24.svg"
+          alt="내 공간 아이콘"
+          class="icon-myspace"
+        />
+      </a>
     </header>
 
-    <!-- 3.2 서브헤더 -->
+    <!-- 커버 이미지 -->
+    <div class="cover-frame">
+      {% if will_completed_steps >= 10 %}
+      <img
+        src="/static/images/assets/will-image-after.png"
+        alt="완료된 커버 이미지"
+        class="cover-img"
+      />
+      {% else %}
+      <img
+        src="/static/images/assets/will-image-before.png"
+        alt="커버 이미지"
+        class="cover-img"
+      />
+      {% endif %}
+    </div>
+
+    <!-- 서브헤더 -->
     <div class="subtitle">
       당신의 마지막 뜻을 미리 준비해두세요
     </div>
 
-    <!-- 3.3 유언장 작성 버튼 -->
-    <button class="will-btn">
+    <!-- 유언장 작성 버튼 -->
+    <a href="{% url 'step01' %}" class="will-btn">
       <span>유언장 작성하기</span>
-            <img
-  src="../static/images/icons/icon-arrow-right-20.svg"
-  alt="오른쪽 화살표 아이콘"
-  class="icon-right-arrow"
-/>
-    </button>
+      <img
+        src="/static/images/icons/icon-arrow-right-20.svg"
+        alt="오른쪽 화살표 아이콘"
+        class="icon-right-arrow"
+      />
+    </a>
+    <!-- <button
+      type="button"
+      class="will-btn"
+      onclick="location.href='{{ step01_url }}'">
+      <span>유언장 작성하기</span>
+      <img
+        src="/static/images/icons/icon-arrow-right-20.svg"
+        alt="오른쪽 화살표 아이콘"
+        class="icon-right-arrow"
+      />
+    </button> -->
 
-    <!-- 3.4 체크리스트 영역: 가로 스크롤, 스크롤바 숨김 -->
-    <div class="subtitle">
-    장례 전 준비해야 할 목록
-    </div>
-    <div class="checklist-wrapper">
+    <!-- 체크리스트 -->
+    <div class="subtitle">장례 전 준비해야 할 목록</div>
+    <form
+      id="checklistForm"
+      action="{% url 'checklist_save_api' %}"
+      onsubmit="return false"
+      class="checklist-wrapper"
+    >
+      {% csrf_token %}
       <div class="checklist-container">
-        <!-- 카테고리 박스: 초기 count 0/4 -->
+        <!-- 법적·행정적 준비 -->
         <div class="checklist-group" data-group="0">
           <div class="group-header">
             <div class="group-title">법적·행정적 준비</div>
             <div class="group-count">0/4</div>
           </div>
-          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
           <label class="item">
-              <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=Deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img
+              class="checkbox-icon"
+               src="/static/images/icons/icon-checkbox-12={{ item.is_checked|yesno:"Activate,Deactivate" }}.svg"
+       alt="체크박스 아이콘"/>
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="1"
+    value="1"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>유언장 작성하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img
+              class="checkbox-icon"
+              src="/static/images/icons/icon-checkbox-12={{ item.is_checked|yesno:"Activate,Deactivate" }}.svg"
+       alt="체크박스 아이콘"/>
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="2"
+    value="2"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>사전연명의료의향서 작성하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img
+              class="checkbox-icon"
+              src="/static/images/icons/icon-checkbox-12={{ item.is_checked|yesno:"Activate,Deactivate" }}.svg"
+       alt="체크박스 아이콘"/>
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="3"
+    value="3"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>장기기증 등록 여부 결정하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img
+              class="checkbox-icon"
+              src="/static/images/icons/icon-checkbox-12={{ item.is_checked|yesno:"Activate,Deactivate" }}.svg"
+       alt="체크박스 아이콘"/>
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="4"
+    value="4"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>필요시 후견인 지정하기</span>
           </label>
         </div>
-        <!-- 카테고리 박스: 초기 count 0/4 -->
-        <div class="checklist-group" data-group="0">
+        <!-- 장례 방식 관련 준비 -->
+        <div class="checklist-group" data-group="1">
           <div class="group-header">
             <div class="group-title">장례 방식 관련 준비</div>
             <div class="group-count">0/4</div>
           </div>
-          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12={{ item.is_checked|yesno:"Activate,Deactivate" }}.svg"
+       alt="체크박스 아이콘"/>
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="5"
+    value="5"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>장례 형태 결정하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12={{ item.is_checked|yesno:"Activate,Deactivate" }}.svg"
+       alt="체크박스 아이콘"/>
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="6"
+    value="6"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>묘지/봉안당/수목장 등 장소 결정하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
-  />
-            <input type="checkbox" hidden />
-            <span>장례식장, 장례 대행업체 찾기</span>
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12={{ item.is_checked|yesno:"Activate,Deactivate" }}.svg"
+       alt="체크박스 아이콘"/>
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="7"
+    value="7"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
+  /> <span>장례식장、 장례 대행 업체 찾기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="8"
+    value="8"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>장례 예산 추정하기</span>
           </label>
         </div>
-        <!-- 카테고리 박스: 초기 count 0/3 -->
-        <div class="checklist-group" data-group="0">
+        <!-- 재정·보험 관련 준비 -->
+        <div class="checklist-group" data-group="2">
           <div class="group-header">
             <div class="group-title">재정·보험 관련 준비</div>
             <div class="group-count">0/3</div>
           </div>
-          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="9"
+    value="9"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>사망 보험/장례 보험 확인하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="10"
+    value="10"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>은행계좌/보험 수익자 지정하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12=deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="11"
+    value="11"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>디지털 자산 처리 방법 지정하기</span>
           </label>
         </div>
-        <!-- 카테고리 박스: 초기 count 0/3 -->
-        <div class="checklist-group" data-group="0">
+        <!-- 남겨질 사람들을 위한 준비 -->
+        <div class="checklist-group" data-group="3">
           <div class="group-header">
             <div class="group-title">남겨질 사람들을 위한 준비</div>
             <div class="group-count">0/3</div>
           </div>
-          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="12"
+    value="12"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>장례 시 연락할 사람 목록 작성하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+           <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="13"
+    value="13"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>마지막 인사 편지/영상 남기기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="14"
+    value="14"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>추모 방법 공유하기</span>
           </label>
         </div>
-        <!-- 카테고리 박스: 초기 count 0/3 -->
-        <div class="checklist-group" data-group="0">
+        <!-- 일상 준비 -->
+        <div class="checklist-group" data-group="4">
           <div class="group-header">
             <div class="group-title">일상 준비</div>
             <div class="group-count">0/3</div>
           </div>
-          <!-- 체크리스트 항목들: 모두 unchecked 상태로 시작 -->
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="15"
+    value="15"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>반려동물/식물 돌봄 계획하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="16"
+    value="16"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>집 정리 및 유품 정리하기</span>
           </label>
           <label class="item">
-                          <img 
-    class="checkbox-icon" 
-    src="../static/images/icons/icon-checkbox-12-deactivate.svg" 
-    alt="체크박스 아이콘"
+            <img class="checkbox-icon" src="/static/images/icons/icon-checkbox-12=Deactivate.svg" alt="체크박스 아이콘" />
+            <input
+    type="checkbox"
+    class="check-input"
+    data-item-id="17"
+    value="17"
+    {% if item.is_checked %}checked{% endif %}
+    hidden
   />
-            <input type="checkbox" hidden />
             <span>중요 비밀번호 관리하기</span>
           </label>
         </div>
       </div>
-    </div>
+    </form>
 
     <!-- 3.5 FAQ 섹션 -->
     <div class="subtitle">
@@ -259,10 +384,10 @@
     </div>
     <section class="faq">
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" type="button">
           <div class="question-text">화장과 매장 중 어떤 방식이 더 많이 선택되나요?</div>
           <img
-  src="../static/images/icons/icon-dropdown-20=down.svg"
+  src="/static/images/icons/icon-dropdown-20=down.svg"
   alt="드롭다운 아래 아이콘"
   class="icon-dropdown"
 />
@@ -273,10 +398,10 @@
         </div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" type="button">
           <div class="question-text">장례식은 하고 싶지 않은데, 화장만 할 수 있나요?</div>
           <img
-  src="../static/images/icons/icon-dropdown-20=down.svg"
+  src="/static/images/icons/icon-dropdown-20=down.svg"
   alt="드롭다운 아래 아이콘"
   class="icon-dropdown"
 />
@@ -287,10 +412,10 @@
         </div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" type="button">
           <div class="question-text">시신 기증과 장기 기증의 차이점이 무엇인가요?</div>
           <img
-  src="../static/images/icons/icon-dropdown-20=down.svg"
+  src="/static/images/icons/icon-dropdown-20=down.svg"
   alt="드롭다운 아래 아이콘"
   class="icon-dropdown"
 />
@@ -302,11 +427,11 @@
       </div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" type="button">
           <div class="question-text">반려동물을 친구에게 맡긴다 유언을 썼는데,
           <br>친구가 돌보지 않으면 어떻게 되나요?</div>
           <img
-  src="../static/images/icons/icon-dropdown-20=down.svg"
+  src="/static/images/icons/icon-dropdown-20=down.svg"
   alt="드롭다운 아래 아이콘"
   class="icon-dropdown"
 />
@@ -319,6 +444,6 @@
     </section>
   </div>
 
-  <script src="../static/js/main-page.js"></script>
+  <script src="{% static 'js/main-page.js' %}"></script>
 </body>
 </html>

@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>내 추모공간</title>
+  <link rel="stylesheet" href="{% static 'css/mymemorial.css' %}"/>
+</head>
+<body>
+  <div class="container">
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="btn-back" onclick="window.location.href='{% url 'public_memorial_list_view' %}'">
+        <img src="{% static 'images/icons/icon-back-24.svg' %}" alt="뒤로"/>
+      </button>
+      <h1 class="title" id="spaceTitle">{{ space.name }}님의 추모공간</h1>
+      {% if space.id %}
+        <a href="{% url 'memorial_edit_view' space.id %}">
+          <button type="button" class="btn-edit">
+            <img src="{% static 'images/icons/icon-edit-12.svg' %}" alt="수정"/>
+          </button>
+        </a>
+      {% endif %}
+      </a>
+    </header>
+
+    <!-- Cover + Profile Section -->
+    <section class="cover-section">
+      <!-- 커버 업로드 폼 -->
+      <form id="coverForm"
+            method="POST"
+            action="{% if is_new or not space.id %}
+                      {% url 'my_memorial_space_create_view' %}
+                    {% else %}
+                      {% url 'memorial_edit_view' space.id %}
+                    {% endif %}"
+            enctype="multipart/form-data"
+            style="display:none;">
+        {% csrf_token %}
+        <input type="file" name="cover_image" id="coverInput"/>
+      </form>
+
+      <div class="cover-frame" id="coverFrame"></div>
+
+      <!-- 프로필 업로드 폼 -->
+      <form id="profileForm"
+            method="POST"
+            action="{% if is_new or not space.id %}
+                      {% url 'my_memorial_space_create_view' %}
+                    {% else %}
+                      {% url 'memorial_edit_view' space.id %}
+                    {% endif %}"
+            enctype="multipart/form-data"
+            style="display:none;">
+        {% csrf_token %}
+        <input type="file" name="profile_image" id="profileInput"/>
+      </form>
+
+      <!-- 프로필 이미지 출력 -->
+      <div class="profile-wrap">
+        <div class="profile-frame">
+          {% if space.profile_image %}
+            <img src="{{ space.profile_image.url }}" alt="프로필" id="profileImg" class="profile-img" />
+          {% else %}
+            <img src="{% static 'images/assets/default.png' %}" alt="기본 프로필" id="profileImg" class="profile-img" />
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <!-- 날짜 + 설명 -->
+    <section class="info-section">
+      <p class="dates" id="datesText">
+        {{ space.birth_date|date:"Y년 m월 d일" }} – {{ space.death_date|date:"Y년 m월 d일" }}
+      </p>
+      <section class="desc-section">
+        <p class="description" id="descText" data-placeholder="여기에 추모공간 소개가 표시됩니다.">
+          {{ space.description|default:"(소개글 없음)" }}
+        </p>
+      </section>
+    </section>
+  </div>
+
+  <!-- 대리인 링크 생성 -->
+  {% if space.id %}
+  <form method="POST" action="{% url 'generate_agent_link_view' space.id %}" class="button-bar">
+    {% csrf_token %}
+    <button type="submit" id="delegateBtn" class="btn-delegate">
+      추모상태 대리인 지정하기
+    </button>
+  </form>
+  {% endif %}
+
+  {% if agent_link %}
+  <section class="link-section" style="padding: var(--space-md);">
+    <label for="agentLinkInput">생성된 대리인 링크</label>
+    <input type="text" id="agentLinkInput" class="agent-link-input" readonly value="{{ agent_link }}" />
+  </section>
+  {% endif %}
+
+  <!-- <script src="{% static 'js/mymemorial.js' %}"></script>| -->
+</body>
+</html>

@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>추모공간 (메인)</title>
+  <link rel="stylesheet" href="{% static 'css/memorial-page.css' %}" />
+</head> 
+<body>
+  <!-- 사이드바 -->
+  <aside id="sidebar" class="sidebar">
+    <img id="closeSidebar" src="{% static 'images/icons/icon-close-24.svg' %}" alt="닫기" class="icon-close"/>
+    <nav class="sidebar-menu">
+      <!-- 홈 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">홈</h3>
+        <ul>
+          <li><a href="{% url 'main' %}">장례 전 준비해야 할 목록</a></li>
+          <li><a href="{% url 'main' %}">장례 정보</a></li>
+        </ul>
+      </section>
+      <!-- 추모공간 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">추모공간</h3>
+        <ul>
+          <li><a href="{% url 'my_memorial_space_view' %}">내 추모공간</a></li>
+          <li><a href="{% url 'public_memorial_list_view' %}">다른 추모공간</a></li>
+        </ul>
+      </section>
+      <!-- 유언장 --> 
+      <section class="sidebar-section">
+        <h3 class="section-title">디지털 유언장</h3>
+        <ul>
+          <li><a href="{% url 'step01' %}">디지털 유언장 작성</a></li>
+          <li><a href="{% url 'submit' %}">디지털 유언장 PDF 다운로드</a></li>
+        </ul>
+      </section>
+    </nav>
+  </aside>
+
+  <div class="main-frame container">
+    <!-- Topbar -->
+    <header class="topbar">
+      <img id="openSidebar" src="{% static 'images/icons/icon-menu-24.svg' %}" alt="메뉴" class="icon-menu"/>
+      <h1 class="title">추모공간</h1>
+       <form action="{% url 'memorial_search' %}" method="get">
+        <button type="submit" id="searchBtn" class="icon-button">
+          <img src="{% static 'images/icons/icon-search-24.svg' %}" alt="검색" class="icon-search"/>
+        </button>
+      </form>
+    </header>
+
+    <main>
+      <!-- 1) 나를 위한 추모공간 -->
+      <section class="section my-section">
+        <h2 class="section-title">나를 위한 추모공간</h2>
+
+        <!-- ✅ JS가 채우는 구조 유지 -->
+        <form id="mySpaceForm" 
+              action="{% url 'my_memorial_space_view' %}"
+              method="get"
+              class="card my-space">
+          <img class="profile-pic" src="{% static 'images/assets/default.png' %}" alt="프로필"/>
+          <div class="info">
+            <h3 class="name">{{ space_my.name }}</h3>
+            <p class="desc">{{ space_my.description }}</p>
+          </div>
+        </form>
+
+        <!-- 새 공간 만들기 -->
+        <form id="createForm"
+              action="{% url 'my_memorial_space_create_view' %}"
+              method="get">
+          <button type="submit" class="create-btn">
+            새 추모공간 만들기
+            <img src="{% static 'images/icons/icon-arrow-right-20.svg' %}" alt=">" class="icon-right-arrow"/>
+          </button>
+        </form>
+      </section>
+ 
+      <!-- 2) 다른 이들의 추모공간 -->
+      <section class="section others-section">
+        <h2 class="section-title">다른 이들의 따뜻한 추모공간</h2>
+        <div class="others-list">
+          {% for space in spaces %}
+          <form
+            method="get"
+            action="{% url 'memorial_detail_view' space.id %}"
+            class="card other-card"
+          >
+            {% if space.profile_image %}
+              <img src="{{ space.profile_image.url }}" alt="프로필 이미지">
+            {% else %}
+              <img src="{% static 'images/assets/default.png' %}" alt="기본 이미지">
+            {% endif %}
+            <div class="info">
+              <h3 class="name">{{ space.name }}</h3>
+              <p class="desc">{{ space.description }}</p>
+              <p class="dates">
+                {{ space.birth_date|date:"Y년 n월 j일" }} – {{ space.death_date|date:"Y년 n월 j일" }}
+              </p>
+            </div>
+          </form>
+          {% empty %}
+          <p class="empty-msg">등록된 공간이 없습니다.</p>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="{% static 'js/memorial-page.js' %}"></script>
+</body>
+</html>

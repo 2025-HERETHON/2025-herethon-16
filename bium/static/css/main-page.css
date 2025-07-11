@@ -56,6 +56,79 @@ body {
   width: 24px; height: 24px;
   cursor: pointer;
 }
+/* ────────────────────────────────────────────────────────── */
+/* 사이드바 섹션 박스 (fieldset 스타일) */
+.sidebar-section {
+  position: relative;
+  border: 1px solid var(--gray-ED);
+  border-radius: 8px;
+  background: var(--white);
+
+  /* 내부 패딩: 위 20px, 좌우-아래 기존 16px */
+  padding: 20px var(--space-md) var(--space-md);
+
+  /* 섹션 간격 20px */
+  margin-top: 20px;
+}
+
+/* 활성화된 섹션 강조 */
+.sidebar-section.active {
+  border-color: var(--primary-normal);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 섹션 제목 (legend 효과) */
+.sidebar-section .section-title {
+  position: absolute;
+  top: -10px;                   /* 테두리 선 위로 반만큼 */
+  left: var(--space-md);        /* 기존 여백 그대로 */
+  background: var(--white);     /* 뒤쪽 테두리 가리기 */
+  padding: 0 var(--space-xs);   /* 좌우 8px */
+
+  /* 제거: 기존 margin-bottom */
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+  border: none;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 목록과 기본 간격 */
+.sidebar-section ul {
+  list-style: none;
+  margin: var(--space-xs) 0 0;  /* 위쪽만 8px */
+  padding: 0;
+}
+.sidebar-section ul li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 6px;           /* 아이템 간 간격 */
+  font-size: 14px;
+  color: var(--gray-33);
+}
+.sidebar-section ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--gray-33);
+}
+
+/* 링크 색상 (클릭 무시, hover만 컬러 변화) */
+.sidebar-section ul li a,
+.sidebar-section ul li a:visited {
+  display: block;
+  padding: 4px 0;               /* 세로 4px 여백 */
+  color: var(--gray-33);
+  text-decoration: none;
+  border: none;
+}
+.sidebar-section ul li a:hover {
+  color: var(--primary-normal);
+}
+
+
 
 /* ──────────────────────────────────────────────────────────────────────────── */
 /* 메인 컨테이너 */
@@ -85,10 +158,28 @@ body {
   width: 24px; height: 24px;
   cursor: pointer;
 }
-.logo {
-  font-size: 18px;
-  font-weight: 600;
+/* 1) .logo 래퍼 박스 크기 고정 */
+.main-top .logo {
+  width: 36.15px;    /* Figma 스펙 너비 */
+  height: 26.14px;   /* Figma 스펙 높이 */
+  position: relative;
+  overflow: hidden;
 }
+
+/* 2) 그 안의 SVG <img> 가 박스 꽉 채우도록 */
+.main-top .logo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;  /* 원본 비율 유지하며 크롭 없이 맞춤 */
+}
+
+/* 3) 기존 .logo img 에 줬던 font-size 등 불필요한 속성은 제거하거나 덮어쓰기 */
+.logo {
+  font-size: initial;
+  line-height: normal;
+}
+
 
 /* ──────────────────────────────────────────────────────────────────────────── */
 /* 서브헤더 */
@@ -112,12 +203,17 @@ body {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  
+  text-decoration: none;
+  color: inherit;
 }
 .will-btn span {
   font-size: 16px;
   font-weight: 600;
   color: var(--gray-33);
+  text-decoration: none;
+}
+.will-btn:hover {
+  text-decoration: none; /* 혹시 호버 시에도 밑줄 없애고 싶으면 */
 }
 .will-btn .icon-right-arrow {
   width: 20px; height: 20px;
@@ -170,7 +266,7 @@ body {
   width: 16px; height: 16px;
   background: url('../static/images/icons/icon-checkbox-12=Deactivate.svg') no-repeat center/contain;
   cursor: pointer;
-} */
+}
 /* .item input[type="checkbox"]:checked {
   background: url('../static/images/icons/icon-checkbox-12=Activate.svg') no-repeat center/contain;
 } */
@@ -244,4 +340,21 @@ body {
 /* 열렸을 때 답변 표시 */
 .faq-item.open .faq-answer {
   display: block;
+}
+
+/* 3.1-1 커버 이미지 영역 */
+.cover-frame {
+  width: 100%;
+  max-width: 335px;    
+  height: 180px;        
+  margin: 20px auto;   
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cover-frame .cover-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   
 }

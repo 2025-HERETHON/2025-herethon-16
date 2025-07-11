@@ -4,15 +4,79 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+
 from .models import ChecklistCategory, ChecklistItem, UserChecklist
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+# 사용자 체크리스트 조회
+@require_http_methods(["GET"])
+def checklist_get_api(request):
+    categories = ChecklistCategory.objects.all()
+    result = []
 
+    user = request.user if request.user.is_authenticated else None
+
+    for category in categories:
+        items = []
+        for item in category.items.all():
+            if user:
+                checked = UserChecklist.objects.filter(user=user, item=item, is_checked=True).exists()
+            else:
+                checked = False
+            items.append({
+                "id": item.id,
+                "content": item.content,
+                "is_checked": checked
+            })
+        result.append({
+            "category": category.name,
+            "items": items
+        })
+    pprint.pprint(result)  # 로그에서 확인용
+
+    return JsonResponse({"success": True, "data": result})
+
+
+# 사용자 체크리스트 저장 
+@csrf_exempt
+@login_required
+@require_http_methods(["POST"])
+def checklist_save_api(request):
+    try:
+
+        body = json.loads(request.body)
+        checklist = body.get("checklist", [])
+
+        for entry in checklist:
+            item_id = entry.get("item_id")
+            is_checked = entry.get("is_checked", False)
+
+            try:
+                item = ChecklistItem.objects.get(id=item_id)
+            except ObjectDoesNotExist:
+                return JsonResponse({
+                    "success": False,
+                    "message": f"항목 ID {item_id} 가 존재하지 않습니다."
+                }, status=404)
+
+            UserChecklist.objects.update_or_create(
+                user=request.user,
+                item=item,
+                defaults={"is_checked": is_checked}
+            )
+
+        return JsonResponse({"success": True, "message": "저장 완료!"})
+
+    except Exception as e:
+        return JsonResponse({"success": False, "message": str(e)}, status=400)
+
+
+#SSR
 
 # 사용자 체크리스트 조회
 @login_required
 def checklist_view(request):
+    print("🔥 checklist_view 실행됨") 
     categories = ChecklistCategory.objects.all()
     user = request.user
     result = []
@@ -31,7 +95,7 @@ def checklist_view(request):
             "items": items
         })
 
-    return render(request, "checklist/checklist.html", {"data": result})
+    return render(request, "checklist.html", {"data": result})
 
 
 # 사용자 체크리스트 저장 
@@ -52,6 +116,7 @@ def checklist_save_view(request):
         return redirect("checklist_view")  
 
     return redirect("checklist_view")
+
 
 
 #초기 데이터 생성용

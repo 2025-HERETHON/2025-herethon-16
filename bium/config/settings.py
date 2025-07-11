@@ -131,4 +131,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-LOGIN_URL = '/api/users/login/'
+LOGIN_URL = '/users/login/'

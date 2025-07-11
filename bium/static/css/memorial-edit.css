@@ -1,0 +1,263 @@
+:root {
+  --gray-ed: #EDEDED;
+  --gray-33: #333333;
+  --white: #FFFFFF;
+  --primary: #333446;
+  --space-md: 16px;
+}
+
+/* reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Pretendard, sans-serif;
+  background: #fff;
+  color: var(--gray-33);
+}
+.container {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 56px;
+  padding: 0 var(--space-md);
+  background: #fff;
+  box-shadow: none;
+}
+.btn-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.btn-back img {
+  width: 24px;
+  height: 24px;
+}
+.title {
+  margin-left: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1D1D1D;
+}
+.spacer {
+  flex: 1;
+}
+
+/* Cover + Profile */
+.cover-edit {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin: 0 var(--space-md);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%),
+    url('../images/assets/background-combined.png') center/cover no-repeat;
+  /* border: 1px solid var(--gray-ed); */
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.profile-edit {
+  position: absolute;
+  bottom: -44px;
+  left: var(--space-md);
+  width: 88px;
+  height: 88px;
+}
+.profile-frame {
+  width: 88px;
+  height: 88px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #F4F4F4;
+  cursor: pointer;
+  outline: 1px var(--gray-ed) solid;
+  outline-offset: -1px;
+}
+.profile-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camera-overlay {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  border-radius: 14px;
+  outline: 1px var(--gray-ed) solid;
+  outline-offset: -1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+.camera-overlay img {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* Fields */
+/* 1) 모든 .field 에 기본 60px 여백 */
+.field {
+  padding: 0 var(--space-md);
+  margin-top: 60px;    /* 고정값 */
+}
+
+/* 2) 두 번째 이후 .field 는 32px 로 축소 */
+.field + .field {
+  margin-top: 32px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.field input[type="text"],
+.field textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--gray-ed);
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.field textarea {
+  min-height: 80px;
+  resize: none;
+}
+
+/* Dates */
+.dates {
+  padding: 8px var(--space-md) 0;
+  margin-top: 0px;  /* 상단 16px 띄우고 좌우 16px 여백 */
+}
+.dates .date-field {
+  /* padding 제거 */
+  margin-bottom: 12px;              /* 날짜 줄 간격만 유지 */
+}
+.dates label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.dates input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--gray-ed);
+  border-radius: 8px;
+  font-size: 14px;
+  appearance: auto;
+}
+.date-display {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--gray-33);
+}
+.hidden {
+  display: none;
+}
+
+/* Button */
+.button-wrap {
+  padding: 16px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+.btn-save {
+  width: 100%;
+  max-width: 343px;
+  height: 48px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* memorial-edit.css 맨 아래에 추가해주세요 */
+
+/* 1) 모든 텍스트·날짜 입력과 textarea 기본 폰트를 Pretendard 로 */
+.field input[type="text"],
+.field input[type="date"],
+.field textarea {
+  font-family: Pretendard, sans-serif;
+}
+
+/* 2) placeholder 에도 Pretendard 적용 */
+.field input::placeholder,
+.field textarea::placeholder {
+  font-family: Pretendard, sans-serif;
+  color: #888888; /* 필요 시 색상 조정 */
+}
+
+/* 3) 날짜 입력창(브라우저 기본 스타일) 텍스트 크기·색 보정 (선택) */
+.field input[type="date"] {
+  font-size: 14px;
+  color: var(--gray-33);
+}
+
+/* 4) “추모공간 소개” textarea 스타일 (회색 박스 + 라운드) */
+#description {
+  background-color: var(--gray-ED);
+  border: none;                
+  border-radius: 12px;           
+  padding: 16px;                  
+  min-height: 120px;               
+  resize: none;                
+  line-height: 1.6;                
+  font-size: 14px;                  
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 추모공간 소개 박스 (description-box) */
+.description-box {
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+
+  width: 100%;
+  height: auto;          
+
+  padding: 12px 16px;     /* 위/아래 12px, 좌/우 16px */
+  background: var(--white);
+  border-radius: 8px;
+
+  outline: 1px solid #DFDFDF;
+  outline-offset: -1px;
+}
+
+/* 내부 텍스트 영역 */
+.description-text {
+  flex: 1 1 0;
+  color: #888888;
+  font-size: 14px;
+  font-family: Pretendard, sans-serif;
+  font-weight: 500;
+  line-height: 19.6px;
+  word-wrap: break-word;
+}
