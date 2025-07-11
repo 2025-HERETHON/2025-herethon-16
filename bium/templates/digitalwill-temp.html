@@ -1,19 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta http-equiv="Content-Security-Policy"
-        content="script-src 'self' 'unsafe-eval' 'unsafe-inline';">
   <title>디지털 유언장 진행 단계</title>
-  <link rel="stylesheet" href="../static/css/digitalwill-temp.css" />
+  <link rel="stylesheet" href="{% static 'css/digitalwill-temp.css' %}" />
 </head>
 <body>
   <!-- Topbar -->
   <header class="topbar">
-    <button class="btn-back">
-      <img src="../static/images/icons/icon-back-24.svg" alt="뒤로"/>
-    </button>
+    <a class="btn-back" href="{% url 'main' %}">
+      <img src="{% static 'images/icons/icon-back-24.svg' %}" alt="뒤로"/>
+    </a>
     <div class="spacer"></div>
   </header>
 
@@ -26,56 +27,30 @@
       <h2 class="heading">남은 이야기를 이어가볼까요?</h2>
     </div>
 
-    <!-- 단계 리스트를 폼으로 감쌉니다 -->
-    <form id="progressForm"
-          action="/api/will/progress_step/"
-          method="POST"
-          class="steps">
-      {% csrf_token %}
+    <!-- 단계 리스트 -->
+    <div class="steps" id="stepsContainer">
       {% for step in steps %}
-        <div class="step {{ step.state }}">
-          <div class="marker">
-            <!-- 마커 클릭 시 해당 단계 값과 함께 폼 제출 -->
-            <button type="submit"
-                    name="step"
-                    value="{{ forloop.counter }}"
-                    class="icon-btn"
-                    aria-label="{{ step.state }} 단계 {{ forloop.counter }}">
-              {% if step.state == 'completed' %}
-                <img class="icon"
-                     src="../static/images/icons/icon-progress-20=Done.svg"
-                     alt="완료"/>
-              {% elif step.state == 'current' %}
-                <div class="icon"></div>
-              {% else %}
-                <img class="icon"
-                     src="../static/images/icons/icon-progress-20=Not Started.svg"
-                     alt="미완료"/>
-              {% endif %}
-            </button>
-            {% if not forloop.last %}
-              <div class="line"></div>
-            {% endif %}
-          </div>
-          <!-- 콘텐츠 영역도 클릭하면 단계 값 보내기 -->
-          <button type="submit"
-                  name="step"
-                  value="{{ forloop.counter }}"
-                  class="content-btn">
-            <div class="content">
-              <div class="title">{{ step.label }}</div>
-              <div class="desc">{{ step.desc }}</div>
-            </div>
-          </button>
+      <div class="step {{ step.state }}">
+        <div class="marker">
+          {% if step.state != 'current' %}
+            <img class="icon"
+                 src="{% static step.icon %}"
+                 alt="{{ step.state }} 아이콘">
+          {% else %}
+            <div class="icon"></div>
+          {% endif %}
+          {% if not forloop.last %}
+            <div class="line"></div>
+          {% endif %}
         </div>
+        <div class="content">
+          <div class="title">{{ step.label }}</div>
+          <div class="desc">{{ step.desc }}</div>
+        </div>
+      </div>
       {% endfor %}
-    </form>
+    </div>
   </div>
-
-  <script>
-    // 뒤로가기만 남깁니다
-    document.querySelector('.btn-back')
-      .addEventListener('click', () => history.back());
-  </script>
 </body>
 </html>
+{% endblock %}
