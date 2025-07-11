@@ -8,5 +8,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('will/', include('will.urls')),
     path('memorial/',include('memorial.urls')),
+
     path('api/checklist/',include('checklist.urls')),
 ]

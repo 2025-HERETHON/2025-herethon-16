@@ -3,6 +3,7 @@ window.onload = function () {
     window.location.href = "/";
   });
 
+
   let DownloadBtn = document.getElementById("DownloadBtn");
   let toast = document.getElementById("toast_box");
 
@@ -18,3 +19,4 @@ window.onload = function () {
     toastOn();
   });
 };
+
