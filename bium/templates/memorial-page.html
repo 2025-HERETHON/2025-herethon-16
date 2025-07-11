@@ -10,14 +10,19 @@
 <body>
   <!-- 사이드바 -->
   <aside id="sidebar" class="sidebar">
-    <img id="closeSidebar" src="{% static 'images/icons/icon-close-24.svg' %}" alt="닫기" class="icon-close"/>
+    <img
+      id="closeSidebar"
+      src="{% static 'images/icons/icon-close-24.svg' %}"
+      alt="닫기 아이콘"
+      class="icon-close"
+    />
     <nav class="sidebar-menu">
       <!-- 홈 -->
       <section class="sidebar-section">
         <h3 class="section-title">홈</h3>
         <ul>
           <li><a href="{% url 'main' %}">장례 전 준비해야 할 목록</a></li>
-          <li><a href="{% url 'main' %}">장례 정보</a></li>
+          <li><a href="{% url 'main' %}">장례에 대한 정보들</a></li>
         </ul>
       </section>
       <!-- 추모공간 -->
@@ -25,10 +30,10 @@
         <h3 class="section-title">추모공간</h3>
         <ul>
           <li><a href="{% url 'my_memorial_space_view' %}">내 추모공간</a></li>
-          <li><a href="{% url 'public_memorial_list_view' %}">다른 추모공간</a></li>
+          <li><a href="{% url 'public_memorial_list_view' %}">다른 사람들의 추모공간</a></li>
         </ul>
-      </section>
-      <!-- 유언장 --> 
+      </section> 
+      <!-- 디지털 유언장 -->
       <section class="sidebar-section">
         <h3 class="section-title">디지털 유언장</h3>
         <ul>
@@ -110,6 +115,6 @@
     </main>
   </div>
 
-  <script src="{% static 'js/memorial-page.js' %}"></script>
+  <script src="{% static 'js/main-page.js' %}"></script>
 </body>
 </html>
