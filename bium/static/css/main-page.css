@@ -1,129 +1,230 @@
+/* styles.css */
 :root {
-  --primary-light: #EAEFEF;
-  --primary-normal: #7F8CAA;
-  --primary-dark: #333446;
-  --gray-33: #333333;
-  --white: #FFFFFF;
-  --gray-F4: #F4F4F4;
-  --gray-ED: #EDEDED;
-  --gray-DF: #DFDFDF;
-  --gray-88: #888888;
-  --gray-56: #565656;
+  /* Primary */
+  --primary-light: #EAEFEF;    /* Primary_light */
+  --primary-normal: #7F8CAA;   /* Primary_normal */
+  --primary-dark: #333446;     /* Primary_dark */
+
+  /* Grayscale */
+  --gray-33: #333333;  /* 33_Basic */
+  --white:   #FFFFFF;  /* White */
+  --gray-F4: #F4F4F4;  /* F4 */
+  --gray-ED: #EDEDED;  /* ED */
+  --gray-DF: #DFDFDF;  /* DF */
+  --gray-88: #888888;  /* 88 */
+  --gray-56: #565656;  /* 56 */
+
   --space-md: 16px;
 }
 
-/* ── 공통 Reset ── */
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 기본 리셋 */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-/* ── 사이드바 ── */
-.sidebar {
-  position: fixed; top: 0; left: 0;
-  width: 240px; height: 100vh;
+html, body {
+  width: 100%;
+  height: 100%;
   background: var(--white);
-  transform: translateX(-100%);
-  transition: transform .3s;
-  z-index: 100;
+}
+body {
+  font-family: Pretendard, sans-serif;
+  color: var(--gray-33);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 사이드바 */
+.sidebar {
+  position: fixed;
+  top: 0; left: -80%;
+  width: 80%; max-width: 300px;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  transition: left 0.3s;
+  padding: 20px;
+  z-index: 1000;
 }
 .sidebar.open {
-  transform: translateX(0);
+  left: 0;
 }
-.icon-close {
+.sidebar .icon-close {
+  display: block;
+  margin-left: auto;
   width: 24px; height: 24px;
-  margin: 16px;
   cursor: pointer;
 }
-.sidebar-menu {
-  padding: 0 16px;
+/* ────────────────────────────────────────────────────────── */
+/* 사이드바 섹션 박스 (fieldset 스타일) */
+.sidebar-section {
+  position: relative;
+  border: 1px solid var(--gray-ED);
+  border-radius: 8px;
+  background: var(--white);
+
+  /* 내부 패딩: 위 20px, 좌우-아래 기존 16px */
+  padding: 20px var(--space-md) var(--space-md);
+
+  /* 섹션 간격 20px */
+  margin-top: 20px;
 }
-.sidebar-section + .sidebar-section {
-  margin-top: 24px;
+
+/* 활성화된 섹션 강조 */
+.sidebar-section.active {
+  border-color: var(--primary-normal);
 }
-.section-title {
-  font-size: 14px; font-weight: 600;
-  color: var(--primary-normal);
-  margin-bottom: 8px;
+
+/* ────────────────────────────────────────────────────────── */
+/* 섹션 제목 (legend 효과) */
+.sidebar-section .section-title {
+  position: absolute;
+  top: -10px;                   /* 테두리 선 위로 반만큼 */
+  left: var(--space-md);        /* 기존 여백 그대로 */
+  background: var(--white);     /* 뒤쪽 테두리 가리기 */
+  padding: 0 var(--space-xs);   /* 좌우 8px */
+
+  /* 제거: 기존 margin-bottom */
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+  border: none;
 }
+
+/* ────────────────────────────────────────────────────────── */
+/* 목록과 기본 간격 */
 .sidebar-section ul {
   list-style: none;
+  margin: var(--space-xs) 0 0;  /* 위쪽만 8px */
+  padding: 0;
 }
-.sidebar-section li + li {
-  margin-top: 8px;
-}
-.sidebar-section a {
-  text-decoration: none;
-  color: var(--gray-33);
+.sidebar-section ul li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 6px;           /* 아이템 간 간격 */
   font-size: 14px;
+  color: var(--gray-33);
+}
+.sidebar-section ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--gray-33);
 }
 
-/* ── 메인 프레임 ── */
+/* 링크 색상 (클릭 무시, hover만 컬러 변화) */
+.sidebar-section ul li a,
+.sidebar-section ul li a:visited {
+  display: block;
+  padding: 4px 0;               /* 세로 4px 여백 */
+  color: var(--gray-33);
+  text-decoration: none;
+  border: none;
+}
+.sidebar-section ul li a:hover {
+  color: var(--primary-normal);
+}
+
+
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 메인 컨테이너 */
 .main-frame {
-  padding: 0 16px;
-  transition: filter .3s;
+  width: 375px;
+  margin: 0 auto;
+  padding: 0 20px;           /* 좌우 20px 패딩 추가 */
+  background: var(--white);
+  transition: filter 0.3s;
 }
 .main-frame.blurred {
-  filter: blur(4px);
+  filter: brightness(0.7);
 }
 
-/* ── 상단 바 ── */
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 상단 바 */
 .main-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 56px;
+  padding: 16px 20px;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-ED);
 }
 .icon-menu,
 .icon-myspace {
   width: 24px; height: 24px;
   cursor: pointer;
 }
-.logo img {
-  height: 24px;
-}
-
-/* ── 커버 ── */
-.cover-frame {
-  margin: 16px 0;
-  border-radius: 12px;
+/* 1) .logo 래퍼 박스 크기 고정 */
+.main-top .logo {
+  width: 36.15px;    /* Figma 스펙 너비 */
+  height: 26.14px;   /* Figma 스펙 높이 */
+  position: relative;
   overflow: hidden;
 }
-.cover-img {
+
+/* 2) 그 안의 SVG <img> 가 박스 꽉 채우도록 */
+.main-top .logo > img {
+  display: block;
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;  /* 원본 비율 유지하며 크롭 없이 맞춤 */
 }
 
-/* ── 서브헤더 ── */
+/* 3) 기존 .logo img 에 줬던 font-size 등 불필요한 속성은 제거하거나 덮어쓰기 */
+.logo {
+  font-size: initial;
+  line-height: normal;
+}
+
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 서브헤더 */
 .subtitle {
-  font-size: 16px; font-weight: 500;
-  margin: 24px 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;         /* 아래만 12px, 좌우 여백은 .main-frame 패딩으로 처리 */
 }
 
-/* ── 유언장 버튼 ── */
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* “유언장 작성하기” 버튼 */
 .will-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--primary-normal);
-  color: var(--white);
+  width: 100%;
+  height: 48px;
+  margin: var(--space-md) 0;
+  padding: 0 20px;
+  background: var(--primary-light);
   border: none;
   border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
-.icon-right-arrow {
+.will-btn span {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-33);
+  text-decoration: none;
+}
+.will-btn:hover {
+  text-decoration: none; /* 혹시 호버 시에도 밑줄 없애고 싶으면 */
+}
+.will-btn .icon-right-arrow {
   width: 20px; height: 20px;
 }
 
-/* ── 체크리스트 ── */
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* 체크리스트 */
 .checklist-wrapper {
+  margin: 0 0 12px;         /* 아래만 12px */
   overflow-x: auto;
   scrollbar-width: none;
-  cursor: pointer;
 }
 .checklist-wrapper::-webkit-scrollbar {
   display: none;
@@ -133,32 +234,54 @@
   gap: 12px;
 }
 .checklist-group {
-  min-width: 160px;
+  flex: 0 0 335px;
+  background: var(--white);
+  border: 1px solid var(--gray-ED);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .group-header {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 6px;
 }
 .group-title {
-  font-size: 14px; font-weight: 600;
+  font-size: 14px;
+  font-weight: 600;
 }
 .group-count {
-  font-size: 12px; color: var(--gray-88);
+  font-size: 12px;
+  color: var(--gray-88);
 }
 .item {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-bottom: 8px;
+  gap: 8px;
 }
+/* .item input[type="checkbox"] {
+  appearance: none;
+  width: 16px; height: 16px;
+  background: url('../static/images/icons/icon-checkbox-12=Deactivate.svg') no-repeat center/contain;
+  cursor: pointer;
+} */
+/* .item input[type="checkbox"]:checked {
+  background: url('../static/images/icons/icon-checkbox-12=Activate.svg') no-repeat center/contain;
+} */
+
 .checkbox-icon {
-  width: 12px; height: 12px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  vertical-align: middle;
+  margin-right: 8px;
 }
+
 .item span {
   font-size: 14px;
 }
-
 
 /* ──────────────────────────────────────────────────────────────────────────── */
 /* FAQ (Q&A 토글) */
