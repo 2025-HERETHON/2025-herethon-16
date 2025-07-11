@@ -58,11 +58,10 @@ body {
 
   color: var(--Grayscale-White, #fff);
 
-  /* H1_SemiBold_20px */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
 }
 
@@ -93,8 +92,7 @@ Scroll::-webkit-scrollbar {
 .title {
   color: var(--Grayscale-1D_Text, #1d1d1d);
 
-  /* Subtitle1_SemiBold_16px */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -107,8 +105,7 @@ Scroll::-webkit-scrollbar {
 
   color: var(--Grayscale-33_basic, #333);
 
-  /* Subtitle2_SemiBold_14px_140% */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -119,8 +116,7 @@ Scroll::-webkit-scrollbar {
   color: var(--Grayscale-88, #888);
   text-align: justify;
 
-  /* Caption1_Medium_12px_140% */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -138,7 +134,7 @@ Scroll::-webkit-scrollbar {
   border: 1px solid var(--Grayscale-DF, #dfdfdf);
   background: var(--Grayscale-White, #fff);
 
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -158,7 +154,7 @@ Scroll::-webkit-scrollbar {
   border: 1px solid var(--Grayscale-DF, #dfdfdf);
   background: var(--Grayscale-White, #fff);
 
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 14px;
   font-weight: 500;
 }
@@ -183,8 +179,7 @@ Scroll::-webkit-scrollbar {
   color: var(--Grayscale-White, #fff);
   text-align: center;
 
-  /* Button_SemiBold_18px */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -206,8 +201,7 @@ Scroll::-webkit-scrollbar {
   color: var(--Grayscale-88, #888);
   text-align: center;
 
-  /* Button_SemiBold_18px */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -265,8 +259,7 @@ Scroll::-webkit-scrollbar {
   background: var(--Grayscale-White, #fff);
   text-align: center;
 
-  /* Body1_Medium_14px_140% */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -277,8 +270,7 @@ Scroll::-webkit-scrollbar {
 .modal-question {
   color: var(--Grayscale-33_basic, #333);
 
-  /* Subtitle1_SemiBold_16px */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -300,8 +292,7 @@ Scroll::-webkit-scrollbar {
   color: var(--Error, #ea0000);
   text-align: center;
 
-  /* Body1_Medium_14px_140% */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 14px;
   font-style: normal;
   font-weight: 500;

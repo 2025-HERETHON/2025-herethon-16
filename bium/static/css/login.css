@@ -8,7 +8,7 @@ button,
 .InputBox,
 .LoginBtn,
 .SignUpBtn {
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-style: normal;
 }
 
@@ -130,7 +130,7 @@ body {
 
 .error-msg {
   color: var(--Error, #ea0000);
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 12px;
   font-style: normal;
   font-weight: 400;

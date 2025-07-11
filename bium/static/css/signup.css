@@ -25,7 +25,7 @@ body {
   color: var(--Grayscale-1D_Text, #1d1d1d);
   margin: 0 15px;
   /* H2_SemiBold_18px */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -86,7 +86,7 @@ body {
   text-align: center;
 
   /* Button_SemiBold_18px */
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -95,7 +95,7 @@ body {
 
 .error-msg {
   color: var(--Error, #ea0000);
-  font-family: Pretendard;
+  font-family: "Pretendard-Regular";
   font-size: 12px;
   font-style: normal;
   font-weight: 400;

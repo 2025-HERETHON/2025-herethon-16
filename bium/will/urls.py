@@ -13,6 +13,7 @@ urlpatterns = [
     path('step09/', views.guardian_selection_view, name='step09'),
     path('step10/', views.belongings_distribution_view, name='step10'),
     path('submit/', views.will_submit_view, name='submit'),
+    path('temp/', views.will_temp_view, name='temp'),
     path('api/', include([
         path('reset/', views.reset_will_data_api, name='reset_will_data'),
         path('progress_step/', views.progress_step_api, name='progress_step'),

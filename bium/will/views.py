@@ -430,3 +430,6 @@ def complete_will_api(request):
 
 def will_submit_view(request):
     return render(request, 'will_submit.html')
+
+def will_temp_view(request):
+    return render(request, 'digitalwill-temp.html')
