@@ -1,101 +1,112 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <script>
-    window.currentUsername = "{{ user.username }}";
-  </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>memorial-detail</title>
-  <link rel="stylesheet" href="{% static 'css/memorial-detail.css' %}" />
-</head>
-<body>
-  <div class="container">
-
-    <!-- 1) Topbar -->
-    <header class="topbar">
-      <button class="btn-back" onclick="history.back();">
-        <img src="{% static 'images/icons/icon-back-24.svg' %}" alt="뒤로" />
-      </button>
-      <h1 class="title">故 {{ space.name }} 님의 추모공간</h1>
-      <div class="spacer"></div>
-    </header>
-
-    <!-- 2) Cover + Profile -->
-    <section class="cover-frame">
-      <form method="GET" action="{% url 'memorial_edit_view' space.id %}" class="edit-form">
-        <button type="submit" class="edit-btn">
-          <img src="{% static 'images/icons/icon-pencil-20.svg' %}" alt="수정" />
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      window.currentUsername = "{{ user.username }}";
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>memorial-detail</title>
+    <link rel="stylesheet" href="{% static 'css/memorial-detail.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- 1) Topbar -->
+      <header class="topbar">
+        <button class="btn-back" onclick="history.back();">
+          <img src="{% static 'images/icons/icon-back-24.svg' %}" alt="뒤로" />
         </button>
+        <h1 class="title">故 {{ space.name }} 님의 추모공간</h1>
+        <div class="spacer"></div>
+      </header>
+
+      <!-- 2) Cover + Profile -->
+      <section class="cover-frame">
+        <form method="GET" action="{% url 'memorial_edit_view' space.id %}" class="edit-form">
+          <button type="submit" class="edit-btn">
+            <img src="{% static 'images/icons/icon-edit-12.svg' %}" alt="수정" />
+          </button>
+        </form>
+
+        {% if space.background_image %}
+        <img src="{{ space.background_image.url }}" alt="커버 이미지" class="cover-img" />
+        {% else %}
+        <img src="{% static 'images/assets/background-combined.png' %}" alt="기본 커버 이미지" class="cover-img" />
+        {% endif %} {% if space.profile_image %}
+        <img src="{{ space.profile_image.url }}" alt="고인 사진" class="profile-img" />
+        {% else %}
+        <img src="{% static 'images/assets/background-combined.png'  %}" alt="기본 프로필 사진" class="profile-img" />
+        {% endif %}
+      </section>
+
+      <!-- 3) Title + Dates -->
+      <section class="profile-text">
+        <p class="profile-title"><strong>{{ space.name }}</strong> 님의 추모공간</p>
+        <p class="profile-dates">
+          {% if space.birth_date %}{{ space.birth_date|date:"Y년 m월 d일" }}{% else %}출생일 정보 없음{% endif %} – {% if space.death_date %}{{ space.death_date|date:"Y년 m월 d일" }}{% else %}사망일
+          정보 없음{% endif %}
+        </p>
+      </section>
+
+      <!-- 4) Description -->
+      <section class="profile-description">
+        <p>{{ space.description|default:"소개글이 없습니다." }}</p>
+      </section>
+
+      <!-- 5) Opened Date -->
+      <p class="opened-date">이 추모공간은 {% if space.created_at %}{{ space.created_at|date:"Y년 m월 d일" }}{% else %}개설일 정보 없음{% endif %}에 개설되었습니다.</p>
+
+      <!-- 6) Flower Info -->
+      <p class="comment-info">{{ messages.count }}명이 함께 꽃으로 기억을 이어가고 있습니다.</p>
+
+      <!-- 7) Comment Prompt -->
+      <p class="comment-prompt">헌화와 함께 따뜻한 조문 메시지를 남겨주세요</p>
+
+      <!-- 8) Flowers + 9) Input Area (폼) -->
+      <form method="POST" action="{% url 'condolence_message_view' space.id %}">
+        {% csrf_token %}
+        <div class="flowers">
+          <label class="flower">
+            <input type="radio" name="flower_image" value="condolences/flower/flower1.png" checked />
+            <img src="{% static 'images/assets/flower1.png' %}" alt="flower1" />
+          </label>
+          <label class="flower">
+            <input type="radio" name="flower_image" value="condolences/flower/flower2.png" />
+            <img src="{% static 'images/assets/flower2.png' %}" alt="flower2" />
+          </label>
+          <label class="flower">
+            <input type="radio" name="flower_image" value="condolences/flower/flower1.png" checked />
+            <img src="{% static 'images/assets/flower3.png' %}" alt="flower3" />
+          </label>
+          <label class="flower">
+            <input type="radio" name="flower_image" value="condolences/flower/flower1.png" checked />
+            <img src="{% static 'images/assets/flower4.png' %}" alt="flower4" />
+          </label>
+          <label class="flower">
+            <input type="radio" name="flower_image" value="condolences/flower/flower1.png" checked />
+            <img src="{% static 'images/assets/flower5.png' %}" alt="flower5" />
+          </label>
+          <label class="flower">
+            <input type="radio" name="flower_image" value="condolences/flower/flower1.png" checked />
+            <img src="{% static 'images/assets/flower6.png' %}" alt="flower6" />
+          </label>
+          <label class="flower">
+            <input type="radio" name="flower_image" value="condolences/flower/flower1.png" checked />
+            <img src="{% static 'images/assets/flower7.png' %}" alt="flower7" />
+          </label>
+        </div>
+        <div class="input-area">
+          <textarea name="message" class="comment-input" placeholder="조문 메시지를 남겨주세요" required></textarea>
+          <button type="submit" class="send-btn">
+            <img src="{% static 'images/icon-send-24.svg' %}" alt="전송" width="24" height="24" />
+          </button>
+        </div>
       </form>
 
-      {% if space.background_image %}
-        <img src="{{ space.background_image.url }}" alt="커버 이미지" class="cover-img"/>
-      {% else %}
-        <img src="{% static 'images/assets/background-combined.png' %}" alt="기본 커버 이미지" class="cover-img"/>
-      {% endif %}
-
-      {% if space.profile_image %}
-        <img src="{{ space.profile_image.url }}" alt="고인 사진" class="profile-img"/>
-      {% else %}
-        <img src="{% static 'images/assets/profile.jpg' %}" alt="기본 프로필 사진" class="profile-img"/>
-      {% endif %}
-    </section>
-
-    <!-- 3) Title + Dates -->
-    <section class="profile-text">
-      <p class="profile-title">
-        <strong>{{ space.name }}</strong> 님의 추모공간
-      </p>
-      <p class="profile-dates">
-        {% if space.birth_date %}{{ space.birth_date|date:"Y년 m월 d일" }}{% else %}출생일 정보 없음{% endif %} –
-        {% if space.death_date %}{{ space.death_date|date:"Y년 m월 d일" }}{% else %}사망일 정보 없음{% endif %}
-      </p>
-    </section>
-
-    <!-- 4) Description -->
-    <section class="profile-description">
-      <p>{{ space.description|default:"소개글이 없습니다." }}</p>
-    </section>
-
-    <!-- 5) Opened Date -->
-    <p class="opened-date">
-      이 추모공간은 {% if space.created_at %}{{ space.created_at|date:"Y년 m월 d일" }}{% else %}개설일 정보 없음{% endif %}에 개설되었습니다.
-    </p>
-
-    <!-- 6) Flower Info -->
-    <p class="comment-info">
-      {{ messages.count }}명이 함께 꽃으로 기억을 이어가고 있습니다.
-    </p>
-
-    <!-- 7) Comment Prompt -->
-    <p class="comment-prompt">헌화와 함께 따뜻한 조문 메시지를 남겨주세요</p>
-
-    <!-- 8) Flowers + 9) Input Area (폼) -->
-    <form method="POST" action="{% url 'condolence_message_view' space.id %}">
-      {% csrf_token %}
-      <div class="flowers">
-        <label class="flower">
-          <input type="radio" name="flower_image" value="condolences/flower/flower1.png" checked>
-          <img src="{% static 'images/assets/flower1.png' %}" alt="flower1" />
-        </label>
-        <label class="flower">
-          <input type="radio" name="flower_image" value="condolences/flower/flower2.png">
-          <img src="{% static 'images/assets/flower2.png' %}" alt="flower2" />
-        </label>
-      </div>
-      <div class="input-area">
-        <textarea name="message" class="comment-input" placeholder="조문 메시지를 남겨주세요" required></textarea>
-        <button type="submit" class="send-btn">
-          <img src="{% static 'images/icons/icon-send-24.svg' %}" alt="전송" width="24" height="24" />
-        </button>
-      </div>
-    </form>
-
-    <!-- 10) Comment List -->
-    <div class="comment-list">
-      {% for msg in messages %}
+      <!-- 10) Comment List -->
+      <div class="comment-list">
+        {% for msg in messages %}
         <div class="comment-card">
           <img src="{{ msg.flower_image }}" alt="꽃" />
           <div class="comment-content">
@@ -106,7 +117,7 @@
             <div class="comment-actions">
               <a href="{% url 'condolence_edit_view' msg.id %}" class="edit-btn">수정</a>
               <span class="separator">|</span>
-              <form method="POST" action="{% url 'condolence_delete_view' msg.id %}" style="display:inline;">
+              <form method="POST" action="{% url 'condolence_delete_view' msg.id %}" style="display: inline">
                 {% csrf_token %}
                 <button type="submit" class="delete-btn">삭제</button>
               </form>
@@ -114,11 +125,10 @@
             <div class="text">{{ msg.message }}</div>
           </div>
         </div>
-      {% empty %}
+        {% empty %}
         <p>등록된 조문 메시지가 없습니다.</p>
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
-
-  </div>
-</body>
+  </body>
 </html>

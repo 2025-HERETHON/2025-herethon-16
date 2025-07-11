@@ -7,6 +7,8 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import ChecklistCategory, ChecklistItem, UserChecklist
+from django.shortcuts import render
+
 
 # 사용자 체크리스트 조회
 @require_http_methods(["GET"])
@@ -32,7 +34,7 @@ def checklist_get_api(request):
             "category": category.name,
             "items": items
         })
-    pprint.pprint(result)  # 로그에서 확인용
+    
 
     return JsonResponse({"success": True, "data": result})
 
@@ -70,52 +72,6 @@ def checklist_save_api(request):
     except Exception as e:
         return JsonResponse({"success": False, "message": str(e)}, status=400)
 
-
-#SSR
-
-# 사용자 체크리스트 조회
-@login_required
-def checklist_view(request):
-    print("🔥 checklist_view 실행됨") 
-    categories = ChecklistCategory.objects.all()
-    user = request.user
-    result = []
-
-    for category in categories:
-        items = []
-        for item in category.items.all():
-            checked = UserChecklist.objects.filter(user=user, item=item, is_checked=True).exists()
-            items.append({
-                "id": item.id,
-                "content": item.content,
-                "is_checked": checked
-            })
-        result.append({
-            "category": category.name,
-            "items": items
-        })
-
-    return render(request, "checklist.html", {"data": result})
-
-
-# 사용자 체크리스트 저장 
-@login_required
-def checklist_save_view(request):
-    if request.method == "POST":
-        checklist_ids = request.POST.getlist("checked_items")  # 체크된 항목의 id 리스트
-        all_items = ChecklistItem.objects.all()
-
-        for item in all_items:
-            is_checked = str(item.id) in checklist_ids
-            UserChecklist.objects.update_or_create(
-                user=request.user,
-                item=item,
-                defaults={"is_checked": is_checked}
-            )
-
-        return redirect("checklist_view")  
-
-    return redirect("checklist_view")
 
 
 
