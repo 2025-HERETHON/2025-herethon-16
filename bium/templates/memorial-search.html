@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>추모공간 검색</title>
+  <link rel="stylesheet" href="../static/css/memorial-search.css" />
+</head>
+<body>
+  <div class="main-frame container">
+    <!-- Topbar: 뒤로가기 + 검색창 -->
+    <header class="topbar">
+      <img
+        id="backBtn"
+        src="../static/images/icons/icon-back-24.svg"
+        alt="뒤로가기"
+        class="icon-back"
+      />
+      <form method="GET" action="/memorial-search.html" class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="추모공간을 검색해주세요"
+        />
+        <button type="submit" id="searchBtn">
+  <img src="../static/images/icons/icon-search-24.svg" alt="검색" class="icon-search"/>
+</button>
+</form>
+      </div>
+    </header>
+
+    <main>
+      <!-- 검색 결과가 여기에 그려집니다 -->
+      <div id="results" class="others-list"></div>
+      <!-- 결과 없음 메시지 -->
+      <div id="noResults" class="no-results">검색 결과가 없습니다.</div>
+    </main>
+  </div>
+
+  <script src="../static/js/memorial-search.js"></script>
+</body>
+</html>

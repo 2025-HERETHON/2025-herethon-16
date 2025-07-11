@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>추모공간 (메인)</title>
+  <link rel="stylesheet" href="../static/css/memorial-page.css" />
+</head>
+<body>
+  <!-- 사이드바 -->
+  <aside id="sidebar" class="sidebar">
+    <img id="closeSidebar" src="../static/images/icons/icon-close-24.svg" alt="닫기" class="icon-close"/>
+    <nav class="sidebar-menu">
+      <!-- 홈 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">홈</h3>
+        <ul>
+          <li><a href="../templates/main-page.html">장례 전 준비해야 할 목록</a></li>
+          <li><a href="../templates/main-page.html">장례 정보</a></li>
+        </ul>
+      </section>
+      <!-- 추모공간 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">추모공간</h3>
+        <ul>
+          <li><a href="../templates/mymemorial.html">내 추모공간</a></li>
+          <li><a href="../templates/memorial-page.html">다른 추모공간</a></li>
+        </ul>
+      </section>
+      <!-- 유언장 -->
+      <section class="sidebar-section">
+        <h3 class="section-title">디지털 유언장</h3>
+        <ul>
+          <li><a href="../templates/will_pdf_template.html">작성하기</a></li>
+          <li><a href="../templates/will_pdf_template.html">PDF 다운로드</a></li>
+        </ul>
+      </section>
+    </nav>
+  </aside>
+
+  <div class="main-frame container">
+    <!-- Topbar -->
+    <header class="topbar">
+      <img id="openSidebar" src="../static/images/icons/icon-menu-24.svg" alt="메뉴" class="icon-menu"/>
+      <h1 class="title">추모공간</h1>
+      <img id="searchBtn" src="../static/images/icons/icon-search-24.svg" alt="검색" class="icon-search"/>
+    </header>
+
+    <main>
+      <!-- 1) 나를 위한 추모공간 -->
+      <section class="section my-section">
+        <h2 class="section-title">나를 위한 추모공간</h2>
+
+        <!-- ✅ JS가 채우는 구조 유지 -->
+        <form id="mySpaceForm"
+              action="../templates/mymemorial.html"
+              method="get"
+              class="card my-space">
+          <img class="profile-pic" src="../static/images/assets/profile.jpg" alt="프로필"/>
+          <div class="info">
+            <h3 class="name">이름</h3>
+            <p class="desc">설명</p>
+          </div>
+        </form>
+
+        <!-- 새 공간 만들기 -->
+        <form id="createForm"
+              action="memorial-edit.html"
+              method="get">
+          <button type="submit" class="create-btn">
+            새 추모공간 만들기
+            <img src="../static/images/icons/icon-arrow-right-20.svg" alt=">" class="icon-right-arrow"/>
+          </button>
+        </form>
+      </section>
+
+      <!-- 2) 다른 이들의 추모공간 -->
+      <section class="section others-section">
+        <h2 class="section-title">다른 이들의 따뜻한 추모공간</h2>
+        <div class="others-list">
+          <!-- ✅ JS가 여기다가 카드들을 채워 넣음 -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../static/js/memorial-page.js"></script>
+</body>
+</html>

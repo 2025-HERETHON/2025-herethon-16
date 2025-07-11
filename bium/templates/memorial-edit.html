@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>추모공간 작성/수정</title>
+  <link rel="stylesheet" href="../static/css/memorial-edit.css" />
+</head>
+<body>
+  <div class="container">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="btn-back">
+        <img src="../static/images/icons/icon-back-24.svg" alt="뒤로" />
+      </button>
+      <div class="title">새 추모공간 만들기</div>
+      <div class="spacer"></div>
+    </header>
+
+    <!-- Cover + Profile -->
+    <div class="cover-edit" id="coverFrame">
+      <input type="file" id="coverInput" accept="image/*" hidden />
+
+      <!-- Profile inside cover -->
+      <div class="profile-edit">
+        <div class="profile-frame" id="profileFrame">
+          <img
+            src="../static/images/assets/default.png"
+            alt="프로필"
+            id="profileImg"
+          />
+          <div class="camera-overlay" id="profileUploadBtn">
+            <img
+              src="../static/images/icons/icon-camera-16.svg"
+              alt="프로필 업로드"
+            />
+          </div>
+          <input
+            type="file"
+            id="profileInput"
+            accept="image/*"
+            hidden
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- 이름 입력 -->
+    <div class="field">
+      <label for="memorialName">성함을 작성해주세요</label>
+      <input
+        type="text"
+        id="memorialName"
+        placeholder="고인의 이름을 입력해주세요"
+      />
+    </div>
+
+    <!-- 날짜 입력 -->
+    <div class="field dates">
+      <div class="date-field">
+        <label for="birthDate">생년월일</label>
+        <input type="date" id="birthDate" placeholder="선택" />
+      </div>
+      <div class="date-field">
+        <label for="deathDate">별세일</label>
+        <input type="date" id="deathDate" placeholder="선택" />
+      </div>
+      <div class="date-display hidden" id="dateDisplay"></div>
+    </div>
+
+    <!-- 설명 -->
+    <div class="field">
+      <label for="description">추모공간을 설명해주세요</label>
+      <div class="description-box">
+    <div 
+    id="description"
+    contenteditable="true"
+    class="description-text">
+      이 추모공간은 우리가 사랑했던 00님을 위해 만들어졌습니다.<br/><br/>
+      사랑하는 00님을 위해, 그리고 그 가족들을 위해 따뜻한 위로와 추억을 나눠주세요. 감사합니다.
+    </div>
+    </div>
+    </div>
+
+    <!-- 완료 버튼 -->
+    <div class="button-wrap">
+      <button type="submit" id="saveBtn" class="btn-save">작성 완료</button>
+    </div>
+  </div>
+
+  <script>
+  // 백엔드에서 유저의 이미지가 있다면 해당 URL 삽입, 없으면 빈 문자열
+  window.profileImageUrl = "{{ user_memorial.profile_img_url|default:'' }}";
+  window.coverImageUrl   = "{{ user_memorial.cover_img_url|default:'' }}";
+</script>
+
+
+  <script src="../static/js/memorial-edit.js"></script>
+</body>
+</html>

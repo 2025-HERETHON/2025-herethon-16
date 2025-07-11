@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>내 추모공간</title>
+  <link rel="stylesheet" href="../static/css/mymemorial.css"/>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="btn-back">
+        <img src="../static/images/icons/icon-back-24.svg" alt="뒤로"/>
+      </button>
+      <h1 class="title" id="spaceTitle">님의 추모공간</h1>
+      <form method="GET" action="mymemorial-edit.html" style="display:inline;">
+  <button type="submit" id="editBtn" class="btn-edit">
+    <img src="../static/images/icons/icon-edit-12.svg" alt="수정"/>
+  </button>
+</form>
+      <!-- <button id="editBtn" class="btn-edit">
+        <img src="../static/images/icons/icon-edit-12.svg" alt="수정"/>
+      </button> -->
+    </header>
+
+    <!-- Cover + Profile -->
+    <section class="cover-section">
+      <div class="cover-frame" id="coverFrame"></div>
+      <div class="profile-wrap">
+        <img src="../static/images/assets/default.png"
+             alt="프로필"
+             id="profileImg"
+             class="profile-img"/>
+      </div>
+    </section>
+
+    <!-- Dates & Description -->
+    <section class="info-section">
+      <p class="dates" id="datesText">
+        0000년 00월 00일 – 0000년 00월 00일
+      </p>
+      <p class="description" id="descText">
+        여기에 추모공간 소개가 표시됩니다.
+      </p>
+    </section>
+
+  </div>
+
+  <!-- Agent 버튼 -->
+  <div class="button-bar">
+    <button id="agentBtn" class="btn-delegate">
+      추모상태 대리인 지정하기
+    </button>
+  </div>
+
+  <!-- Agent Link 표시 영역 -->
+  <div id="agentLinkContainer" class="agent-link-container"></div>
+
+  <script src="../static/js/mymemorial.js"></script>
+</body>
+</html>
